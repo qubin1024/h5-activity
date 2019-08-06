@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <meta name="format-detection" content="telephone=yes"/>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=SPYBZ-47YCP-VQTDF-V3O67-X5QPF-MYBGH"></script>
+    <title>app</title>
+  </head>
+  <body>
+    <div id="app-box"></div>
+    <!-- built files will be auto injected -->
+  </body>
+  <script>
+    (function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+                docEl.style.fontSize = (clientWidth / 10) + 'px';
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+  </script>
+  <script>
+      var script = document.createElement('script');  
+      script.src = "https://res.wx.qq.com/open/js/jweixin-1.2.0.js";  
+      document.body.appendChild(script);  
+    </script>
+</html>
