@@ -55,7 +55,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/statics/dist/',
+    assetsPublicPath: 'https://wx.sharkmeida.cn/statics/dist/',
 
     /**
      * Source Maps
