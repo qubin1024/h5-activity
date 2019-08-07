@@ -84,6 +84,25 @@
 
 <script>
 import {
+  Group,
+  Cell,
+  CellBox,
+  Loading,
+  Datetime,
+  XInput,
+  XNumber,
+  XSwitch,
+  XTextarea,
+  Range
+} from "vux";
+import ContentWrap from "./content-wrap.vue";
+import AddImg from "./addImg.vue";
+import ImgUpload from "./imgUpload.vue";
+import page2Info from "./2pageInfo.vue";
+import Data from "./page2Data.js";
+export default {
+  name: "page2-edit",
+  components: {
     Group,
     Cell,
     CellBox,
@@ -93,513 +112,511 @@ import {
     XNumber,
     XSwitch,
     XTextarea,
-    Range
-} from "vux";
-import ContentWrap from "./content-wrap.vue";
-import AddImg from "./addImg.vue";
-import ImgUpload from "./imgUpload.vue";
-import page2Info from './2pageInfo.vue';
-import Data from "./page2Data.js"
-export default {
-    name: "page2-edit",
-    components: {
-        Group,
-        Cell,
-        CellBox,
-        Loading,
-        Datetime,
-        XInput,
-        XNumber,
-        XSwitch,
-        XTextarea,
-        ImgUpload,
-        page2Info,
-        ContentWrap,
-        Range,
-        AddImg
-    },
-    data() {
-        return {
-            ispreview: false,
-            showClear: false,
-            headImage: null,
-            footImage: null,
-            bgImage: null,
-            image: null,
-            formD: Data,
-            address: ''
-        };
-    },
-    computed: {},
-    mounted() {
-        var reg = /\?id=(\w+)&?/;
-        if (!reg.test(location.search)) {
-            this.mapInit()
-            return
+    ImgUpload,
+    page2Info,
+    ContentWrap,
+    Range,
+    AddImg
+  },
+  data() {
+    return {
+      ispreview: false,
+      showClear: false,
+      headImage: null,
+      footImage: null,
+      bgImage: null,
+      image: null,
+      formD: Data,
+      address: ""
+    };
+  },
+  computed: {},
+  mounted() {
+    if (!this.$route.query.id) {
+      this.mapInit();
+      return;
+    }
+    let params = this.$route.query;
+    this.params = params;
+
+    const url = "https://wx.sharkmeida.cn/gather/info/" + params.id;
+
+    this.$http.get(url).then(({ data }) => {
+      if (data.code == "0") {
+        this.formD = data.gather;
+        if (data.gather.priceDescription != null) {
+          var dat = JSON.parse(data.gather.priceDescription);
+          var sc = [];
+          //this.$refs['activityRules'].activeList = JSON.parse(this.formD.activityRules)
+          dat.forEach(e => {
+            var s =
+              "<img src='" + e.img + "' style='width: 100%; height: 100%;'/>";
+            sc.push({
+              type: e.type,
+              image: e.img,
+              html: s
+            });
+          });
+
+          this.$refs["priceDescription"].activeList = sc;
         }
-        let params = {};
-        location.search.split("?")[1].split('&').forEach((e) => {
-            let key = e.split('=')[0]
-            params[key] = e.split('=')[1]
-        })
+        if (data.gather.thumbnail != null) {
+          this.image =
+            "<img src='" +
+            data.gather.thumbnail +
+            "' style='width: 100%; height: 100%;'/>";
+        }
+        if (data.gather.headImage != null && data.gather.headImage != "") {
+          this.headImage =
+            "<img src='" +
+            data.gather.headImage +
+            "' style='width: 100%; height: 100%;'/>";
+        }
+        if (data.gather.companyDescription != null) {
+          var dat = JSON.parse(data.gather.companyDescription);
+          var sc = [];
+          //this.$refs['activityRules'].activeList = JSON.parse(this.formD.activityRules)
+          dat.forEach(e => {
+            var s =
+              "<img src='" + e.img + "' style='width: 100%; height: 100%;'/>";
+            sc.push({
+              type: e.type,
+              image: e.img,
+              html: s
+            });
+          });
 
-        this.params = params;
+          this.$refs["companyDescription"].activeList = sc;
+        }
+        if (data.gather.discount != null) {
+          var dat = JSON.parse(data.gather.discount);
+          var sc = [];
+          //this.$refs['activityRules'].activeList = JSON.parse(this.formD.activityRules)
+          dat.forEach(e => {
+            var s =
+              "<img src='" + e.img + "' style='width: 100%; height: 100%;'/>";
+            sc.push({
+              type: e.type,
+              image: e.img,
+              html: s
+            });
+          });
 
-        const url = "https://wx.sharkmeida.cn/gather/info/" + params.id;
-
-        this.$http.get(url).then(({
-            data
-        }) => {
-            if (data.code == "0") {
-                this.formD = data.gather;
-                if (data.gather.priceDescription != null) {
-                    var dat = JSON.parse(data.gather.priceDescription)
-                    var sc = []
-                    //this.$refs['activityRules'].activeList = JSON.parse(this.formD.activityRules)
-                    dat.forEach(e => {
-                        var s = "<img src='" + e.img + "' style='width: 100%; height: 100%;'/>";
-                        sc.push({
-                            type: e.type,
-                            image: e.img,
-                            html: s
-                        })
-                    })
-
-                    this.$refs['priceDescription'].activeList = sc
-                }
-                if (data.gather.thumbnail != null) {
-                    this.image = "<img src='" + data.gather.thumbnail + "' style='width: 100%; height: 100%;'/>"
-                }
-                if (data.gather.headImage != null && data.gather.headImage != '') {
-                    this.headImage = "<img src='" + data.gather.headImage + "' style='width: 100%; height: 100%;'/>"
-                }
-                if (data.gather.companyDescription != null) {
-                    var dat = JSON.parse(data.gather.companyDescription)
-                    var sc = []
-                    //this.$refs['activityRules'].activeList = JSON.parse(this.formD.activityRules)
-                    dat.forEach(e => {
-                        var s = "<img src='" + e.img + "' style='width: 100%; height: 100%;'/>";
-                        sc.push({
-                            type: e.type,
-                            image: e.img,
-                            html: s
-                        })
-                    })
-
-                    this.$refs['companyDescription'].activeList = sc
-                }
-                if (data.gather.discount != null) {
-                    var dat = JSON.parse(data.gather.discount)
-                    var sc = []
-                    //this.$refs['activityRules'].activeList = JSON.parse(this.formD.activityRules)
-                    dat.forEach(e => {
-                        var s = "<img src='" + e.img + "' style='width: 100%; height: 100%;'/>";
-                        sc.push({
-                            type: e.type,
-                            image: e.img,
-                            html: s
-                        })
-                    })
-
-                    this.$refs['discount'].activeList = sc
-                }
-                this.mapInit()
+          this.$refs["discount"].activeList = sc;
+        }
+        this.mapInit();
+      }
+    });
+  },
+  methods: {
+    mapInit() {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          var self = this;
+          var map = new qq.maps.Map(document.getElementById("container"), {
+            center: new qq.maps.LatLng(
+              position.coords.latitude,
+              position.coords.longitude
+            ),
+            zoom: 13
+          });
+          var geocoder = new qq.maps.Geocoder({
+            complete: function(result) {
+              map.setCenter(result.detail.location);
+              self.address = result.detail.address;
             }
-        });
-    },
-    methods: {
-        mapInit() {
-            navigator.geolocation.getCurrentPosition((position) => {
-                var self = this;
-                var map = new qq.maps.Map(document.getElementById('container'), {
-                    center: new qq.maps.LatLng(position.coords.latitude, position.coords.longitude),
-                    zoom: 13
-                });
-                var geocoder = new qq.maps.Geocoder({
-                    complete: function (result) {
-                        map.setCenter(result.detail.location);
-                        self.address = result.detail.address
-                    }
-                });
-                if (self.formD.latitude != '' && self.formD.longitude != '') {
-                    var marker = new qq.maps.Marker({
-                        position: new qq.maps.LatLng(parseFloat(self.formD.latitude), parseFloat(self.formD.longitude)),
-                        map: map
-                    });
-                    geocoder.getAddress(new qq.maps.LatLng(parseFloat(self.formD.latitude), parseFloat(self.formD.longitude)))
-                }
+          });
+          if (self.formD.latitude != "" && self.formD.longitude != "") {
+            var marker = new qq.maps.Marker({
+              position: new qq.maps.LatLng(
+                parseFloat(self.formD.latitude),
+                parseFloat(self.formD.longitude)
+              ),
+              map: map
+            });
+            geocoder.getAddress(
+              new qq.maps.LatLng(
+                parseFloat(self.formD.latitude),
+                parseFloat(self.formD.longitude)
+              )
+            );
+          }
 
-                qq.maps.event.addListener(map, 'click', function (event) {
-                    console.log(event)
-                    var lat = parseFloat(event.latLng.lat);
-                    var lng = parseFloat(event.latLng.lng);
-                    self.formD.latitude = lat;
-                    self.formD.longitude = lng;
-                    var latLng = new qq.maps.LatLng(lat, lng);
-                    //调用获取位置方法
-                    geocoder.getAddress(latLng);
-                    var marker = new qq.maps.Marker({
-                        position: event.latLng,
-                        map: map
-                    });
-                    qq.maps.event.addListener(map, 'click', function (event) {
-                        marker.setMap(null);
-                    });
-
-                });
-            }, (error) => {
-                switch (error.code) {
-                    case error.PERMISSION_DENIED:
-                        alert("您拒绝对获取地理位置的请求");
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        alert("位置信息是不可用的");
-                        break;
-                    case error.TIMEOUT:
-                        alert("请求您的地理位置超时");
-                        break;
-                    case error.UNKNOWN_ERROR:
-                        alert("未知错误");
-                        break;
-                }
-            })
+          qq.maps.event.addListener(map, "click", function(event) {
+            console.log(event);
+            var lat = parseFloat(event.latLng.lat);
+            var lng = parseFloat(event.latLng.lng);
+            self.formD.latitude = lat;
+            self.formD.longitude = lng;
+            var latLng = new qq.maps.LatLng(lat, lng);
+            //调用获取位置方法
+            geocoder.getAddress(latLng);
+            var marker = new qq.maps.Marker({
+              position: event.latLng,
+              map: map
+            });
+            qq.maps.event.addListener(map, "click", function(event) {
+              marker.setMap(null);
+            });
+          });
         },
-        deleteThis() {
-            this.headImage = null;
-            this.formD.headImage = null;
-        },
-        deleteImg() {
-            this.image = null;
-            this.formD.thumbnail = null;
-        },
-        deletefoot() {
-            this.footImage = null;
-            this.formD.footImage = null;
-        },
-        getFootUrl(url) {
-            this.formD.footImage = url;
-            this.footImage = "<img src='" + url + "' style='width: 100%;height: 100%;'/>";
-        },
-        deletebg() {
-            this.bgImage = null;
-            this.$refs['bg-main'].style.background = `#192029`;
-            this.formD.bgImage = null;
-        },
-        getBgUrl(url) {
-            debugger
-            this.formD.bgImage = url;
-            this.$refs['bg-main'].style.background = `url(${url})`;
-            this.bgImage = "<img src='" + url + "' style='width: 100%;height: 100%;'/>";
-        },
-        getHeadUrl(url) {
-            this.formD.headImage = url;
-            this.headImage = "<img src='" + url + "' style='width: 100%;height: 100%;'/>";
-        },
-        getUrl(url) {
-            this.formD.thumbnail = url;
-            this.image = "<img src='" + url + "' style='width: 100%;height: 100%;'/>";
-        },
-        preview() {
-            var priceDescription = [],
-                companyDescription = [],
-                discount = [];
-            this.$refs['priceDescription'].activeList.forEach(item => {
-                priceDescription.push({
-                    type: item.type,
-                    img: item.image
-                })
-            })
-            this.$refs['companyDescription'].activeList.forEach(item => {
-                companyDescription.push({
-                    type: item.type,
-                    img: item.image
-                })
-            })
-            this.$refs['discount'].activeList.forEach(item => {
-                discount.push({
-                    type: item.type,
-                    img: item.image
-                })
-            })
-
-            this.formD.priceDescription = JSON.stringify(priceDescription);
-            this.formD.companyDescription = JSON.stringify(companyDescription);
-            this.formD.discount = JSON.stringify(discount);
-            // this.formD.music = JSON.stringify({
-            //     path: this.musicUrl
-            // })
-            this.ispreview = !this.ispreview;
-        },
-        editpage() {
-            this.ispreview = !this.ispreview;
-        },
-        save() {
-            var priceDescription = [],
-                companyDescription = [],
-                discount = [];
-            this.$refs['priceDescription'].activeList.forEach(item => {
-                priceDescription.push({
-                    type: item.type,
-                    img: item.image
-                })
-            })
-            this.$refs['companyDescription'].activeList.forEach(item => {
-                companyDescription.push({
-                    type: item.type,
-                    img: item.image
-                })
-            })
-            this.$refs['discount'].activeList.forEach(item => {
-                discount.push({
-                    type: item.type,
-                    img: item.image
-                })
-            })
-
-            this.formD.priceDescription = JSON.stringify(priceDescription);
-            this.formD.companyDescription = JSON.stringify(companyDescription);
-            this.formD.discount = JSON.stringify(discount);
-            // this.formD.music = JSON.stringify({
-            //     path: this.musicUrl
-            // })
-
-            var a = JSON.parse(JSON.stringify(this.formD))
-            this.$vux.loading.show({
-                text: 'Loading'
-            })
-            this.$http.post('https://wx.sharkmeida.cn/gather/save/', a).then(({
-                data
-            }) => {
-                this.$vux.loading.hide()
-                if (data.code == '0') {
-                    this.$vux.alert.show({
-                        title: '提示',
-                        content: '保存成功！',
-                        onShow() {},
-                        onHide() {}
-                    })
-                } else {
-                    this.$vux.alert.show({
-                        title: '提示',
-                        content: '保存失败！',
-                        onShow() {},
-                        onHide() {}
-                    })
-                }
-            })
+        error => {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              alert("您拒绝对获取地理位置的请求");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              alert("位置信息是不可用的");
+              break;
+            case error.TIMEOUT:
+              alert("请求您的地理位置超时");
+              break;
+            case error.UNKNOWN_ERROR:
+              alert("未知错误");
+              break;
+          }
         }
+      );
     },
+    deleteThis() {
+      this.headImage = null;
+      this.formD.headImage = null;
+    },
+    deleteImg() {
+      this.image = null;
+      this.formD.thumbnail = null;
+    },
+    deletefoot() {
+      this.footImage = null;
+      this.formD.footImage = null;
+    },
+    getFootUrl(url) {
+      this.formD.footImage = url;
+      this.footImage =
+        "<img src='" + url + "' style='width: 100%;height: 100%;'/>";
+    },
+    deletebg() {
+      this.bgImage = null;
+      this.$refs["bg-main"].style.background = `#192029`;
+      this.formD.bgImage = null;
+    },
+    getBgUrl(url) {
+      debugger;
+      this.formD.bgImage = url;
+      this.$refs["bg-main"].style.background = `url(${url})`;
+      this.bgImage =
+        "<img src='" + url + "' style='width: 100%;height: 100%;'/>";
+    },
+    getHeadUrl(url) {
+      this.formD.headImage = url;
+      this.headImage =
+        "<img src='" + url + "' style='width: 100%;height: 100%;'/>";
+    },
+    getUrl(url) {
+      this.formD.thumbnail = url;
+      this.image = "<img src='" + url + "' style='width: 100%;height: 100%;'/>";
+    },
+    preview() {
+      var priceDescription = [],
+        companyDescription = [],
+        discount = [];
+      this.$refs["priceDescription"].activeList.forEach(item => {
+        priceDescription.push({
+          type: item.type,
+          img: item.image
+        });
+      });
+      this.$refs["companyDescription"].activeList.forEach(item => {
+        companyDescription.push({
+          type: item.type,
+          img: item.image
+        });
+      });
+      this.$refs["discount"].activeList.forEach(item => {
+        discount.push({
+          type: item.type,
+          img: item.image
+        });
+      });
+
+      this.formD.priceDescription = JSON.stringify(priceDescription);
+      this.formD.companyDescription = JSON.stringify(companyDescription);
+      this.formD.discount = JSON.stringify(discount);
+      // this.formD.music = JSON.stringify({
+      //     path: this.musicUrl
+      // })
+      this.ispreview = !this.ispreview;
+    },
+    editpage() {
+      this.ispreview = !this.ispreview;
+    },
+    save() {
+      var priceDescription = [],
+        companyDescription = [],
+        discount = [];
+      this.$refs["priceDescription"].activeList.forEach(item => {
+        priceDescription.push({
+          type: item.type,
+          img: item.image
+        });
+      });
+      this.$refs["companyDescription"].activeList.forEach(item => {
+        companyDescription.push({
+          type: item.type,
+          img: item.image
+        });
+      });
+      this.$refs["discount"].activeList.forEach(item => {
+        discount.push({
+          type: item.type,
+          img: item.image
+        });
+      });
+
+      this.formD.priceDescription = JSON.stringify(priceDescription);
+      this.formD.companyDescription = JSON.stringify(companyDescription);
+      this.formD.discount = JSON.stringify(discount);
+      // this.formD.music = JSON.stringify({
+      //     path: this.musicUrl
+      // })
+
+      var a = JSON.parse(JSON.stringify(this.formD));
+      this.$vux.loading.show({
+        text: "Loading"
+      });
+      this.$http
+        .post("https://wx.sharkmeida.cn/gather/save/", a)
+        .then(({ data }) => {
+          this.$vux.loading.hide();
+          if (data.code == "0") {
+            this.$vux.alert.show({
+              title: "提示",
+              content: "保存成功！",
+              onShow() {},
+              onHide() {}
+            });
+          } else {
+            this.$vux.alert.show({
+              title: "提示",
+              content: "保存失败！",
+              onShow() {},
+              onHide() {}
+            });
+          }
+        });
+    }
+  }
 };
 </script>
 
 <style>
 .title-23 {
-    border: 1px solid #ccc;
-    text-align: center;
-    height: 0;
-    font-size: 0.4rem;
-    line-height: 0rem;
-    width: 60%;
-    left: 20%;
-    position: relative;
-    margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  text-align: center;
+  height: 0;
+  font-size: 0.4rem;
+  line-height: 0rem;
+  width: 60%;
+  left: 20%;
+  position: relative;
+  margin: 0.5rem 0;
 }
 
 .bg-main {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    overflow: auto;
-    background: #192029;
-    background-size: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  background: #192029;
+  background-size: 50%;
 }
 
 table {
-    width: 100%;
-    text-align: center;
-    line-height: 0.8rem;
+  width: 100%;
+  text-align: center;
+  line-height: 0.8rem;
 }
 
 table th {
-    color: #f43530;
+  color: #f43530;
 }
 
 .head-cell {
-    height: 1.5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    background: #ef5a5a;
+  height: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background: #ef5a5a;
 }
 
-.head-cell>div {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.4rem;
-    font-family: 'yahei';
-    color: #fff;
+.head-cell > div {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.4rem;
+  font-family: "yahei";
+  color: #fff;
 }
 
-.head-cell>div.line {
-    width: 5px;
-    height: 80%;
-    background: #fff;
+.head-cell > div.line {
+  width: 5px;
+  height: 80%;
+  background: #fff;
 }
 
 .active {
-    background: #ccc;
+  background: #ccc;
 }
 
 .music-wrap {
-    position: fixed;
-    overflow: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    background: #fff;
-    padding-bottom: 1.5rem;
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: #fff;
+  padding-bottom: 1.5rem;
 }
 
 .play {
-    font-size: 0.5rem;
-    color: #4e9cfd;
+  font-size: 0.5rem;
+  color: #4e9cfd;
 }
 
 .stop {
-    font-size: 0.5rem;
-    color: #4e9cfd;
+  font-size: 0.5rem;
+  color: #4e9cfd;
 }
 
 .tips-wrap {
-    width: 9rem;
-    margin: .5rem;
-    font-size: 0.2rem;
-    height: 3rem;
-    border: 1px dashed #ccc;
-    border-radius: 10px;
-    text-align: center;
-    color: #bfbdbd;
-    font-family: yahei;
+  width: 9rem;
+  margin: 0.5rem;
+  font-size: 0.2rem;
+  height: 3rem;
+  border: 1px dashed #ccc;
+  border-radius: 10px;
+  text-align: center;
+  color: #bfbdbd;
+  font-family: yahei;
 }
 
 .contentBox {
-    width: 100%;
-    background: #feb71d;
+  width: 100%;
+  background: #feb71d;
 }
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .header-img {
-    width: 100%;
+  width: 100%;
 }
 
 .footer {
-    position: fixed;
-    bottom: 0;
-    width: 10rem;
-    height: 1.5rem;
-    background: #fff;
-    border-top: 1px solid #ccc;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 1111;
+  position: fixed;
+  bottom: 0;
+  width: 10rem;
+  height: 1.5rem;
+  background: #fff;
+  border-top: 1px solid #ccc;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1111;
 }
 
 .btn-hc {
-    width: 4rem;
-    height: 1rem;
-    border-radius: 0.5rem;
-    line-height: 1rem;
-    text-align: center;
-    background: rgb(247, 247, 247);
-    color: rgb(69, 69, 69);
-    font-size: 0.5rem;
+  width: 4rem;
+  height: 1rem;
+  border-radius: 0.5rem;
+  line-height: 1rem;
+  text-align: center;
+  background: rgb(247, 247, 247);
+  color: rgb(69, 69, 69);
+  font-size: 0.5rem;
 }
 
 .wrap {
-    position: relative;
-    padding: 1rem 0.4rem;
+  position: relative;
+  padding: 1rem 0.4rem;
 }
 
 .middle {
-    padding-bottom: 1.6rem;
+  padding-bottom: 1.6rem;
 }
 
 .bg-1 {
-    background: #fff;
-    padding: 0.2rem;
-    border-radius: 0.2rem;
+  background: #fff;
+  padding: 0.2rem;
+  border-radius: 0.2rem;
 }
 
 .bg-2 {
-    background: #fff;
-    width: 80%;
-    padding: 0.2rem 0;
-    border-radius: 1rem;
-    position: absolute;
-    top: 0.7rem;
-    height: 0.2rem;
-    left: 10%;
+  background: #fff;
+  width: 80%;
+  padding: 0.2rem 0;
+  border-radius: 1rem;
+  position: absolute;
+  top: 0.7rem;
+  height: 0.2rem;
+  left: 10%;
 }
 
 .title {
-    background: url(../assets/title.png) center no-repeat;
-    background-size: cover;
-    height: 1rem;
-    width: 80%;
-    position: absolute;
-    left: 10%;
-    top: 0.1rem;
-    font-size: .6rem;
-    text-align: center;
-    color: #fff;
-    font-weight: bold;
-    line-height: 1rem;
+  background: url(../assets/title.png) center no-repeat;
+  background-size: cover;
+  height: 1rem;
+  width: 80%;
+  position: absolute;
+  left: 10%;
+  top: 0.1rem;
+  font-size: 0.6rem;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  line-height: 1rem;
 }
 
 .content {
-    min-height: 3rem;
-    padding: 0.8rem 0 0 0;
-    font-size: 0.4rem;
+  min-height: 3rem;
+  padding: 0.8rem 0 0 0;
+  font-size: 0.4rem;
 }
 
 .circular {
-    -webkit-box-align: center;
-    -webkit-box-pack: center;
-    align-items: center;
-    background: #fff;
-    border-radius: 50%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    top: 1rem;
-    right: 0.3rem;
-    z-index: 100;
-    -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 1s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 1s;
-    -webkit-animation: rotate 3s linear infinite;
-    -moz-animation: rotate 3s linear infinite;
-    -o-animation: rotate 3s linear infinite;
-    animation: rotate 3s linear infinite;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 1rem;
+  right: 0.3rem;
+  z-index: 100;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 1s;
+  -moz-transition-property: -moz-transform;
+  -moz-transition-duration: 1s;
+  -webkit-animation: rotate 3s linear infinite;
+  -moz-animation: rotate 3s linear infinite;
+  -o-animation: rotate 3s linear infinite;
+  animation: rotate 3s linear infinite;
 }
 </style>

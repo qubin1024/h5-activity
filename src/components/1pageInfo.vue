@@ -29,7 +29,7 @@
 </template>
 <script>
 import {
-  Selector, 
+  Selector,
   XDialog,
   Alert,
   Group,
@@ -41,7 +41,7 @@ import {
   XSwitch,
   XTextarea
 } from "vux";
-import Clipboard from 'clipboard';
+import Clipboard from "clipboard";
 import Data from "./data.js";
 import Scroll from "./scroll.vue";
 
@@ -66,7 +66,7 @@ export default {
     return {
       loading: false,
       users: [],
-      user_id: '',
+      user_id: "",
       params: {},
       orderList: [],
       packageList: [],
@@ -88,22 +88,20 @@ export default {
         this.formD = this.form;
         return;
       }
-      var params = {}, user_id;
-      location.search.split("?")[1].split('&').forEach((e)=>{
-        let key = e.split('=')[0]
-        params[key] = e.split('=')[1]
-      })
-      this.params = params;
-      if(!params.id){
-        return console.log('id is null')
+      var params = this.$route.query,
+        user_id;
+
+      this.params = this.$route.query;
+      if (!params.id) {
+        return console.log("id is null");
       }
- 
+
       const url = "https://wx.sharkmeida.cn/course/info/" + params.id;
       this.$http.get(url).then(({ data }) => {
         if (data.code == "0") {
           this.formD = JSON.parse(data.course.courseContent);
         }
-        });
+      });
     }
   }
 };
@@ -146,36 +144,36 @@ export default {
   width: 1rem;
   border-radius: 50%;
 }
-.phone-wrap{
+.phone-wrap {
   list-style: none;
   font-size: 0.6rem;
   text-align: left;
   color: #2b2a2a;
   font-family: yahei;
 }
-.phone-wrap li a{
+.phone-wrap li a {
   color: #2b2a2a;
 }
-.phone-wrap li{
+.phone-wrap li {
   color: #2b2a2a;
   border-bottom: 1px solid #ccc;
   padding: 0.2rem 1rem;
 }
-.phone{
+.phone {
   height: 1rem;
-    width: 2rem;
-    position: fixed;
-    bottom: 5rem;
-    right: 0;
-    border: 1px solid #ccc;
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
-    border-right: 0;
-    background: #fff;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0 0.1rem;
+  width: 2rem;
+  position: fixed;
+  bottom: 5rem;
+  right: 0;
+  border: 1px solid #ccc;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-right: 0;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 0.1rem;
 }
 .wrap-3 span {
   font-size: 0.2rem;
@@ -298,30 +296,30 @@ export default {
   align-items: center;
 }
 .btn-h {
-    width: 33%;
-    height: 100%;
-    line-height: 1.6rem;
-    text-align: center;
-    background: #ef5a5a;
-    color: #fff;
-    font-size: 0.3rem;
+  width: 33%;
+  height: 100%;
+  line-height: 1.6rem;
+  text-align: center;
+  background: #ef5a5a;
+  color: #fff;
+  font-size: 0.3rem;
 }
 .btn-c {
-    border-radius: 0;
-    width: 33%;
-    height: 100%;
-    line-height: 1.6rem;
-    text-align: center;
-    background: #ef5a5a;
-    color: #fff;
-    font-size: 0.3rem;
+  border-radius: 0;
+  width: 33%;
+  height: 100%;
+  line-height: 1.6rem;
+  text-align: center;
+  background: #ef5a5a;
+  color: #fff;
+  font-size: 0.3rem;
 }
 
 .wrap {
   position: relative;
   padding: 1rem 0.4rem;
 }
-.type .weui-label{
+.type .weui-label {
   width: 40px !important;
 }
 .middle {
@@ -368,52 +366,72 @@ export default {
   top: 1rem;
   right: 0.3rem;
   z-index: 100;
- -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 1s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 1s;
-    -webkit-animation: rotate 3s linear infinite;
-    -moz-animation: rotate 3s linear infinite;
-    -o-animation: rotate 3s linear infinite;
-    animation: rotate 3s linear infinite;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 1s;
+  -moz-transition-property: -moz-transform;
+  -moz-transition-duration: 1s;
+  -webkit-animation: rotate 3s linear infinite;
+  -moz-animation: rotate 3s linear infinite;
+  -o-animation: rotate 3s linear infinite;
+  animation: rotate 3s linear infinite;
 }
 .circular2 {
   -webkit-box-align: center;
-    -webkit-box-pack: center;
-    -webkit-align-items: center;
-    align-items: center;
-    background: #fff;
-    border-radius: 50%;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-justify-content: center;
-    justify-content: center;
-    position: fixed;
-    top: 2.4rem;
-    right: 0.3rem;
-    z-index: 100;
-    color: #fff;
-    background: #ccc;
-    font-size: 14px;
-    line-height: 15px;
-    width: 40px;
-    height: 40px;
-    border: 5px solid #fff;
+  -webkit-box-pack: center;
+  -webkit-align-items: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: fixed;
+  top: 2.4rem;
+  right: 0.3rem;
+  z-index: 100;
+  color: #fff;
+  background: #ccc;
+  font-size: 14px;
+  line-height: 15px;
+  width: 40px;
+  height: 40px;
+  border: 5px solid #fff;
 }
-@-webkit-keyframes rotate{from{-webkit-transform: rotate(0deg)}
-    to{-webkit-transform: rotate(360deg)}
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
-@-moz-keyframes rotate{from{-moz-transform: rotate(0deg)}
-    to{-moz-transform: rotate(359deg)}
+@-moz-keyframes rotate {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(359deg);
+  }
 }
-@-o-keyframes rotate{from{-o-transform: rotate(0deg)}
-    to{-o-transform: rotate(359deg)}
+@-o-keyframes rotate {
+  from {
+    -o-transform: rotate(0deg);
+  }
+  to {
+    -o-transform: rotate(359deg);
+  }
 }
-@keyframes rotate{from{transform: rotate(0deg)}
-    to{transform: rotate(359deg)}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }
-.tousu{
+.tousu {
   position: fixed;
   top: 0;
   left: 0;
@@ -422,14 +440,14 @@ export default {
   background: #efefef;
   z-index: 9999;
 }
-.tousu ul{
+.tousu ul {
   list-style: none;
   font-size: 0.5rem;
-  font-family: 'yahei';
+  font-family: "yahei";
   background: #fff;
   padding: 0 0.5rem;
 }
-.tousu ul li{
+.tousu ul li {
   list-style: none;
   padding: 0.2rem 0.2rem;
   border-bottom: 1px solid #ccc;

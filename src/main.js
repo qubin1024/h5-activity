@@ -21,16 +21,7 @@ new Vue({
   router,
   render: h => h(App),
   mounted() {
-    var params = {};
-    if(location.search == '')
-      return;
-    decodeURIComponent(location.search).split("?")[1].split('&').forEach((e) => {
-      let key = e.split('=')[0]
-      params[key] = e.split('=')[1]
-    })
-    if (!!params.hash) {
-      this.$router.push({path: params.hash})
-    }
+    this.$router.push({ path: this.$route.query.hash, query: this.$route.query })
   },
 }).$mount('#app-box')
 

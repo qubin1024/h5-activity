@@ -42,10 +42,21 @@
 </template>
 
 <script>
-import { Group, Cell, CellBox, Loading, Datetime, XInput, XNumber, XSwitch, XTextarea, Range } from "vux";
+import {
+  Group,
+  Cell,
+  CellBox,
+  Loading,
+  Datetime,
+  XInput,
+  XNumber,
+  XSwitch,
+  XTextarea,
+  Range
+} from "vux";
 import AddImg from "./addImg.vue";
 import ImgUpload from "./imgUpload.vue";
-import page1Info from './1pageInfo.vue';
+import page1Info from "./1pageInfo.vue";
 import Data from "./data.js";
 export default {
   name: "page1-edit",
@@ -62,170 +73,164 @@ export default {
     ImgUpload,
     page1Info,
     Range,
-    AddImg 
+    AddImg
   },
   data() {
     return {
-        formD: Data,
-        params: {
-            id: ''
-        },
-        ispreview: false,
+      formD: Data,
+      params: {
+        id: ""
+      },
+      ispreview: false
     };
   },
-  computed:{
-  },
-  mounted(){
-    let params = {};
-    location.search.split("?")[1].split('&').forEach((e)=>{
-        let key = e.split('=')[0]
-        params[key] = e.split('=')[1]
-      })
-      
-      this.params = params;
-      if(!!params.name){
-        this.formD.page1Title = decodeURIComponent(params.name)
-      }
-      var reg = /\?id=(\w+)&?/;
-      if(!reg.test(location.search)){
-          return 
-      }
-      const url = "https://wx.sharkmeida.cn/course/info/" + params.id;
-      this.$http.get(url).then(({ data }) => {
-        if (data.code == "0") {
-          this.formD = JSON.parse(data.course.courseContent);
-            if(data.course.courseContent != null){
-                let activityDestription = JSON.parse(this.formD.activityDestription)
-                let sc = []
-                activityDestription.forEach(e => {
-                    var s = "<img src='" + e.img + "' style='width: 100%; height: 100%;'/>";
-                    sc.push({
-                        type: e.type,
-                        image: e.img,
-                        html: s
-                    })
-                })
-                this.$refs['activityDestription'].activeList = sc
-            }
+  computed: {},
+  mounted() {
+    let params = this.$route.query;
+    this.params = this.$route.query;
+    if (!!params.name) {
+      this.formD.page1Title = decodeURIComponent(params.name);
+    }
+    if (!this.$route.query.id) {
+      return;
+    }
+    const url = "https://wx.sharkmeida.cn/course/info/" + params.id;
+    this.$http.get(url).then(({ data }) => {
+      if (data.code == "0") {
+        this.formD = JSON.parse(data.course.courseContent);
+        if (data.course.courseContent != null) {
+          let activityDestription = JSON.parse(this.formD.activityDestription);
+          let sc = [];
+          activityDestription.forEach(e => {
+            var s =
+              "<img src='" + e.img + "' style='width: 100%; height: 100%;'/>";
+            sc.push({
+              type: e.type,
+              image: e.img,
+              html: s
+            });
+          });
+          this.$refs["activityDestription"].activeList = sc;
         }
-        });
+      }
+    });
   },
-  methods:{
-      editpage(){
-            this.ispreview = !this.ispreview;
-      },
-      preview(){
-        let activityDestription = [];
-        this.$refs['activityDestription'].activeList.forEach(item => {
-            activityDestription.push({
-                type: item.type,
-                img: item.image
-            })
+  methods: {
+    editpage() {
+      this.ispreview = !this.ispreview;
+    },
+    preview() {
+      let activityDestription = [];
+      this.$refs["activityDestription"].activeList.forEach(item => {
+        activityDestription.push({
+          type: item.type,
+          img: item.image
+        });
+      });
+      this.formD.activityDestription = JSON.stringify(activityDestription);
+      this.ispreview = !this.ispreview;
+    },
+    save() {
+      let activityDestription = [];
+      this.$refs["activityDestription"].activeList.forEach(item => {
+        activityDestription.push({
+          type: item.type,
+          img: item.image
+        });
+      });
+      this.formD.activityDestription = JSON.stringify(activityDestription);
+      var a = JSON.stringify(this.formD);
+      this.$vux.loading.show({
+        text: "Loading"
+      });
+      this.$http
+        .post("https://wx.sharkmeida.cn/course/save", {
+          courseContent: a,
+          courseType: 0,
+          id: this.params.id
         })
-        this.formD.activityDestription = JSON.stringify(activityDestription);
-        this.ispreview = !this.ispreview;
-            
-      },
-      save(){
-          let activityDestription = [];
-          this.$refs['activityDestription'].activeList.forEach(item => {
-              activityDestription.push({
-                  type: item.type,
-                  img: item.image
-              })
-          })
-          this.formD.activityDestription = JSON.stringify(activityDestription);
-            var a = JSON.stringify(this.formD)
-            this.$vux.loading.show({
-                text: 'Loading'
-            })
-          this.$http.post('https://wx.sharkmeida.cn/course/save', {courseContent: a, courseType: 0, id: this.params.id}).then(({data}) => {
-            this.$vux.loading.hide()
-            if(data.code == '0'){
-                this.$vux.alert.show({
-                    title: '提示',
-                    content: '保存成功！',
-                    onShow () {
-                    },
-                    onHide () {
-                    }
-                })
-            }else{
-                this.$vux.alert.show({
-                    title: '提示',
-                    content: '保存失败！',
-                    onShow () {
-                    },
-                    onHide () {
-                    }
-                })
-            }
-            })
-      },
+        .then(({ data }) => {
+          this.$vux.loading.hide();
+          if (data.code == "0") {
+            this.$vux.alert.show({
+              title: "提示",
+              content: "保存成功！",
+              onShow() {},
+              onHide() {}
+            });
+          } else {
+            this.$vux.alert.show({
+              title: "提示",
+              content: "保存失败！",
+              onShow() {},
+              onHide() {}
+            });
+          }
+        });
+    }
   }
 };
 </script>
 
 <style >
-
-.head-cell{
-    height: 1.5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    background: #ef5a5a;
+.head-cell {
+  height: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background: #ef5a5a;
 }
-.head-cell>div{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.4rem;
-    font-family: 'yahei';
-    color: #fff;
+.head-cell > div {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.4rem;
+  font-family: "yahei";
+  color: #fff;
 }
-.head-cell>div.line{
-    width: 5px;
-    height: 80%;
-    background: #fff;
+.head-cell > div.line {
+  width: 5px;
+  height: 80%;
+  background: #fff;
 }
-.active{
-    background: #ccc;
+.active {
+  background: #ccc;
 }
-.music-wrap{
-    position: fixed;
-    overflow: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    background: #fff;
-    padding-bottom: 1.5rem;
+.music-wrap {
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: #fff;
+  padding-bottom: 1.5rem;
 }
-.play{
-    font-size: 0.5rem;
-    color: #4e9cfd;
+.play {
+  font-size: 0.5rem;
+  color: #4e9cfd;
 }
-.stop{
-    font-size: 0.5rem;
-    color: #4e9cfd;
+.stop {
+  font-size: 0.5rem;
+  color: #4e9cfd;
 }
-.tips-wrap{
-    width: 9rem;
-    margin: .5rem;
-    font-size: 0.2rem;
-    height: 3rem;
-    border: 1px dashed #ccc;
-    border-radius: 10px;
-    text-align: center;
-    color: #bfbdbd;
-    font-family: yahei;
+.tips-wrap {
+  width: 9rem;
+  margin: 0.5rem;
+  font-size: 0.2rem;
+  height: 3rem;
+  border: 1px dashed #ccc;
+  border-radius: 10px;
+  text-align: center;
+  color: #bfbdbd;
+  font-family: yahei;
 }
 .contentBox {
   width: 100%;
@@ -276,13 +281,13 @@ export default {
 }
 .bg-2 {
   background: #fff;
-    width: 80%;
-    padding: 0.2rem 0;
-    border-radius: 1rem;
-    position: absolute;
-    top: 0.7rem;
-    height: 0.2rem;
-    left: 10%;
+  width: 80%;
+  padding: 0.2rem 0;
+  border-radius: 1rem;
+  position: absolute;
+  top: 0.7rem;
+  height: 0.2rem;
+  left: 10%;
 }
 .title {
   background: url(../assets/title.png) center no-repeat;
@@ -292,11 +297,11 @@ export default {
   position: absolute;
   left: 10%;
   top: 0.1rem;
-    font-size: .6rem;
-    text-align: center;
-    color: #fff;
-    font-weight: bold;
-    line-height: 1rem;
+  font-size: 0.6rem;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  line-height: 1rem;
 }
 .content {
   min-height: 3rem;
@@ -317,13 +322,13 @@ export default {
   top: 1rem;
   right: 0.3rem;
   z-index: 100;
- -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 1s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 1s;
-    -webkit-animation: rotate 3s linear infinite;
-    -moz-animation: rotate 3s linear infinite;
-    -o-animation: rotate 3s linear infinite;
-    animation: rotate 3s linear infinite;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 1s;
+  -moz-transition-property: -moz-transform;
+  -moz-transition-duration: 1s;
+  -webkit-animation: rotate 3s linear infinite;
+  -moz-animation: rotate 3s linear infinite;
+  -o-animation: rotate 3s linear infinite;
+  animation: rotate 3s linear infinite;
 }
 </style>
