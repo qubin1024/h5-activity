@@ -94,7 +94,7 @@
                     <div class="title-23">
                         <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                     </div>
-                    <span style="display: block;font-size: 0.3rem;color: #843493;padding: 0 15px;">{{address}}</span>
+                    <span style="display: block;font-size: 0.3rem;color: #843493;padding: 0 15px;">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
                 <img v-if="!!formD.footImage" :src="formD.footImage" class="header-img" />

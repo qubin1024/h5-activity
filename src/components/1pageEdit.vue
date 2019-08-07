@@ -15,7 +15,7 @@
                         <div class="wrap">
                             <div class="bg-1">
                                 <div class="bg-2">
-                                    <div class="title">{{formD.page1Title}}</div>
+                                    <div class="title54167">{{formD.page1Title}}</div>
                                 </div>
                                 <div class="content">
                                    <add-img ref="activityDestription" ></add-img>
@@ -289,7 +289,7 @@ export default {
   height: 0.2rem;
   left: 10%;
 }
-.title {
+.title54167 {
   background: url(../assets/title.png) center no-repeat;
   background-size: cover;
   height: 1rem;

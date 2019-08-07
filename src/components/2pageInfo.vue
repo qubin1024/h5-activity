@@ -66,7 +66,7 @@
                     <div class="title-23">
                         <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                     </div>
-                    <span style="display: block;font-size: 0.3rem;color: #843493;padding: 0 15px;">{{address}}</span>
+                    <span style="display: block;font-size: 0.3rem;color: #843493;padding: 0 15px;">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
                 <content-wrap title="店内优惠">
@@ -452,7 +452,7 @@ export default {
                                                     appId: data.data.result.data.appId, // 必填，公众号的唯一标识
                                                     timestamp: data.data.result.data.timestamp, // 必填，生成签名的时间戳
                                                     nonceStr: data.data.result.data.nonceStr, // 必填，生成签名的随机串
-                                                    signature: data.data.result.data.signature, // 必填，签名s
+                                                    signature: data.data.result.data.signature, // 必填，签名
                                                     jsApiList: [
                                                         "onMenuShareTimeline",
                                                         "onMenuShareAppMessage",
