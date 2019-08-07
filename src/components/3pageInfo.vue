@@ -456,32 +456,7 @@ export default {
               this.user_id = res.result.data.user.userId;
               this.userName =
                 res.result.data.user.username || res.result.data.user.nickname;
-            }
-          });
-      }
-      if (!!params.shareId) {
-        this.$http
-          .post("https://wx.sharkmeida.cn/api/order/getOrderByOrderId", {
-            orderId: params.shareId
-          })
-          .then(({ data }) => {
-            console.log("添加浏览者信息：", res.result.data.user.userId);
-            if (data.code == "0000") {
-              this.prize = data.result.data.total_price;
-              this.b_userId = data.result.data.user_id;
-            }
-          });
-        this.$http
-          .post("https://wx.sharkmeida.cn/bargin/queryBarginLog", {
-            orderId: params.shareId
-          })
-          .then(({ data }) => {
-            if (data.code == "0000") {
-              this.barginLogList = data.result.data;
-            }
-          });
-      }
-      this.loading = true;
+                this.loading = true;
       this.$http
         .get("https://wx.sharkmeida.cn/bargin/info/" + params.id)
         .then(({ data }) => {
@@ -514,7 +489,7 @@ export default {
                   ] // 必填，需要使用的JS接口列表
                 });
 
-                wx.ready(function() {
+                wx.ready(() => {
                   // alert('wx ready')
 
                   wx.error(function(res) {
@@ -565,6 +540,32 @@ export default {
               });
           }
         });
+            }
+          });
+      }
+      if (!!params.shareId) {
+        this.$http
+          .post("https://wx.sharkmeida.cn/api/order/getOrderByOrderId", {
+            orderId: params.shareId
+          })
+          .then(({ data }) => {
+            console.log("添加浏览者信息：", res.result.data.user.userId);
+            if (data.code == "0000") {
+              this.prize = data.result.data.total_price;
+              this.b_userId = data.result.data.user_id;
+            }
+          });
+        this.$http
+          .post("https://wx.sharkmeida.cn/bargin/queryBarginLog", {
+            orderId: params.shareId
+          })
+          .then(({ data }) => {
+            if (data.code == "0000") {
+              this.barginLogList = data.result.data;
+            }
+          });
+      }
+      
     }
   }
 };

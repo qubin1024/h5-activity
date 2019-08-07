@@ -228,8 +228,6 @@ import CountDown from "./count-down.vue";
 import Data from "./data.js";
 import Scroll from "./scroll.vue";
 //id =  95ce4038a19b49f5bfedb8722eef9ecf
-var reg = /\?id=(\w+)&?/;
-reg.test(location.href);
 const url = "https://wx.sharkmeida.cn/distribution/info/" + RegExp.$1;
 console.log(url);
 export default {
@@ -317,7 +315,6 @@ export default {
       this.tousuDialog = false;
     },
     copy() {
-      debugger;
       var clipboard = new Clipboard("#copyBtn");
       clipboard.on("success", e => {
         this.$vux.toast.text("复制成功！", "top");
@@ -507,15 +504,9 @@ export default {
         this.play();
         return;
       }
-      var params = {},
+      var params = this.$route.query,
         user_id;
-      location.search
-        .split("?")[1]
-        .split("&")
-        .forEach(e => {
-          let key = e.split("=")[0];
-          params[key] = e.split("=")[1];
-        });
+      
       this.params = params;
       if (!params.id) {
         return console.log("id is null");
@@ -535,7 +526,6 @@ export default {
               console.log("添加浏览者信息：", res.result.data.user.userId);
               user_id = res.result.data.user.userId;
               this.userName = res.result.data.user.username;
-              alert(res.result.data.user);
               this.user_id = user_id;
               this.loading = true;
               this.$http.get(url).then(({ data }) => {
@@ -576,7 +566,7 @@ export default {
                         ] // 必填，需要使用的JS接口列表
                       });
 
-                      wx.ready(function() {
+                      wx.ready(() => {
                         // alert('wx ready')
 
                         wx.error(function(res) {
