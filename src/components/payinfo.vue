@@ -34,7 +34,8 @@ export default {
                 .then(({
                     data: res
                 }) => {
-                    WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                    if(res.code == '0000'){
+                        WeixinJSBridge.invoke('getBrandWCPayRequest', {
                             appId: "wx2517d7a8920ab213",
                             timeStamp: res.result.timestamp,
                             // 支付签名随机串，不长于 32 位
@@ -54,6 +55,13 @@ export default {
                                 this.$vux.toast.text("支付失败！", 'top')
                             }
                         });
+                    }else{
+                        this.$vux.alert.show({
+                            title: "提示",
+                            content: res.msg
+                        });
+                    }
+                    
                 })
 
         }

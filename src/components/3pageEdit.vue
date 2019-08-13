@@ -14,6 +14,7 @@
                 <span style="font-size: 0.4rem;text-align: right;display: block;">（活动周期建议5-7天）</span>
             </content-wrap>
             <content-wrap title="奖品信息">
+                <x-input title="本期奖品" v-model="formD.prizeNum" style="font-size: 0.4rem;" type="number" :show-clear="showClear"></x-input>
                 <x-input title="原价（元）" v-model.number="formD.originalPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
                 <x-input title="底价（元）" v-model.number="formD.floorPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
                 <span style="display: block;font-size: 0.4rem;font-weight：bold;color: #000;padding: 0 15px;">每次减价范围：</span>

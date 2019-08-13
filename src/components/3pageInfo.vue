@@ -23,9 +23,9 @@
                             <div>原价：<span>{{formD.originalPrice}}元</span></div>
                             <div>底价：<span>{{formD.floorPrice}}元</span></div>
                         </div>
-                        <img v-if="!this.params.shareId && !this.shareId" src="../assets/btn-6.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
-                        <img v-if="!!this.params.shareId || !!this.shareId" src="../assets/btn-3.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
-                        <img v-if="b_userId == user_id" src="../assets/btn-4.png" @click="linkPay" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
+                        <img v-if="!this.shareId" src="../assets/btn-6.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
+                        <img v-if="!!this.shareId" src="../assets/btn-3.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
+                        <img v-if="!!this.shareId && b_userId == user_id" src="../assets/btn-4.png" @click="linkPay" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
                         <ul class='wrap-wx' v-if="barginLogList.length">
                             <li v-for="(item, index) in barginLogList" :key="index">
                                 <img :src="item.headimgurl"/>
@@ -38,7 +38,9 @@
                         </ul>
                     </content-wrap>
                         <content-wrap title="奖品信息">
+                            <div style="text-align: center;margin: 0.4rem;">本期奖品 <span style="color: red;"> {{formD.prizeNum}} 份</span>， 剩余<span style="color: red;"> {{formD.prizeLeft}} 份</span></div>
                             <div style="text-align: center;margin: 0.4rem;"><span style="color: red;"> {{formD.gift}} 商品</span>，原价<span style="color: red;"> {{formD.originalPrice}}元</span>活动亏本卖， 最低降到<span style="color: red;"> {{formD.floorPrice}}元</span>，数量有限，售完即止。</div>
+                            
                             <div v-if="!!formD.prizeDescription">
                                 <div v-for="item in JSON.parse(formD.prizeDescription)" :key="item.key" style="line-height: 0.4rem;">
                                     <img v-if="item.type == 'uploadImg'" :src="item.img"  style=" width: 100%;display: block;"/>
@@ -55,7 +57,7 @@
                             <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.activityRule}}</pre>
                         </content-wrap>
                         <content-wrap title="领奖信息">
-                            <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.priceInfo}}</pre>
+                            <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.prizeInfo}}</pre>
                         </content-wrap>
                         <content-wrap title="机构介绍">
                             <div v-if="!!formD.companyDescription">
@@ -88,7 +90,7 @@
                                 <div class="title-23">
                                     <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                                 </div>
-                                <span style="display: block;font-size: 0.3rem;color: #843493;padding: 0 15px;">{{formD.address}}</span>
+                                <span style="display: block;font-size: 0.4rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                                 <div id="showPosition" style="height: 5rem"></div>
                         </content-wrap>
                         <content-wrap title="店内优惠">
@@ -104,6 +106,28 @@
                                 </div>
                             </div>
                         </content-wrap>
+                        <content-wrap title="排行榜">
+                          <table>
+                              <thead>
+                                  <th>排名</th>
+                                  <th>姓名</th>
+                                  <th>当前价格</th>
+                              </thead>
+                              <tbody>
+                                  <tr v-for="(item, index) in list" :key="index">
+                                      <td>
+                                          <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 2rem;">{{index+1}}</div>
+                                      </td>
+                                      <td>
+                                          <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 2rem;">{{item.username}}</div>
+                                      </td>
+                                      <td>
+                                          <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 2rem;">{{item.total_price == formD.floorPrice ? "已经降至底价": item.total_price}}</div>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </content-wrap>
                          <img v-if="!!formD.footImage" :src="formD.footImage" class="header-img" />
 
                         <div class="phone" @click="phone">
@@ -243,6 +267,25 @@ export default {
     this.query();
   },
   methods: {
+    initQQMap(){
+            console.log({
+                latitude: this.formD.latitude, // 纬度，浮点数，范围为90 ~ -90
+                longitude: this.formD.longitude, // 经度，浮点数，范围为180 ~ -180。
+                name: "活动地点", // 位置名
+                address: this.address, // 地址详情说明
+                scale: 10, // 地图缩放级别,整形值,范围从1~28。默认为最大
+            })
+            wx.ready(() => {
+                wx.openLocation({
+                    latitude: this.formD.latitude, // 纬度，浮点数，范围为90 ~ -90
+                    longitude: this.formD.longitude, // 经度，浮点数，范围为180 ~ -180。
+                    name: "活动地点", // 位置名
+                    address: this.address, // 地址详情说明
+                    scale: 10, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                    infoUrl: `http://apis.map.qq.com/uri/v1/marker?marker=coord:${this.formD.latitude},${this.formD.longitude};title:活动地点;addr:${this.address}` // 在查看位置界面底部显示的超链接,可点击跳转
+                });
+            })
+        },
     addActive() {
       if (this.ispreview) {
         return;
@@ -279,7 +322,7 @@ export default {
                   this.b_userId = data.result.data.user_id;
                 }
               });
-            this.shareId = data.result.order.orderId;
+            this.shareId = data.result.order.order_id;
             this.shown = false;
           } else {
             this.$vux.alert.show({
@@ -293,14 +336,14 @@ export default {
       if (this.ispreview) {
         return;
       }
-      if (!this.params.shareId && !this.shareId) {
+      if (!this.shareId) {
         // 显示文字
         return this.$vux.toast.text("请参加活动！");
       }
       this.$http
         .post("https://wx.sharkmeida.cn/bargin/bargin", {
           activityId: this.params.id,
-          orderId: this.params.shareId || this.shareId,
+          orderId: this.shareId,
           total_price: this.prize,
           user_id: this.user_id
         })
@@ -338,7 +381,7 @@ export default {
       this.$router.replace({
         path: "/payInfo",
         query: {
-          orderId: this.params.shareId || this.shareId,
+          orderId: this.shareId,
           prize: this.prize,
           userId: this.b_userId
         }
@@ -381,13 +424,13 @@ export default {
       this.supportDialog = true;
     },
     goapp() {
-      this.appDialog = true;
+            this.appDialog = true;
+        },
+    showntousu() {
+      this.tousuDialog = true;
     },
     phone() {
       this.pshown = true;
-    },
-    showntousu() {
-      this.tousuDialog = true;
     },
     tousu() {
       this.$vux.toast.text("投诉成功！", "top");
@@ -438,9 +481,21 @@ export default {
       }
       var params = this.$route.query;
       this.params = params;
+      this.shareId = params.shareId;
       if (!params.id) {
         return console.log("id is null");
       }
+      this.$http
+      .post("https://wx.sharkmeida.cn/gather/queryLike", {
+          activityId: params.id
+      })
+      .then(({
+          data
+      }) => {
+          if (data.code == 0) {
+              this.list = data.result.data;
+          }
+      });
       if (!!params.code) {
         this.$http
           .get(
@@ -485,7 +540,8 @@ export default {
                   jsApiList: [
                     "onMenuShareTimeline",
                     "onMenuShareAppMessage",
-                    "chooseWXPay"
+                    "chooseWXPay",
+                    "openLocation"
                   ] // 必填，需要使用的JS接口列表
                 });
 
@@ -574,6 +630,15 @@ export default {
 </script>
 
 <style>
+table {
+    width: 100%;
+    text-align: center;
+    line-height: 0.8rem;
+}
+
+table th {
+    color: #f43530;
+}
 .t-o {
   display: flex;
   font-size: 0.4rem;

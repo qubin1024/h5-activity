@@ -18,7 +18,7 @@
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">如有用户报名，奖品数量可憎不可减，谨慎填写</span>
                 <x-input title="集赞" v-model="formD.targetNum" style="font-size: 0.4rem;" type="number" :show-clear="showClear"></x-input>
                 <x-input title="赢取礼品" v-model="formD.gift" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
-                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">活动期间内向嫦娥姐姐集满<span style="color: red;">{{formD.targetNum}}</span>个赞，即可领取礼品</span>
+                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">活动期间内集满<span style="color: red;">{{formD.targetNum}}</span>个赞，即可领取礼品</span>
                 <x-input title="间隔时间" v-model="formD.restrictTime" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">报名者每隔<span style="color: red;">{{formD.restrictTime}}</span>小时可以在给自己集赞</span>
                 <add-img ref="priceDescription"></add-img>

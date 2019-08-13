@@ -11,12 +11,12 @@
             <div class="middle">
                 <count-down class="time-wrap" v-if='!!formD.startTime && formD.endTime' :startTime="formD.startTime" :endTime="formD.endTime"></count-down>
                 <content-wrap>
-                    <img src="../assets/btn-2.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
-                    <img v-if="!this.params.shareId && !this.shareId" src="../assets/btn-7.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
+                    <img v-if="!!this.shareId" src="../assets/btn-2.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
+                    <img v-if="!this.shareId" src="../assets/btn-7.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
                 </content-wrap>
                 <content-wrap title="奖品信息">
                     <div style="text-align: center;margin: 0.4rem;">本期奖品 <span style="color: red;"> {{formD.priceNum}} 份</span>， 剩余<span style="color: red;"> {{formD.prizeLeft}} 份</span></div>
-                    <div style="text-align: center;margin: 0.4rem;">活动期间内 集到 <span style="color: red;"> {{formD.targetNum}} 个爱心</span>， 即可<span style="color: red;"> 赢取{{formD.gift}} </span></div>
+                    <div style="text-align: center;margin: 0.4rem;">活动期间内 集到 <span style="color: red;"> {{formD.targetNum}} 个赞</span>， 即可<span style="color: red;"> 赢取{{formD.gift}} </span></div>
                     <div v-if="!!formD.priceDescription">
                         <div v-for="item in JSON.parse(formD.priceDescription)" :key="item.key" style="line-height: 0.4rem;">
                             <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />
@@ -66,7 +66,7 @@
                     <div class="title-23">
                         <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                     </div>
-                    <span style="display: block;font-size: 0.3rem;color: #843493;padding: 0 15px;">{{formD.address}}</span>
+                    <span style="display: block;font-size: 0.4rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
                 <content-wrap title="店内优惠">
@@ -245,6 +245,18 @@ export default {
         this.query();
     },
     methods: {
+        initQQMap(){
+            wx.ready(() => {
+                wx.openLocation({
+                    latitude: this.formD.latitude, // 纬度，浮点数，范围为90 ~ -90
+                    longitude: this.formD.longitude, // 经度，浮点数，范围为180 ~ -180。
+                    name: "活动地点", // 位置名
+                    address: this.address, // 地址详情说明
+                    scale: 10, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                    infoUrl: `http://apis.map.qq.com/uri/v1/marker?marker=coord:${this.formD.latitude},${this.formD.longitude};title:活动地点;addr:${this.address}` // 在查看位置界面底部显示的超链接,可点击跳转
+                });
+            })
+        },
         addActive() {
             if (this.ispreview) {
                 return;
@@ -284,14 +296,14 @@ export default {
             if (this.ispreview) {
                 return;
             }
-            if (!!this.params.shareId && !!this.shareId) {
+            if (!!this.shareId) {
                 // 显示文字
                 return this.$vux.toast.text("请参加活动！");
             }
             this.$http
                 .post("https://wx.sharkmeida.cn/gather/like", {
                     activityId: this.params.id,
-                    id: this.params.shareId || this.shareId,
+                    id: this.shareId,
                     likes: this.user_id
                 })
                 .then(({
@@ -404,6 +416,10 @@ export default {
             }
             var params = this.$route.query;
             this.params = params;
+            if(!!this.params.shareId){
+                this.shareId = this.params.shareId    
+            }
+            
             if (!params.id) {
                 return console.log("id is null");
             }
@@ -456,7 +472,8 @@ export default {
                                                     jsApiList: [
                                                         "onMenuShareTimeline",
                                                         "onMenuShareAppMessage",
-                                                        "chooseWXPay"
+                                                        "chooseWXPay",
+                                                        "openLocation"
                                                     ] // 必填，需要使用的JS接口列表
                                                 });
 

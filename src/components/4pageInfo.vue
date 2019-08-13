@@ -10,29 +10,10 @@
             </div>
             <div class="middle">
                 <count-down class="time-wrap" v-if='!!formD.startTime && formD.endTime' :startTime="formD.startTime" :endTime="formD.endTime"></count-down>
-                <content-wrap title="拼团规则" style=" background: none;padding: 0;">
-                    <div class="rules">
-                        <div>
-                            <svg t="1563281840048" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1542" width="32" height="32">
-                                <path d="M512 64a448 448 0 0 1 448 448c0 247.424-200.576 448-448 448S64 759.424 64 512 264.576 64 512 64z m0 64c-212.064 0-384 171.936-384 384s171.936 384 384 384 384-171.936 384-384a384 384 0 0 0-384-384z m56.32 640h-64V339.84l-81.92 87.68-38.4-39.68L512 256h56.32v512z" fill="#f4ea2a" p-id="1543"></path>
-                            </svg>
-                            <span>点击参加活动发起平团</span>
-                        </div>
-                        <div>
-                            <svg t="1563282509960" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1864" width="32" height="32">
-                                <path d="M512 64a448 448 0 0 1 448 448c0 247.424-200.576 448-448 448S64 759.424 64 512 264.576 64 512 64z m0 64c-212.064 0-384 171.936-384 384s171.936 384 384 384 384-171.936 384-384a384 384 0 0 0-384-384z m169.6 640H352.64v-50.56C524.8 576 618.88 491.52 618.88 404.48a91.52 91.52 0 0 0-100.48-92.8 156.8 156.8 0 0 0-128 64L352 335.36A200.96 200.96 0 0 1 518.4 256a148.48 148.48 0 0 1 160.64 148.48c0 103.04-99.2 196.48-232.32 307.84H681.6V768z" fill="#f4ea2a" p-id="1865"></path>
-                            </svg>
-                            <span>邀请好友参加拼团</span>
-                        </div>
-                        <div>
-                            <svg t="1563282614959" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2107" width="32" height="32">
-                                <path d="M512 64a448 448 0 0 1 448 448c0 247.424-200.576 448-448 448S64 759.424 64 512 264.576 64 512 64z m0 64c-212.064 0-384 171.936-384 384s171.936 384 384 384 384-171.936 384-384a384 384 0 0 0-384-384z m12.16 640A202.88 202.88 0 0 1 352 686.08l35.84-38.4a167.04 167.04 0 0 0 135.04 64c70.4 0 113.28-36.48 113.28-92.8s-49.28-86.4-120.32-86.4h-50.56V476.8h49.92c64 0 112.64-24.32 112.64-81.92S576 311.04 520.32 311.04a163.2 163.2 0 0 0-128 60.16l-33.92-38.4A206.72 206.72 0 0 1 524.8 256c92.8 0 163.84 48 163.84 131.84a118.4 118.4 0 0 1-104.32 115.2 128 128 0 0 1 112 122.88C696.96 707.84 631.04 768 524.16 768z" fill="#f4ea2a" p-id="2108"></path>
-                            </svg>
-                            <span>完成平团，支付订单</span>
-                        </div>
-                    </div>
-                </content-wrap>
                 <content-wrap>
+                    <img src="../assets/pingtuan.png" style="width: 100%;">
+                </content-wrap>
+                <content-wrap title="商品信息">
                     <div v-if="!!formD.commodityDescription">
                         <div v-for="item in JSON.parse(formD.commodityDescription)" :key="item.key" style="line-height: 0.4rem;">
                             <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />
@@ -53,8 +34,8 @@
                             </div>
                         </div>
                     </div>
-                    <img v-if="!this.params.shareId && !this.shareId" src="../assets/btn.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
-                    <img v-if="!!this.shareId && !this.orderId" src="../assets/btn-5.png" @click="() => {this.shown2 = !this.shown2}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
+                    <img v-if="!this.shareId" src="../assets/btn.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
+                    <img v-if="!!this.shareId" src="../assets/btn-5.png" @click="() => {this.shown2 = !this.shown2}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
                     <img v-if="!!this.orderId" src="../assets/btn-4.png" @click="linkPay" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
                     <div class="wrap-3">
                         <div v-for="(item, index) in list" :key="index">
@@ -62,6 +43,12 @@
                             <span>{{item.username}}</span>
                         </div>
                     </div>
+                </content-wrap>
+                <content-wrap title="领奖信息">
+                    <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.prizeInfo}}</pre>
+                </content-wrap>
+                <content-wrap title="活动规则">
+                    <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.activityRule}}</pre>
                 </content-wrap>
                 <content-wrap title="机构介绍">
                     <div v-if="!!formD.companyDescription">
@@ -94,7 +81,7 @@
                     <div class="title-23">
                         <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                     </div>
-                    <span style="display: block;font-size: 0.3rem;color: #843493;padding: 0 15px;">{{formD.address}}</span>
+                    <span style="display: block;font-size: 0.4rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
                 <img v-if="!!formD.footImage" :src="formD.footImage" class="header-img" />
@@ -247,6 +234,18 @@ export default {
         this.query();
     },
     methods: {
+        initQQMap(){
+            wx.ready(() => {
+                wx.openLocation({
+                    latitude: this.formD.latitude, // 纬度，浮点数，范围为90 ~ -90
+                    longitude: this.formD.longitude, // 经度，浮点数，范围为180 ~ -180。
+                    name: "活动地点", // 位置名
+                    address: this.address, // 地址详情说明
+                    scale: 10, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                    infoUrl: `http://apis.map.qq.com/uri/v1/marker?marker=coord:${this.formD.latitude},${this.formD.longitude};title:活动地点;addr:${this.address}` // 在查看位置界面底部显示的超链接,可点击跳转
+                });
+            })
+        },
         addActive() {
             if (this.ispreview) {
                 return;
@@ -302,7 +301,7 @@ export default {
             if (this.ispreview) {
                 return;
             }
-            if (!this.params.shareId && !this.shareId) {
+            if (!this.shareId) {
                 // 显示文字
                 return this.$vux.toast.text("请参加活动！");
             }
@@ -456,6 +455,8 @@ export default {
             if (!params.id) {
                 return console.log("id is null");
             }
+
+            this.shareId = this.params.shareId;
             if (!!params.code) {
                 this.$http
                     .get(
@@ -474,7 +475,6 @@ export default {
                                 this.userName =
                                     res.result.data.user.username || res.result.data.user.nickname;
                                 if (!!params.shareId) {
-                                    this.shareId = this.params.shareId;
                                     this.$http
                                         .post("https://wx.sharkmeida.cn/groupon/queryGrouponId", {
                                             groupId: this.shareId
@@ -523,7 +523,8 @@ export default {
                                                             jsApiList: [
                                                                 "onMenuShareTimeline",
                                                                 "onMenuShareAppMessage",
-                                                                "chooseWXPay"
+                                                                "chooseWXPay",
+                                                                "openLocation"
                                                             ] // 必填，需要使用的JS接口列表
                                                         });
 
