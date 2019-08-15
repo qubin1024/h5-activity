@@ -1,1374 +1,1136 @@
 <template>
 <div class="egg-wrap">
-<div id="wrap">
-    <div class="rule" @click="ruleShow = !ruleShow" ></div>
-    <!--砸蛋区域-->
-    <div class="box">
-        <p class="tips">今天剩余免费<span id="change">5</span>次</p>
-        <div id="hammer" class="shak"></div>
-        <ul class="egg clearfix">
-            <li>
-                <img src="../assets/eggImage/egg.png" class="goldegg init">
-                <img src="../assets/eggImage/base.png">
-                <div class="info"></div>
-            </li>
-            <li>
-                <img src="../assets/eggImage/egg.png" class="goldegg init">
-                <img src="../assets/eggImage/base.png">
-                <div class="info"></div>
-            </li>
-            <li>
-                <img src="../assets/eggImage/egg.png" class="goldegg init">
-                <img src="../assets/eggImage/base.png">
-                <div class="info"></div>
-            </li>
-            <li>
-                <img src="../assets/eggImage/egg.png" class="goldegg init">
-                <img src="../assets/eggImage/base.png">
-                <div class="info"></div>
-            </li>
-            <li>
-                <img src="../assets/eggImage/egg.png" class="goldegg init">
-                <img src="../assets/eggImage/base.png">
-                <div class="info"></div>
-            </li>
-            <li>
-                <img src="../assets/eggImage/egg.png" class="goldegg init">
-                <img src="../assets/eggImage/base.png">
-                <div class="info"></div>
-            </li>
-            <li>
-                <img src="../assets/eggImage/egg.png" class="goldegg init">
-                <img src="../assets/eggImage/base.png">
-                <div class="info"></div>
-            </li>
-            <li>
-                <img src="../assets/eggImage/egg.png" class="goldegg init">
-                <img src="../assets/eggImage/base.png">
-                <div class="info"></div>
-            </li>
-            <li>
-                <img src="../assets/eggImage/egg.png" class="goldegg init">
-                <img src="../assets/eggImage/base.png">
-                <div class="info"></div>
-            </li>
-        </ul>
-        <!--奖品展示-->
-        <div class="awards">
-            <img src="../assets/eggImage/prize.png" class="prize">
-            <div class="swiper-container">
-                <ul class="swiper-wrapper">
-                    <li class="swiper-slide">
-                        <img src="../assets/eggImage/200.png">
-                        <p>200元红包</p>
-                    </li>
-                    <li class="swiper-slide">
-                        <img src="../assets/eggImage/100.png">
-                        <p>100元红包</p>
-                    </li>
-                    <li class="swiper-slide">
-                        <img src="../assets/eggImage/50.png">
-                        <p>50元红包</p>
-                    </li>
-                    <li class="swiper-slide">
-                        <img src="../assets/eggImage/20.png">
-                        <p>20元红包</p>
-                    </li>
-                    <li class="swiper-slide">
-                        <img src="../assets/eggImage/10.png">
-                        <p>10元红包</p>
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <div class="circular2" @click="showntousu">投诉</div>
+    <div class="circular2" style="top:3.8rem;text-align: center;" @click="support">技术支持</div>
+    <div class="circular2" style="top:5.2rem;text-align: center;" @click="goapp">进入商家</div>
+    <div class="header">
+        <img :src="formD.headImage" class="header-img" />
     </div>
-    <!--游戏规则弹窗-->
-    <div id="mask-rule" v-if="ruleShow">
-        <div class="box-rule">
-            <span class="star"></span>
-            <h2>活动规则说明</h2>
-            <span id="close-rule" @click="ruleShow = !ruleShow"></span>
-            <div class="con">
-                <div class="text">
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
-                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+    <div id="wrap">
+        <div class="rule" @click="ruleShow = !ruleShow" ></div>
+        <!--砸蛋区域-->
+        
+        <div class="box">
+            <p class="tips">今天剩余免费<span id="change"></span>次</p>
+            <div id="hammer" class="shak"></div>
+            <ul class="egg clearfix">
+                <li>
+                    <img src="../assets/eggImage/egg.png" class="goldegg init">
+                    <img src="../assets/eggImage/base.png">
+                    <div class="info"></div>
+                </li>
+                <li>
+                    <img src="../assets/eggImage/egg.png" class="goldegg init">
+                    <img src="../assets/eggImage/base.png">
+                    <div class="info"></div>
+                </li>
+                <li>
+                    <img src="../assets/eggImage/egg.png" class="goldegg init">
+                    <img src="../assets/eggImage/base.png">
+                    <div class="info"></div>
+                </li>
+                <li>
+                    <img src="../assets/eggImage/egg.png" class="goldegg init">
+                    <img src="../assets/eggImage/base.png">
+                    <div class="info"></div>
+                </li>
+                <li>
+                    <img src="../assets/eggImage/egg.png" class="goldegg init">
+                    <img src="../assets/eggImage/base.png">
+                    <div class="info"></div>
+                </li>
+                <li>
+                    <img src="../assets/eggImage/egg.png" class="goldegg init">
+                    <img src="../assets/eggImage/base.png">
+                    <div class="info"></div>
+                </li>
+                <li>
+                    <img src="../assets/eggImage/egg.png" class="goldegg init">
+                    <img src="../assets/eggImage/base.png">
+                    <div class="info"></div>
+                </li>
+                <li>
+                    <img src="../assets/eggImage/egg.png" class="goldegg init">
+                    <img src="../assets/eggImage/base.png">
+                    <div class="info"></div>
+                </li>
+                <li>
+                    <img src="../assets/eggImage/egg.png" class="goldegg init">
+                    <img src="../assets/eggImage/base.png">
+                    <div class="info"></div>
+                </li>
+            </ul>
+            <!--奖品展示-->
+            <div class="awards">
+                <img src="../assets/eggImage/prize.png" class="prize">
+                <div class="swiper-container">
+                    <ul class="swiper-wrapper" v-if="formD.prizeRule">
+                        <li v-for="item in JSON.parse(formD.prizeRule)" :key="item.index" class="swiper-slide">
+                            <img :src="item.url">
+                            <p>{{item.giftName}}</p>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </div>
-    <!--中奖提示-->
-    <div id="mask">
-        <div class="blin"></div>
-        <div class="caidai"></div>
-        <div class="winning">
-            <div class="red-head"></div>
-            <div class="red-body"></div>
-            <div id="card">
-                <a href="" target="_self" class="win"></a>
+        <!--游戏规则弹窗-->
+        <div id="mask-rule" v-if="ruleShow">
+            <div class="box-rule">
+                <span class="star"></span>
+                <h2>活动规则说明</h2>
+                <span id="close-rule" @click="ruleShow = !ruleShow"></span>
+                <div class="con">
+                    <div class="text">
+                        <p>{{formD.activityRule}}</p>
+                    </div>
+                </div>
             </div>
-            <a href="" target="_self" class="btn"></a>
-            <span id="close" @click="close"></span>
+        </div>
+        <!--中奖提示-->
+        <div id="mask">
+            <div class="blin"></div>
+            <div class="caidai"></div>
+            <div class="winning">
+                <div class="red-head"></div>
+                <div class="red-body"></div>
+                <div id="card">
+                    <a href="" target="_self" class="win"></a>
+                </div>
+                <!-- <a href="" target="_self" class="btn"></a> -->
+                <span id="close" @click="eggclose"></span>
+            </div>
         </div>
     </div>
-</div>
-</div>
+     <div class="middle">
+          <content-wrap title="领奖信息">
+                    <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.prizeInfo}}</pre>
+                </content-wrap>
+                <content-wrap title="活动规则">
+                    <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.activityRule}}</pre>
+                </content-wrap>
+                <content-wrap title="机构介绍">
+                    <div v-if="!!formD.companyDescription">
+                        <div v-for="item in JSON.parse(formD.companyDescription)" :key="item.key" style="line-height: 0.4rem;">
+                            <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />
+                            <pre v-if="item.type == 'uploadText'" style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{item.img}}</pre>
+                            <video v-if="item.type == 'uploadVedio'" :src="item.img" ontrols="controls" preload="meta" width="100%" height="240" x-webkit-airplay="true" webkit-playsinline="true" playsinline="true" x5-video-player-fullscreen="true" x5-video-player-type="h5" controls></video>
+                            <!-- <video v-if="item.type == 'uploadVedio'" width="100%" height="240" controls>
+                                    <source :src="item.img" type="video/ogg">
+                                    您的浏览器不支持Video标签。
+                                </video> -->
+                        </div>
+                    </div>
+                </content-wrap>
+                <content-wrap title="主办方名片">
+
+                    <div style="margin: 1rem auto;height: 3rem;width:3rem;position: relative;">
+                        <img :src='formD.thumbnail' v-if='!!formD.thumbnail' style='width: 100%;height: 100%;' />
+                    </div>
+                    <div class="title-23">
+                        <span style="color: #10aeff;background: #fff;padding: 0 10px;">咨询电话</span>
+                    </div>
+                    <span style="
+                    text-align: center;
+                    width: 100%;
+                    display: inline-block;
+                    color: red;
+                    font-weight: bold;
+                ">{{formD.phone}}</span>
+                    <div class="title-23">
+                        <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
+                    </div>
+                    <span style="display: block;font-size: 0.4rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
+                    <div id="showPosition" style="height: 5rem"></div>
+                </content-wrap>
+                <div style="width: calc(100% - 2px); min-height: 3rem;margin-bottom:1.5rem;position: relative;">
+                    <img src="../assets/eggbg.jpg" width="100%"/>
+                </div>
+     </div>
+    <div v-show="tousuDialog" class="tousu">
+                <span style="font-size: 0.5rem;
+        font-family: 'yahei';
+        color: #9a9a9a;
+        line-height: 0.5rem;">请选择投诉该网页的原因:</span>
+                <ul>
+                    <li @click="tousu">网页包含欺诈信息（如： 假红包）</li>
+                    <li @click="tousu">网页包含色情信息</li>
+                    <li @click="tousu">网页包含暴力恐怖信息</li>
+                    <li @click="tousu">网页包含政治敏感信息</li>
+                    <li @click="tousu">网页包含赌博信息</li>
+                    <li @click="tousu">网页在手机个人隐私信息（如：钓鱼链接）</li>
+                </ul>
+            </div>
+            <img v-show="supportDialog" src="../assets/support.jpg" style="height: 100%; width: 100%;" class="tousu" />
+            <i v-show="supportDialog || appDialog" class="fa fa-times-circle" @click="close" style="position: fixed;right: 0.2rem;top: 0.2rem; font-size: 0.6rem;z-index: 99999;" aria-hidden="true"></i>
+            <div v-show="appDialog" style="height: 100%; width: 100%;background: #fff;" class="tousu">
+                <img src="../assets/app.png" style="width: 100%;" />
+            </div>
+    </div>
 </template>
 
 <script>
-import  eggInit from './eggInit.js'
+import {
+    Selector,
+    XDialog,
+    Alert,
+    Group,
+    Cell,
+    Loading,
+    Datetime,
+    XInput,
+    XNumber,
+    XSwitch,
+    XTextarea
+} from "vux";
+import $ from "jquery"; 
+import Clipboard from "clipboard";
+import CountDown from "./count-down.vue";
+import ContentWrap from "./content-wrap.vue";
+import Data from "./eData.js";
+import Scroll from "./scroll.vue";
 export default {
     name: 'eggIndex',
     data: function(){
         return {
-            ruleShow: false
+            userName: "",
+            prize: null,
+            address: "",
+            shown: false,
+            shown2: false,
+            ruleShow: false,
+            pshown: false,
+            alertShow: false,
+            alertContent: "",
+            loading: false,
+            tousuDialog: false,
+            supportDialog: false,
+            appDialog: false,
+            home: true,
+            ispreview: false,
+            users: [],
+            user_id: "",
+            b_userId: "",
+            shareId: "",
+            params: {},
+            orderList: [],
+            packageList: [],
+            order: [],
+            orderId: null,
+            formD: Data,
+            isLoading: true,
+            name: "",
+            tel: "",
+            type: "",
+            options: [{
+                    key: 0,
+                    value: "新会（学）员"
+                },
+                {
+                    key: 1,
+                    value: "旧会（学）员"
+                }
+            ],
+            list: [],
+            musicUrl: ""
+        };
+    },
+    props: {
+        form: {
+            type: Object
         }
     },
     mounted() {
-        
-        eggInit();
+        this.query();
     },
     methods: {
-        close(){
+        eggInit(){
+            var post = this.$http.post;
+            var user_id = this.user_id;
+            var activityid = this.params.id;
+            var $hammer = $("#hammer"),
+            $tips = $(".info"),
+            $eggList = $(".egg li"),//金蛋父级
+            $egg = $(".goldegg"),//金蛋
+            $change = $("#change"),//剩余次数
+            length = $egg.length,
+            data = {count: parseInt(this.formD.maxTime) || 0},//次数
+            arr = [],
+            openArr,//记录被砸开的蛋的下标数组
+            rem = 75;
+            $change.html(data.count);
+            $egg.eq(length).addClass("jump");
+            $tips.eq(length).show();
+            setInterval(function () {
+                //金蛋跳动
+                length++;
+                length %= 9;
+                $egg.eq(length - 1 < 0 && 8 || length - 1).removeClass("jump");
+                $tips.eq(length - 1 < 0 && 8 || length - 1).hide();
+                reback();
+                $egg.eq(length).addClass("jump");
+                $tips.eq(length).show();
+            }, 1000);
+            
+            function reback() {
+                if (!$egg.eq(length).hasClass("init")) {//若已砸开
+                    length++;
+                    length %= 9;
+                    reback();
+                }
+            }
+
+            
+        /*砸蛋事件*/
+        for (var i = 0; i < length; i++) {
+            $egg.eq(i).data("mark", true);//判断金蛋是否砸开，true表示可砸
+            $eggList.eq(i).data("i", i);
+            $eggList.eq(i).click(function() {
+                //设定剩余抽奖次数，判断用户是否还能点击
+                if (data.count > 0) {
+                    if($egg.eq($(this).data("i")).data("mark")){
+                        ajax($(this))
+                    }else{
+                        alert("这枚金蛋已经被您砸开了")
+                    }
+                } else {
+                    alert("您当前砸蛋次数为0，无法砸蛋");
+                }
+            });
+        }
+
+        function ajax($el){
+            post("https://wx.sharkmeida.cn/lottery/lottery", {
+                user_id: user_id,
+                activityId: activityid
+            })
+            .then(({
+                data: res
+            }) => { 
+                if(res.code == '0000'){
+                    eggChange($el.data("i"))
+                }else{
+                    alert(res.msg);
+                }
+            })
+        }
+            /*砸蛋事件的处理*/
+        function eggChange(i) {
+            //砸蛋次数的变化
+            data.count--;
+            $change.html(data.count);
+            $hammer.removeClass("shak");//清除锤子晃动动画
+            //锤子砸蛋的位置
+            (i === 0 || i === 3 || i === 6) && ($hammer.css("left", 165 / rem + "rem"));
+            (i === 1 || i === 4 || i === 7) && ($hammer.css("left", 415 / rem + "rem"));
+            (i === 2 || i === 5 || i === 8) && ($hammer.css("left", 665 / rem + "rem"));
+            (i === 0 || i === 1 || i === 2) && ($hammer.css("top", 60 / rem + "rem"));
+            (i === 3 | i === 4 || i === 5) && ($hammer.css("top", 280 / rem + "rem"));
+            (i === 6 | i === 7 || i === 8) && ($hammer.css("top", 500 / rem + "rem"));
+            //锤子返回
+            setTimeout(function () {
+                $hammer.css({
+                    left: 665 / rem + "rem",
+                    top: 60 / rem + "rem"
+                });
+            }, 1500);
+    
+            //金蛋破裂及锤子动画
+            setTimeout(function () {
+                $hammer.addClass("hit");
+                setTimeout(function () {
+                    $egg.eq(i).prop("src", "data:image/png;base64,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");
+                }, 300);
+                setTimeout(function () {
+                    $egg.eq(i).removeClass("init");
+                    win();
+                    $hammer.removeClass("hit");//清除锤子砸蛋动画
+                    $hammer.addClass("shak");
+    
+                    //记录被砸开的蛋
+                    arr.push(i);//存入每个砸开蛋的下标
+                   // $.cookie("eggIndex", arr, {expires: 1});//存入cookie
+                }, 600);
+            }, 600);
+            $egg.eq(i).data("mark", false);//更改金蛋状态为已砸开
+        }
+
+        function win(){
+            $("#mask").show();
+            $("#mask .winning").addClass('reback');
+            setTimeout(()=> {
+                $("#mask #card").addClass('pull');
+            }, 500)
+        }
+        },  
+        initQQMap(){
+            wx.ready(() => {
+                wx.openLocation({
+                    latitude: this.formD.latitude, // 纬度，浮点数，范围为90 ~ -90
+                    longitude: this.formD.longitude, // 经度，浮点数，范围为180 ~ -180。
+                    name: "活动地点", // 位置名
+                    address: this.address, // 地址详情说明
+                    scale: 10, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                    infoUrl: `http://apis.map.qq.com/uri/v1/marker?marker=coord:${this.formD.latitude},${this.formD.longitude};title:活动地点;addr:${this.address}` // 在查看位置界面底部显示的超链接,可点击跳转
+                });
+            })
+        },
+        mapInit() {
+            var self = this;
+            if (self.formD.latitude != "" && self.formD.longitude != "") {
+                var map = new qq.maps.Map(document.getElementById("showPosition"), {
+                    center: new qq.maps.LatLng(39.916527, 116.397128),
+                    zoom: 13,
+                    panControl: false,
+                    zoomControl: false,
+                    scaleControl: false
+                });
+
+                var marker = new qq.maps.Marker({
+                    position: new qq.maps.LatLng(
+                        self.formD.latitude,
+                        self.formD.longitude
+                    ),
+                    map: map
+                });
+                var geocoder = new qq.maps.Geocoder({
+                    complete: function (result) {
+                        map.setCenter(result.detail.location);
+                        self.address = result.detail.address;
+                    }
+                });
+                geocoder.getAddress(
+                    new qq.maps.LatLng(self.formD.latitude, self.formD.longitude)
+                );
+            }
+        },
+        close() {
+            this.supportDialog = false;
+            this.appDialog = false;
+        },
+        support() {
+            this.supportDialog = true;
+        },
+        goapp() {
+            this.appDialog = true;
+        },
+        phone() {
+            this.pshown = true;
+        },
+        showntousu() {
+            this.tousuDialog = true;
+        },
+        tousu() {
+            this.$vux.toast.text("投诉成功！", "top");
+            this.tousuDialog = false;
+        },
+        query() {
+            if (!!this.form) {
+                this.formD = this.form;
+                this.ispreview = true;
+                this.mapInit();
+                return;
+            }
+            var params = this.$route.query;
+            this.params = params;
+
+            if (!params.id) {
+                return console.log("id is null");
+            }
+             
+            this.shareId = this.params.shareId;
+            if (!!params.code) {
+                this.$http
+                    .get(
+                        "https://wx.sharkmeida.cn/api/wxpay/getUserInfo?code=" +
+                        params.code +
+                        "&state=" +
+                        params.state
+                    )
+                    .then(({
+                            data: res
+                        }) => {
+                            if (res.code != "0000") {
+                                console.log("获取用户信息失败");
+                            } else {
+                                this.user_id = res.result.data.user.userId;
+                                this.userName =
+                                    res.result.data.user.username || res.result.data.user.nickname;
+                                // if (!!params.shareId) {
+                                //     this.$http
+                                //         .post("https://wx.sharkmeida.cn/lottery/querylotteryId", {
+                                //             groupId: this.shareId
+                                //         })
+                                //         .then(({
+                                //             data: res
+                                //         }) => {
+                                //             if (res.code == "0000") {
+                                //                 this.list = res.result.data;
+                                //                 res.result.data.forEach(function (item) {
+                                //                     if (item.user_id == this.user_id) {
+                                //                         this.orderId = item.order_id;
+                                //                     }
+                                //                 });
+                                //             } else {}
+                                //         });
+                                // }
+
+                                
+                                this.loading = true;
+                                    this.$http
+                                        .get("https://wx.sharkmeida.cn/lottery/info/" + params.id)
+                                        .then(({
+                                            data
+                                        }) => {
+                                            if (data.code == "0") {
+                                                this.formD = data.lottery;
+                                                this.mapInit();
+                                                var fore = data.lottery;
+                                                document.title = fore.activityName;
+                                                var thumbnail = data.lottery.thumbnail;
+                                                this.$nextTick(() => {
+                                                    this.eggInit()
+                                                })         
+                                                var currentUrl = encodeURIComponent(location.href.split("#")[0]);
+                                                this.$http
+                                                    .post(
+                                                        "https://wx.sharkmeida.cn/api/wxpay/initwxjs?url=" + currentUrl
+                                                    )
+                                                    .then((data, status) => {
+                                                        this.loading = false;
+                                                        wx.config({
+                                                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                                                            appId: data.data.result.data.appId, // 必填，公众号的唯一标识
+                                                            timestamp: data.data.result.data.timestamp, // 必填，生成签名的时间戳
+                                                            nonceStr: data.data.result.data.nonceStr, // 必填，生成签名的随机串
+                                                            signature: data.data.result.data.signature, // 必填，签名s
+                                                            jsApiList: [
+                                                                "onMenuShareTimeline",
+                                                                "onMenuShareAppMessage",
+                                                                "chooseWXPay",
+                                                                "openLocation"
+                                                            ] // 必填，需要使用的JS接口列表
+                                                        });
+
+                                                        wx.ready( () => {
+                                                            // alert('wx ready')
+
+                                                            wx.error(function (res) {
+                                                                // config 信息验证失败会执行 error 函数，如签名过期导致验证失败，具体错误信息可以打开 config 的 debug 模式查看，也可以在返回的 res 参数中查看，对于 SPA 可以在这里更新签名。
+                                                                console.log(res);
+                                                            });
+
+                                                            wx.checkJsApi({
+                                                                jsApiList: [
+                                                                    "onMenuShareTimeline",
+                                                                    "onMenuShareAppMessage",
+                                                                    "chooseWXPay"
+                                                                ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                                                                success: function (res) {
+                                                                    // 以键值对的形式返回，可用的api值true，不可用为false
+                                                                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                                                                    // console.log("checkJsApi" + res);
+                                                                }
+                                                            });
+                                                            var shareParam = {
+                                                                title: `我是${this.userName}, 参加了${fore.activityName}`, // 分享标题
+                                                                desc: `${fore.activityName}, 联系电话: ${fore.phone}`, // 分享描述
+                                                                link: "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
+                                                                    params.id +
+                                                                    "&userid=" +
+                                                                    this.user_id +
+                                                                    "&hash=4pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                                                                imgUrl: thumbnail, // 分享图标
+                                                                // type: 'link', // 分享类型,music、video或link，不填默认为link
+                                                                // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                                                                trigger: function (res) {
+                                                                    console.log("用户点击发送给朋友");
+                                                                },
+                                                                success: ()=> {
+                                                                    console.log("已分享");
+                                                                    this.$http.post("https://wx.sharkmeida.cn/lottery/friend", {
+                                                                        user_id: this.user_id,
+                                                                        activityId: this.params.id
+                                                                    })
+                                                                    .then(({
+                                                                        data: res
+                                                                    }) => {
+                                                                    });
+                                                                },
+                                                                cancel: function (res) {
+                                                                    console.log("已取消");
+                                                                },
+                                                                fail: function (res) {}
+                                                            };
+                                                            wx.onMenuShareTimeline(shareParam);
+                                                            wx.onMenuShareAppMessage(shareParam);
+                                                        });
+                                                    });
+                                            }
+                                        });
+                            }
+                    });
+        }
+        },
+        eggclose(){
             $("#mask").hide();
             $("#mask .winning").removeClass('reback');
             $("#mask #card").removeClass('pull');
         }
     },
+    components: {
+        Selector,
+        XDialog,
+        Alert,
+        Loading,
+        Group,
+        Cell,
+        Loading,
+        Datetime,
+        XInput,
+        XNumber,
+        XSwitch,
+        XTextarea,
+        Scroll,
+        ContentWrap,
+        CountDown
+    },
 }
 </script>
 
 <style scoped>
-.swiper-container {
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    overflow: hidden;
-    z-index: 1
-}
-
-.swiper-container-no-flexbox .swiper-slide {
-    float: left
-}
-
-.swiper-container-vertical>.swiper-wrapper {
-    -webkit-box-orient: vertical;
-    -moz-box-orient: vertical;
-    -ms-flex-direction: column;
-    -webkit-flex-direction: column;
-    flex-direction: column
-}
-
-.swiper-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
+@import '../assets/scss/egg.css';
+.t-o {
     display: flex;
-    -webkit-transition-property: -webkit-transform;
-    -moz-transition-property: -moz-transform;
-    -o-transition-property: -o-transform;
-    -ms-transition-property: -ms-transform;
-    transition-property: transform;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box
+    font-size: 0.4rem;
+    font-weight: bold;
+    justify-content: space-between;
+    margin: 0.3rem 0px;
 }
 
-.swiper-container-android .swiper-slide,
-.swiper-wrapper {
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    -o-transform: translate(0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0)
+.t-o span {
+    color: red;
 }
 
-.swiper-container-multirow>.swiper-wrapper {
-    -webkit-box-lines: multiple;
-    -moz-box-lines: multiple;
-    -ms-flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap
+.panel {
+    background: #fff;
+    padding: 0 1rem;
 }
 
-.swiper-container-free-mode>.swiper-wrapper {
-    -webkit-transition-timing-function: ease-out;
-    -moz-transition-timing-function: ease-out;
-    -ms-transition-timing-function: ease-out;
-    -o-transition-timing-function: ease-out;
-    transition-timing-function: ease-out;
-    margin: 0 auto
-}
-
-.swiper-slide {
-    -webkit-flex-shrink: 0;
-    -ms-flex: 0 0 auto;
-    flex-shrink: 0;
-    width: 100%;
-    height: 100%;
-    position: relative
-}
-
-.swiper-container-autoheight,
-.swiper-container-autoheight .swiper-slide {
-    height: auto
-}
-
-.swiper-container-autoheight .swiper-wrapper {
-    -webkit-box-align: start;
-    -ms-flex-align: start;
-    -webkit-align-items: flex-start;
-    align-items: flex-start;
-    -webkit-transition-property: -webkit-transform, height;
-    -moz-transition-property: -moz-transform;
-    -o-transition-property: -o-transform;
-    -ms-transition-property: -ms-transform;
-    transition-property: transform, height
-}
-
-.swiper-container .swiper-notification {
-    position: absolute;
-    left: 0;
-    top: 0;
-    pointer-events: none;
-    opacity: 0;
-    z-index: -1000
-}
-
-.swiper-wp8-horizontal {
-    -ms-touch-action: pan-y;
-    touch-action: pan-y
-}
-
-.swiper-wp8-vertical {
-    -ms-touch-action: pan-x;
-    touch-action: pan-x
-}
-
-.swiper-button-next,
-.swiper-button-prev {
-    position: absolute;
-    top: 50%;
-    width: 27px;
-    height: 44px;
-    margin-top: -22px;
-    z-index: 10;
-    cursor: pointer;
-    -moz-background-size: 27px 44px;
-    -webkit-background-size: 27px 44px;
-    background-size: 27px 44px;
-    background-position: center;
-    background-repeat: no-repeat
-}
-
-.swiper-button-next.swiper-button-disabled,
-.swiper-button-prev.swiper-button-disabled {
-    opacity: .35;
-    cursor: auto;
-    pointer-events: none
-}
-
-.swiper-button-prev,
-.swiper-container-rtl .swiper-button-next {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23007aff'%2F%3E%3C%2Fsvg%3E");
-    left: 10px;
-    right: auto
-}
-
-.swiper-button-prev.swiper-button-black,
-.swiper-container-rtl .swiper-button-next.swiper-button-black {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23000000'%2F%3E%3C%2Fsvg%3E")
-}
-
-.swiper-button-prev.swiper-button-white,
-.swiper-container-rtl .swiper-button-next.swiper-button-white {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E")
-}
-
-.swiper-button-next,
-.swiper-container-rtl .swiper-button-prev {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23007aff'%2F%3E%3C%2Fsvg%3E");
-    right: 10px;
-    left: auto
-}
-
-.swiper-button-next.swiper-button-black,
-.swiper-container-rtl .swiper-button-prev.swiper-button-black {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23000000'%2F%3E%3C%2Fsvg%3E")
-}
-
-.swiper-button-next.swiper-button-white,
-.swiper-container-rtl .swiper-button-prev.swiper-button-white {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E")
-}
-
-.swiper-pagination {
-    position: absolute;
+.title-23 {
+    border: 1px solid #ccc;
     text-align: center;
-    -webkit-transition: .3s;
-    -moz-transition: .3s;
-    -o-transition: .3s;
-    transition: .3s;
-    -webkit-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    -o-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    z-index: 10
+    height: 0;
+    font-size: 0.4rem;
+    line-height: 0rem;
+    width: 60%;
+    left: 20%;
+    position: relative;
+    margin: 0.5rem 0;
 }
 
-.swiper-pagination.swiper-pagination-hidden {
-    opacity: 0
+.time-wrap {
+    background: #fff;
+    margin: 0.5rem;
+    font-size: 0.4rem;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    border-radius: 0.5rem;
 }
 
-.swiper-container-horizontal>.swiper-pagination-bullets,
-.swiper-pagination-custom,
-.swiper-pagination-fraction {
-    bottom: 10px;
-    left: 0;
-    width: 100%
-}
-
-.swiper-pagination-bullet {
-    width: 8px;
-    height: 8px;
+.panel-head {
     display: inline-block;
-    border-radius: 100%;
-    background: #000;
-    opacity: .2
+    font-family: "yahei";
+    font-size: 0.4rem;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    color: #ef5a5a;
+    border-bottom: 2px solid #ef5a5a;
 }
 
-button.swiper-pagination-bullet {
-    border: none;
+.wrap-3 {
+    display: flex;
+    padding: 0.5rem;
+    overflow: auto;
+    justify-content: flex-start;
+    border-top: 1px solid #ccc;
+    background: #fff;
+    flex-wrap: wrap;
+}
+
+.wrap-3>div {
+    display: flex;
+    width: 1rem;
+    height: 1.7rem;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.2rem;
+}
+
+.wrap-3 img {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+}
+
+.phone-wrap {
+    list-style: none;
+    font-size: 0.6rem;
+    text-align: left;
+    color: #2b2a2a;
+    font-family: yahei;
+}
+
+.phone-wrap li a {
+    color: #2b2a2a;
+}
+
+.phone-wrap li {
+    color: #2b2a2a;
+    border-bottom: 1px solid #ccc;
+    padding: 0.2rem 1rem;
+}
+
+.phone {
+    height: 1rem;
+    width: 2rem;
+    position: fixed;
+    bottom: 5rem;
+    right: 0;
+    border: 1px solid #ccc;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border-right: 0;
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 0.1rem;
+}
+
+.wrap-3 span {
+    font-size: 0.2rem;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 1rem;
+    text-align: center;
+}
+
+.wrap-2 {
+    display: flex;
+    justify-content: center;
+    height: 2rem;
+    padding: 0 1rem;
+    background: #fff;
+}
+
+.wrap-2 .img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.wrap-2 .text {
+    width: 6rem;
+    height: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-family: "yahei";
+    font-size: 0.2rem;
+    line-height: 0.5rem;
+}
+
+.head-cell {
+    height: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background: #ef5a5a;
+}
+
+.head-cell2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background: #ef5a5a;
+}
+
+dd.barline {
+    width: 100%;
+    background: #fce877;
+    height: 0.25rem;
+    display: inline-block;
+    border-radius: 0.15rem;
+    position: relative;
+}
+
+.barline img {
+    width: 0.5rem;
+    margin-top: -0.11rem;
+    margin-right: -0.1rem;
+}
+
+.barline .price {
+    position: absolute;
+    right: -0.5rem;
+    background: #ff5041;
+    padding: 0.1rem 0.15rem;
+    border-radius: 0.1rem;
+    top: -0.65rem;
+}
+
+.barline .price i {
+    top: 0.35rem;
+    right: 0.45rem;
+    width: 0;
+    height: 0;
+    border-left: 0.2rem solid transparent;
+    border-right: 0.2rem solid transparent;
+    border-top: 0.2rem solid #ff5041;
+    position: absolute;
+}
+
+dd.barline div.charts {
+    height: 0.25rem;
+    position: relative;
+    color: #fff;
+    line-height: 0.25rem;
+    text-indent: 0.05rem;
+    background: #eb0000;
+    border-radius: 0.15rem;
+    text-align: right;
+    font-size: 0.24rem;
+}
+
+.head-cell>div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.4rem;
+    font-family: "yahei";
+    color: #fff;
+}
+
+.head-cell>div.line {
+    width: 5px;
+    height: 80%;
+    background: #fff;
+}
+
+.active {
+    background: #ccc;
+}
+
+.music-wrap {
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: #fff;
+    padding-bottom: 1.5rem;
+}
+
+.play {
+    font-size: 0.5rem;
+    color: #4e9cfd;
+}
+
+.stop {
+    font-size: 0.5rem;
+    color: #4e9cfd;
+}
+
+.tips-wrap {
+    width: 9rem;
+    margin: 0.5rem;
+    font-size: 0.2rem;
+    height: 3rem;
+    border: 1px dashed #ccc;
+    border-radius: 10px;
+    text-align: center;
+    color: #bfbdbd;
+    font-family: yahei;
+}
+
+#contentBox-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    background: #edea8f;
+    background-size: 50%;
+}
+
+* {
     margin: 0;
     padding: 0;
-    box-shadow: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    -webkit-appearance: none;
-    appearance: none
 }
 
-.swiper-pagination-clickable .swiper-pagination-bullet {
-    cursor: pointer
-}
-
-.swiper-pagination-white .swiper-pagination-bullet {
-    background: #fff
-}
-
-.swiper-pagination-bullet-active {
-    opacity: 1;
-    background: #007aff
-}
-
-.swiper-pagination-white .swiper-pagination-bullet-active {
-    background: #fff
-}
-
-.swiper-pagination-black .swiper-pagination-bullet-active {
-    background: #000
-}
-
-.swiper-container-vertical>.swiper-pagination-bullets {
-    right: 10px;
-    top: 50%;
-    -webkit-transform: translate3d(0, -50%, 0);
-    -moz-transform: translate3d(0, -50%, 0);
-    -o-transform: translate(0, -50%);
-    -ms-transform: translate3d(0, -50%, 0);
-    transform: translate3d(0, -50%, 0)
-}
-
-.swiper-container-vertical>.swiper-pagination-bullets .swiper-pagination-bullet {
-    margin: 5px 0;
-    display: block
-}
-
-.swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet {
-    margin: 0 5px
-}
-
-.swiper-pagination-progress {
-    background: rgba(0, 0, 0, .25);
-    position: absolute
-}
-
-.swiper-pagination-progress .swiper-pagination-progressbar {
-    background: #007aff;
-    position: absolute;
-    left: 0;
-    top: 0;
+.header-img {
     width: 100%;
-    height: 100%;
-    -webkit-transform: scale(0);
-    -ms-transform: scale(0);
-    -o-transform: scale(0);
-    transform: scale(0);
-    -webkit-transform-origin: left top;
-    -moz-transform-origin: left top;
-    -ms-transform-origin: left top;
-    -o-transform-origin: left top;
-    transform-origin: left top
+    display: block;
 }
 
-.swiper-container-rtl .swiper-pagination-progress .swiper-pagination-progressbar {
-    -webkit-transform-origin: right top;
-    -moz-transform-origin: right top;
-    -ms-transform-origin: right top;
-    -o-transform-origin: right top;
-    transform-origin: right top
-}
-
-.swiper-container-horizontal>.swiper-pagination-progress {
-    width: 100%;
-    height: 4px;
-    left: 0;
-    top: 0
-}
-
-.swiper-container-vertical>.swiper-pagination-progress {
-    width: 4px;
-    height: 100%;
-    left: 0;
-    top: 0
-}
-
-.swiper-pagination-progress.swiper-pagination-white {
-    background: rgba(255, 255, 255, .5)
-}
-
-.swiper-pagination-progress.swiper-pagination-white .swiper-pagination-progressbar {
-    background: #fff
-}
-
-.swiper-pagination-progress.swiper-pagination-black .swiper-pagination-progressbar {
-    background: #000
-}
-
-.swiper-container-3d {
-    -webkit-perspective: 1200px;
-    -moz-perspective: 1200px;
-    -o-perspective: 1200px;
-    perspective: 1200px
-}
-
-.swiper-container-3d .swiper-cube-shadow,
-.swiper-container-3d .swiper-slide,
-.swiper-container-3d .swiper-slide-shadow-bottom,
-.swiper-container-3d .swiper-slide-shadow-left,
-.swiper-container-3d .swiper-slide-shadow-right,
-.swiper-container-3d .swiper-slide-shadow-top,
-.swiper-container-3d .swiper-wrapper {
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    transform-style: preserve-3d
-}
-
-.swiper-container-3d .swiper-slide-shadow-bottom,
-.swiper-container-3d .swiper-slide-shadow-left,
-.swiper-container-3d .swiper-slide-shadow-right,
-.swiper-container-3d .swiper-slide-shadow-top {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 10
-}
-
-.swiper-container-3d .swiper-slide-shadow-left {
-    background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, .5)), to(rgba(0, 0, 0, 0)));
-    background-image: -webkit-linear-gradient(right, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: -moz-linear-gradient(right, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: -o-linear-gradient(right, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: linear-gradient(to left, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0))
-}
-
-.swiper-container-3d .swiper-slide-shadow-right {
-    background-image: -webkit-gradient(linear, right top, left top, from(rgba(0, 0, 0, .5)), to(rgba(0, 0, 0, 0)));
-    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: -moz-linear-gradient(left, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: -o-linear-gradient(left, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: linear-gradient(to right, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0))
-}
-
-.swiper-container-3d .swiper-slide-shadow-top {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .5)), to(rgba(0, 0, 0, 0)));
-    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: linear-gradient(to top, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0))
-}
-
-.swiper-container-3d .swiper-slide-shadow-bottom {
-    background-image: -webkit-gradient(linear, left bottom, left top, from(rgba(0, 0, 0, .5)), to(rgba(0, 0, 0, 0)));
-    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: -o-linear-gradient(top, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0))
-}
-
-.swiper-container-coverflow .swiper-wrapper,
-.swiper-container-flip .swiper-wrapper {
-    -ms-perspective: 1200px
-}
-
-.swiper-container-cube,
-.swiper-container-flip {
-    overflow: visible
-}
-
-.swiper-container-cube .swiper-slide,
-.swiper-container-flip .swiper-slide {
-    pointer-events: none;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    backface-visibility: hidden;
-    z-index: 1
-}
-
-.swiper-container-cube .swiper-slide .swiper-slide,
-.swiper-container-flip .swiper-slide .swiper-slide {
-    pointer-events: none
-}
-
-.swiper-container-cube .swiper-slide-active,
-.swiper-container-cube .swiper-slide-active .swiper-slide-active,
-.swiper-container-flip .swiper-slide-active,
-.swiper-container-flip .swiper-slide-active .swiper-slide-active {
-    pointer-events: auto
-}
-
-.swiper-container-cube .swiper-slide-shadow-bottom,
-.swiper-container-cube .swiper-slide-shadow-left,
-.swiper-container-cube .swiper-slide-shadow-right,
-.swiper-container-cube .swiper-slide-shadow-top,
-.swiper-container-flip .swiper-slide-shadow-bottom,
-.swiper-container-flip .swiper-slide-shadow-left,
-.swiper-container-flip .swiper-slide-shadow-right,
-.swiper-container-flip .swiper-slide-shadow-top {
-    z-index: 0;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    backface-visibility: hidden
-}
-
-.swiper-container-cube .swiper-slide {
-    visibility: hidden;
-    -webkit-transform-origin: 0 0;
-    -moz-transform-origin: 0 0;
-    -ms-transform-origin: 0 0;
-    transform-origin: 0 0;
-    width: 100%;
-    height: 100%
-}
-
-.swiper-container-cube.swiper-container-rtl .swiper-slide {
-    -webkit-transform-origin: 100% 0;
-    -moz-transform-origin: 100% 0;
-    -ms-transform-origin: 100% 0;
-    transform-origin: 100% 0
-}
-
-.swiper-container-cube .swiper-slide-active,
-.swiper-container-cube .swiper-slide-next,
-.swiper-container-cube .swiper-slide-next+.swiper-slide,
-.swiper-container-cube .swiper-slide-prev {
-    pointer-events: auto;
-    visibility: visible
-}
-
-.swiper-container-cube .swiper-cube-shadow {
-    position: absolute;
-    left: 0;
+.footer {
+    position: fixed;
     bottom: 0;
     width: 100%;
-    height: 100%;
-    background: #000;
-    opacity: .6;
-    -webkit-filter: blur(50px);
-    filter: blur(50px);
-    z-index: 0
-}
-
-.swiper-container-fade.swiper-container-free-mode .swiper-slide {
-    -webkit-transition-timing-function: ease-out;
-    -moz-transition-timing-function: ease-out;
-    -ms-transition-timing-function: ease-out;
-    -o-transition-timing-function: ease-out;
-    transition-timing-function: ease-out
-}
-
-.swiper-container-fade .swiper-slide {
-    pointer-events: none;
-    -webkit-transition-property: opacity;
-    -moz-transition-property: opacity;
-    -o-transition-property: opacity;
-    transition-property: opacity
-}
-
-.swiper-container-fade .swiper-slide .swiper-slide {
-    pointer-events: none
-}
-
-.swiper-container-fade .swiper-slide-active,
-.swiper-container-fade .swiper-slide-active .swiper-slide-active {
-    pointer-events: auto
-}
-
-.swiper-zoom-container {
-    width: 100%;
-    height: 100%;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
+    height: 1.5rem;
+    background: #fff;
+    border-top: 1px solid #ccc;
     display: flex;
-    -webkit-box-pack: center;
-    -moz-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -moz-box-align: center;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    text-align: center
 }
 
-.swiper-zoom-container>canvas,
-.swiper-zoom-container>img,
-.swiper-zoom-container>svg {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain
-}
-
-.swiper-scrollbar {
-    border-radius: 10px;
-    position: relative;
-    -ms-touch-action: none;
-    background: rgba(0, 0, 0, .1)
-}
-
-.swiper-container-horizontal>.swiper-scrollbar {
-    position: absolute;
-    left: 1%;
-    bottom: 3px;
-    z-index: 50;
-    height: 5px;
-    width: 98%
-}
-
-.swiper-container-vertical>.swiper-scrollbar {
-    position: absolute;
-    right: 3px;
-    top: 1%;
-    z-index: 50;
-    width: 5px;
-    height: 98%
-}
-
-.swiper-scrollbar-drag {
+.btn-h {
+    width: 33%;
     height: 100%;
-    width: 100%;
+    line-height: 1.6rem;
+    text-align: center;
+    background: #ef5a5a;
+    color: #fff;
+    font-size: 0.3rem;
+}
+
+.btn-c {
+    border-radius: 0;
+    width: 33%;
+    height: 100%;
+    line-height: 1.6rem;
+    text-align: center;
+    background: #ef5a5a;
+    color: #fff;
+    font-size: 0.3rem;
+}
+
+.wrap {
     position: relative;
-    background: rgba(0, 0, 0, .5);
-    border-radius: 10px;
-    left: 0;
-    top: 0
+    padding: 1rem 0.4rem;
 }
 
-.swiper-scrollbar-cursor-drag {
-    cursor: move
+.type .weui-label {
+    width: 40px !important;
 }
 
-.swiper-lazy-preloader {
-    width: 42px;
-    height: 42px;
+.bg-1 {
+    background: #fff;
+    width: 8.8rem;
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+}
+
+.title {
+    background: url(../assets/title.png) center no-repeat;
+    border-radius: 1rem;
+    background-size: cover;
+    height: 1rem;
+    width: 6rem;
     position: absolute;
     left: 50%;
-    top: 50%;
-    margin-left: -21px;
-    margin-top: -21px;
-    z-index: 10;
-    -webkit-transform-origin: 50%;
-    -moz-transform-origin: 50%;
-    transform-origin: 50%;
-    -webkit-animation: swiper-preloader-spin 1s steps(12, end) infinite;
-    -moz-animation: swiper-preloader-spin 1s steps(12, end) infinite;
-    animation: swiper-preloader-spin 1s steps(12, end) infinite
-}
-
-.swiper-lazy-preloader:after {
-    display: block;
-    content: "";
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D'0%200%20120%20120'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20xmlns%3Axlink%3D'http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink'%3E%3Cdefs%3E%3Cline%20id%3D'l'%20x1%3D'60'%20x2%3D'60'%20y1%3D'7'%20y2%3D'27'%20stroke%3D'%236c6c6c'%20stroke-width%3D'11'%20stroke-linecap%3D'round'%2F%3E%3C%2Fdefs%3E%3Cg%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%20transform%3D'rotate(30%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%20transform%3D'rotate(60%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%20transform%3D'rotate(90%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%20transform%3D'rotate(120%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%20transform%3D'rotate(150%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.37'%20transform%3D'rotate(180%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.46'%20transform%3D'rotate(210%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.56'%20transform%3D'rotate(240%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.66'%20transform%3D'rotate(270%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.75'%20transform%3D'rotate(300%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.85'%20transform%3D'rotate(330%2060%2C60)'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
-    background-position: 50%;
-    -webkit-background-size: 100%;
-    background-size: 100%;
-    background-repeat: no-repeat
-}
-
-.swiper-lazy-preloader-white:after {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D'0%200%20120%20120'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20xmlns%3Axlink%3D'http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink'%3E%3Cdefs%3E%3Cline%20id%3D'l'%20x1%3D'60'%20x2%3D'60'%20y1%3D'7'%20y2%3D'27'%20stroke%3D'%23fff'%20stroke-width%3D'11'%20stroke-linecap%3D'round'%2F%3E%3C%2Fdefs%3E%3Cg%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%20transform%3D'rotate(30%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%20transform%3D'rotate(60%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%20transform%3D'rotate(90%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%20transform%3D'rotate(120%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.27'%20transform%3D'rotate(150%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.37'%20transform%3D'rotate(180%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.46'%20transform%3D'rotate(210%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.56'%20transform%3D'rotate(240%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.66'%20transform%3D'rotate(270%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.75'%20transform%3D'rotate(300%2060%2C60)'%2F%3E%3Cuse%20xlink%3Ahref%3D'%23l'%20opacity%3D'.85'%20transform%3D'rotate(330%2060%2C60)'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
-}
-
-@-webkit-keyframes swiper-preloader-spin {
-    100% {
-        -webkit-transform: rotate(360deg)
-    }
-}
-
-@keyframes swiper-preloader-spin {
-    100% {
-        transform: rotate(360deg)
-    }
-}
-
- body,
-div,
-p,
-ul,
-ol,
-li,
-dl,
-dt,
-dd,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-pre,
-form,
-input,
-select,
-button,
-textarea,
-table,
-th,
-td,
-a,
-span,
-canvas {
-  margin: 0;
-  padding: 0;
-  background: no-repeat center / contain;
-  cursor: default;
-}
-body {
-  display: block;
-  position: relative;
-  margin: auto;
-  max-width: 10rem;
-  min-width: 4.26666667rem;
-  font-size: 0.16rem;
-  font-family: "Microsoft Yahei", "Arial", sans-serif;
-}
-ul,
-ol {
-  list-style: none;
-}
-img {
-  border: none;
-}
-a {
-  outline: none;
-  text-decoration: none;
-  color: inherit;
-}
-a:hover {
-  text-decoration: none;
-}
-input {
-  outline: none;
-}
-.block {
-  display: block;
-}
-.none {
-  display: none;
-}
-.r {
-  position: relative;
-}
-.a {
-  position: absolute;
-}
-.fl {
-  float: left;
-}
-.fr {
-  float: right;
-}
-.clearfix:after {
-  content: "";
-  clear: both;
-  display: block;
-  visibility: hidden;
-  height: 0;
-}
-/*H5游戏共用类*/
-#wrap {
-    background: url(../assets/eggImage/bg.png) no-repeat;
-    background-size: 100%;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  height: 16.01333333rem;
-}
-/*奖品展示*/
-.awards {
-  overflow: hidden;
-  position: absolute;
-  left: 50%;
-}
-.awards .swiper-slide {
-  margin: 0.06666667rem 0.26666667rem;
-  padding: 0.2rem;
-  width: 1.4rem;
-  height: 1.4rem;
-  background-image: url("../assets/image/icon/drag/drag_box.png");
-}
-.awards .swiper-slide img {
-  width: inherit;
-  height: inherit;
-}
-/*规则弹窗*/
-#mask-rule,
-#mask {
-  
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
-}
-#mask{
-    display: none;
-}
-#mask-rule .box-rule {
-  position: relative;
-  margin: 20% auto;
-  padding-top: 0.53333333rem;
-  width: 90%;
-  height: 70%;
-  border-radius: 0.26666667rem;
-}
-#mask-rule .box-rule .star {
-  position: absolute;
-  left: 50%;
-  top: -1.33333333rem;
-  margin-left: -1.73333333rem;
-  width: 3.45333333rem;
-  height: 1.16rem;
-}
-#mask-rule .box-rule h2 {
-  width: 100%;
-  text-align: center;
-  line-height: 0.45333333rem;
-  font-size: 0.45333333rem;
-  font-weight: normal;
-  color: #fff;
-}
-#mask-rule .box-rule h2::before,
-#mask-rule .box-rule h2::after {
-  display: inline-block;
-  content: "";
-  width: 0.24rem;
-  height: 0.24rem;
-  background-color: #fff;
-  border-radius: 50%;
-}
-#mask-rule .box-rule h2::before {
-  margin-right: 0.32rem;
-}
-#mask-rule .box-rule h2::after {
-  margin-left: 0.32rem;
-}
-#mask-rule #close-rule {
-  position: absolute;
-  right: 0.45333333rem;
-  top: 0.50666667rem;
-  width: 0.53333333rem;
-  height: 0.53333333rem;
-  background-image: url("../assets/image/rule/close.png");
-}
-/*内容盒子*/
-#mask-rule .con {
-  overflow: auto;
-  position: relative;
-  margin: 0.53333333rem auto;
-  padding-right: 0.2rem;
-  width: 7.73333333rem;
-  height: 82%;
-  line-height: 0.64rem;
-  font-size: 0.34666667rem;
-  color: #fff;
-}
-#mask-rule .con .text {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: inherit;
-  height: auto;
-}
-/*中奖提示*/
-#mask {
-  display: none;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
-}
-#mask .blin {
-  width: 100%;
-  height: 100%;
-  background-image: url("../assets/image/redPack/gold.png");
-  -o-animation: circle 10s linear infinite;
-  -ms-animation: circle 10s linear infinite;
-  -moz-animation: circle 10s linear infinite;
-  -webkit-animation: circle 10s linear infinite;
-  animation: circle 10s linear infinite;
-}
-@keyframes circle {
-  0% {
-    -o-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -o-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-#mask .caidai {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  background-image: url("../assets/image/redPack/dianzhui.png");
-  -o-transform: scale(1.2);
-  -ms-transform: scale(1.2);
-  -moz-transform: scale(1.2);
-  -webkit-transform: scale(1.2);
-  transform: scale(1.2);
-}
-#mask .winning {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 1;
-  width: 8rem;
-  height: 6.8rem;
-  margin: -3.46666667rem 0 0 -4rem;
-  -o-transform: scale(0.1);
-  -ms-transform: scale(0.1);
-  -moz-transform: scale(0.1);
-  -webkit-transform: scale(0.1);
-  transform: scale(0.1);
-}
-#mask .reback {
-  -o-animation: reback .5s linear forwards;
-  -ms-animation: reback .5s linear forwards;
-  -moz-animation: reback .5s linear forwards;
-  -webkit-animation: reback .5s linear forwards;
-  animation: reback .5s linear forwards;
-}
-@keyframes reback {
-  100% {
-    -o-transform: scale(1);
-    -ms-transform: scale(1);
-    -moz-transform: scale(1);
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-}
-.winning .red-head {
-  position: relative;
-  top: -0.33333333rem;
-  width: 100%;
-  height: 4.46666667rem;
-  background-image: url("../assets/image/redPack/top.png");
-}
-.winning .red-body {
-  position: relative;
-  top: -2.13333333rem;
-  z-index: 2;
-  width: 100%;
-  height: 4.8rem;
-  background-image: url("../assets/image/redPack/bottom.png");
-}
-.winning #card {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 1;
-  margin-left: -3.2rem;
-  margin-top: -1.06666667rem;
-  width: 80%;
-  height: 4.26666667rem;
-  background-image: url("../assets/image/redPack/middle.png");
-  -o-transition: top .5s;
-  -ms-transition: top .5s;
-  -moz-transition: top .5s;
-  -webkit-transition: top .5s;
-  transition: top .5s;
-}
-#card .win {
-  display: block;
-  margin: 0.13333333rem auto;
-  width: 92%;
-  height: 3.86666667rem;
-  background-image: url("../assets/image/prize/prize2.png");
-}
-.winning .pull {
-  -o-animation: card .5s linear forwards;
-  -ms-animation: card .5s linear forwards;
-  -moz-animation: card .5s linear forwards;
-  -webkit-animation: card .5s linear forwards;
-  animation: card .5s linear forwards;
-}
-@keyframes card {
-  100% {
-    margin-top: -3.2rem;
-  }
-}
-.winning .btn {
-  position: absolute;
-  left: 50%;
-  bottom: 10%;
-  z-index: 2;
-  width: 4.85333333rem;
-  height: 0.94666667rem;
-  margin-left: -2.42666667rem;
-  background-image: url("../assets/image/redPack/button.png");
-  -o-animation: shake .5s 2 linear alternate;
-  -ms-animation: shake .5s 2 linear alternate;
-  -moz-animation: shake .5s 2 linear alternate;
-  -webkit-animation: shake .5s 2 linear alternate;
-  animation: shake .5s 2 linear alternate;
-}
-@keyframes shake {
-  50% {
-    -o-transform: rotate(-5deg);
-    -ms-transform: rotate(-5deg);
-    -moz-transform: rotate(-5deg);
-    -webkit-transform: rotate(-5deg);
-    transform: rotate(-5deg);
-  }
-  100% {
-    -o-transform: rotate(5deg);
-    -ms-transform: rotate(5deg);
-    -moz-transform: rotate(5deg);
-    -webkit-transform: rotate(5deg);
-    transform: rotate(5deg);
-  }
-}
-#close {
-  opacity: 0;
-  position: absolute;
-  right: 0rem;
-  top: -1.06666667rem;
-  z-index: 10;
-  width: 0.85333333rem;
-  height: 0.85333333rem;
-  background-image: url("../assets/image/redPack/close.png");
-  -o-animation: fadein .5s .5s linear forwards;
-  -ms-animation: fadein .5s .5s linear forwards;
-  -moz-animation: fadein .5s .5s linear forwards;
-  -webkit-animation: fadein .5s .5s linear forwards;
-  animation: fadein .5s .5s linear forwards;
-}
-@keyframes fadein {
-  100% {
-    opacity: 1;
-    -o-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-   
-
-body {
-    background: #fe8227;
-}
-
-#wrap {
-    margin-top: -0.01333333rem;
-}
-
-.rule,
-.my {
-    position: absolute;
-    top: 0.69333333rem;
-    width: 1.12rem;
-    height: 0.66666667rem;
-    background-image: url("../assets/eggImage/rule.png");
-}
-
-.rule {
-    left: 0;
-}
-
-.my {
-    right: 0;
-    background-image: url("../assets/eggImage/my.png");
-}
-
-/*砸蛋区域*/
-.box {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 12.66666667rem;
-}
-
-.tips {
-    width: 3.33333333rem;
-    margin: 0.6rem auto 0;
-    background-color: #ff6d69;
+    top: 0.1rem;
+    margin-left: -3rem;
+    font-size: 0.6rem;
     text-align: center;
-    font-size: 0.26666667rem;
-    line-height: 0.53333333rem;
     color: #fff;
-    border-radius: 0.26666667rem;
+    font-weight: bold;
+    line-height: 1rem;
 }
 
-#change {
-    margin: 0 0.06666667rem;
+.content {
+    min-height: 3rem;
+    padding: 0.8rem 0 0 0;
+    font-size: 0.4rem;
 }
 
-.egg {
-    width: 10rem;
+.circular {
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    align-items: center;
+    background: #fff;
+    border-radius: 50%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 1rem;
+    right: 0.3rem;
+    z-index: 100;
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 1s;
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 1s;
+    -webkit-animation: rotate 3s linear infinite;
+    -moz-animation: rotate 3s linear infinite;
+    -o-animation: rotate 3s linear infinite;
+    animation: rotate 3s linear infinite;
 }
 
-.egg li {
-    position: relative;
-    float: left;
-    line-height: 0.4rem;
-    width: 2.13333333rem;
-    height: 2.26666667rem;
-    margin: 0.13333333rem 0.6rem;
+.circular2 {
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    -webkit-align-items: center;
+    align-items: center;
+    background: #fff;
+    border-radius: 50%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    position: fixed;
+    top: 2.4rem;
+    right: 0.3rem;
+    z-index: 100;
+    color: #fff;
+    background: #ccc;
+    font-size: 14px;
+    line-height: 15px;
+    width: 40px;
+    height: 40px;
+    border: 5px solid #fff;
 }
 
-.egg li img {
-    width: 2.36rem;
-    height: 0.68rem;
-}
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
 
-.egg li img.goldegg {
-    width: 2.13333333rem;
-    height: 2.26666667rem;
-}
-
-.egg .info {
-    display: none;
-    position: absolute;
-    left: -0.16rem;
-    top: 0.33333333rem;
-    width: 0.97333333rem;
-    height: 0.58666667rem;
-    background-image: url("../assets/eggImage/tips.png");
-}
-
-.egg li img.goldegg {
-    position: relative;
-    left: 0.13333333rem;
-    top: 0.26666667rem;
-    width: 2.13333333rem;
-    height: 2.26666667rem;
-    -o-transform-origin: center bottom;
-    -ms-transform-origin: center bottom;
-    -moz-transform-origin: center bottom;
-    -webkit-transform-origin: center bottom;
-    transform-origin: center bottom;
-    -o-transition: .5s;
-    -ms-transition: .5s;
-    -moz-transition: .5s;
-    -webkit-transition: .5s;
-    transition: .5s;
-}
-
-.egg li img.jump {
-    -o-animation: jump .5s infinite alternate;
-    -ms-animation: jump .5s infinite alternate;
-    -moz-animation: jump .5s infinite alternate;
-    -webkit-animation: jump .5s infinite alternate;
-    animation: jump .5s infinite alternate;
-}
-
-@keyframes jump {
-    100% {
-        top: 0.13333333rem;
+    to {
+        -webkit-transform: rotate(360deg);
     }
 }
 
-#info {
-    position: absolute;
-    left: 0.53333333rem;
-    top: 1.53333333rem;
-    width: 1rem;
-    height: 0.53333333rem;
-}
+@-moz-keyframes rotate {
+    from {
+        -moz-transform: rotate(0deg);
+    }
 
-#hammer {
-    position: absolute;
-    left: 8.86666667rem;
-    top: 0.8rem;
-    z-index: 10;
-    width: 1.46666667rem;
-    height: 1.6rem;
-    background-image: url("../assets/eggImage/hammer.png");
-    -o-transform-origin: right bottom;
-    -ms-transform-origin: right bottom;
-    -moz-transform-origin: right bottom;
-    -webkit-transform-origin: right bottom;
-    transform-origin: right bottom;
-    -o-transition: 1s ease-in-out;
-    -ms-transition: 1s ease-in-out;
-    -moz-transition: 1s ease-in-out;
-    -webkit-transition: 1s ease-in-out;
-    transition: 1s ease-in-out;
-}
-
-.shak {
-    -o-animation: hammer-move 0.5s linear infinite alternate;
-    -ms-animation: hammer-move 0.5s linear infinite alternate;
-    -moz-animation: hammer-move 0.5s linear infinite alternate;
-    -webkit-animation: hammer-move 0.5s linear infinite alternate;
-    animation: hammer-move 0.5s linear infinite alternate;
-}
-
-@keyframes hammer-move {
-    100% {
-        -o-transform: rotate(-10deg);
-        -ms-transform: rotate(-10deg);
-        -moz-transform: rotate(-10deg);
-        -webkit-transform: rotate(-10deg);
-        transform: rotate(-10deg);
+    to {
+        -moz-transform: rotate(359deg);
     }
 }
 
-.hit {
-    -o-animation: hammer-hit 0.2s 3 alternate;
-    -ms-animation: hammer-hit 0.2s 3 alternate;
-    -moz-animation: hammer-hit 0.2s 3 alternate;
-    -webkit-animation: hammer-hit 0.2s 3 alternate;
-    animation: hammer-hit 0.2s 3 alternate;
-}
+@-o-keyframes rotate {
+    from {
+        -o-transform: rotate(0deg);
+    }
 
-@keyframes hammer-hit {
-    100% {
-        -o-transform: rotate(-20deg);
-        -ms-transform: rotate(-20deg);
-        -moz-transform: rotate(-20deg);
-        -webkit-transform: rotate(-20deg);
-        transform: rotate(-20deg);
+    to {
+        -o-transform: rotate(359deg);
     }
 }
 
-/*奖品展示*/
-.awards {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    padding-top: 0.33333333rem;
-    width: 100%;
-    height: 2.33333333rem;
-    background-color: #fe8227;
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
 }
 
-.awards .swiper-container {
-    margin-left: 0.82666667rem;
-    width: 100%;
-    height: 2.33333333rem;
-}
-
-.awards .prize {
-    position: absolute;
-    left: 0;
+.tousu {
+    position: fixed;
     top: 0;
-    width: 1.28rem;
-    height: 1.36rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #efefef;
+    z-index: 9999;
 }
 
-.awards .swiper-slide {
-    margin: 0;
-    width: 1.33333333rem;
+.tousu ul {
+    list-style: none;
+    font-size: 0.5rem;
+    font-family: "yahei";
+    background: #fff;
+    padding: 0 0.5rem;
+}
+
+.tousu ul li {
+    list-style: none;
+    padding: 0.2rem 0.2rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.animate {
+    animation: myfirst 0.5s ease-in-out infinite alternate running;
+}
+
+@keyframes myfirst {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.1);
+    }
+}
+
+.wrap-tuan {
+    position: relative;
+    margin: 0.2rem auto;
     height: 2rem;
-    line-height: 0.4rem;
-    background-image: none;
+    border-radius: 5px;
+    background: #ff5800;
+    padding: 0.1px;
 }
 
-.awards .swiper-slide img {
-    width: 0.93333333rem;
-    height: 0.93333333rem;
-    margin-bottom: 0.13333333rem;
-    padding: 0.18666667rem;
-    background-color: #fff;
-    border: 2px solid #c86400;
-}
-
-.awards p {
+.people-wrap {
+    width: 3rem;
+    margin: 0.1rem;
+    height: 1.8rem;
+    background: #fff;
+    line-height: 1.8rem;
     text-align: center;
-    font-size: 0.26666667rem;
-    white-space: nowrap;
-    color: #fff;
+    float: left;
 }
 
-/*规则背景色*/
-#mask-rule .box-rule {
-    background-color: #f7b50b;
+.prize-wrap {
+    width: 4rem;
+    margin: 0.1rem;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    text-align: center;
+    float: left;
 }
 
-#mask-rule .box-rule .star {
-    background-image: url("../assets/eggImage/star1.png");
+.rules {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 0.4rem;
 }
-.egg-wrap{
-        background: #fe8227;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+
+.rules>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.2rem;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.rules>div>span {
+    font-size: 0.2rem;
+    text-align: center;
 }
 </style>

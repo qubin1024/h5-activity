@@ -406,13 +406,6 @@ export default {
             this.$vux.toast.text("投诉成功！", "top");
             this.tousuDialog = false;
         },
-        copy() {
-            var clipboard = new Clipboard("#copyBtn");
-            clipboard.on("success", e => {
-                this.$vux.toast.text("复制成功！", "top");
-                e.clearSelection();
-            });
-        },
         showdialoge() {
             this.name = "";
             this.pshown = false;

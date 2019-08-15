@@ -6,14 +6,19 @@
     z-index: 100;
     color: #fff;z-index: 100;" aria-hidden="true"></i>
         <div class="people-wrap">
-            <input v-model="item.num" type="text" />
+            <input v-model="item.giftName" type="text" />
         </div>
         <div class="prize-wrap">
-            <div>数量 <input v-model="item.price" type="number" /> 份</div>
-            <div>中奖率 <input v-model="item.price" type="number" /> %</div>
+            <div>数量 <input v-model="item.num" type="number" /> 份</div>
+            <div>中奖率 <input v-model="item.probability" type="number" /> %</div>
         </div>
         <div style="text-align: center;" >
-            <input style="width: 5rem;" type="text" />   
+            <input style="width: 5rem;" v-model="item.giftDescription" type="text" />   
+        </div>
+        <div style="margin: 1rem auto;height: 3rem;width:3rem;position: relative;">
+            <span v-html="`<img src='${item.url}' style='width: 100%;height: 100%;'/>`" v-if='item.url'></span>
+            <i  v-if='item.url' class="fa fa-times-circle" @click="()=>{item.url = ''}" style="position: absolute;left: -0.8rem;top: -0.8rem; font-size: 1rem;z-index: 100;" aria-hidden="true"></i>
+            <img-upload v-if='!item.url' ref="thumbnail" placeholder="上传奖品图" @uploadCallback="getUrl($event, item)"></img-upload>
         </div>
     </div>
     <div class='add' @click="addActive"><i class="fa fa-plus" aria-hidden="true"></i> 添加奖项(最多5档)</div>
@@ -36,7 +41,13 @@ export default {
     name: 'add-egg',
     data() {
         return {
-            activeList: []
+            activeList: [{
+                giftName: '谢谢惠顾',
+                num: 1000000,
+                probability: 20,
+                giftDescription: '谢谢参与奖项',
+                url: ''
+            }]
         }
     },
     components: {
@@ -50,6 +61,9 @@ export default {
         }
     },
     methods: {
+        getUrl(url, item){
+            item.url = url;
+        },
         blurq(e) {
             var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop; //获取软键盘唤起前浏览器滚动部分的高度
             document.documentElement.scrollTop = scrollTop;
@@ -58,10 +72,12 @@ export default {
             if (this.activeList.length === 5)
                 return;
             this.activeList.push({
-                num: '',
-                price: ''
+                giftName: '',
+                num: 0,
+                probability: 0,
+                giftDescription: '',
+                url: ''
             })
-            console.log(this.activeList)
         },
         deleteThis(index) {
             this.activeList.splice(index, 1)
@@ -122,7 +138,7 @@ export default {
 .wrap-tuan {
     position: relative;
     margin: 0.2rem auto;
-    height: 5rem;
+    height: 9rem;
     border-radius: 5px;
     background: #ffbe00;
     padding: 0.1px;
@@ -164,6 +180,7 @@ input {
     width: 1rem;
     height: 1rem;
     border-radius: 5px;
+    text-align: center;
 }
 
 input:focus {

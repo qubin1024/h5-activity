@@ -1,7 +1,7 @@
 import $ from "jquery";
 export default function(){
     var script = document.createElement('script');  
-        script.src = "https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js";  
+        //script.src = "https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js";  
         document.body.appendChild(script);  
         //初始跳动
     var $hammer = $("#hammer"),
@@ -43,6 +43,7 @@ export default function(){
             $eggList.eq(i).click(function () {
                 //设定剩余抽奖次数，判断用户是否还能点击
                 if (data.count > 0) {
+                    debugger
                     $egg.eq($(this).data("i")).data("mark") ? eggChange($(this).data("i")) : alert("这枚金蛋已经被您砸开了");//判断金蛋是否已砸开
                 } else {
                     alert("您当前砸蛋次数为0，无法砸蛋");

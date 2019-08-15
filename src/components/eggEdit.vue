@@ -2,19 +2,25 @@
 <transition name="fade-in">
     <div>
         <div class="bg-main" ref='bg-main' v-show="!ispreview">
+        <div style="width: calc(100% - 2px); min-height: 3rem;">
+                <span v-html="headImage" v-if='!!headImage'></span>
+                <i  v-if='!!headImage' class="fa fa-times-circle" @click="deleteThis()" style="position: absolute;left: 0.2rem;top: 0.2rem; font-size: 1rem;z-index: 100;" aria-hidden="true"></i>
+                <img-upload v-if='!headImage' ref="headImage" placeholder="上传头部图片" @uploadCallback="getHeadUrl($event)"></img-upload>
+            </div>
             <div style="width: calc(100% - 2px); min-height: 3rem;">
-                <img src="../assets/eggheadbg.jpg" width="100%"/>
+                <img src="../assets/eggbg.png" width="100%"/>
             </div>
             <content-wrap>
                 <x-textarea title="活动标题" v-model="formD.activityName" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
-                <datetime style="font-size: 0.4rem;" title="活动开始时间" v-model="formD.startTime"></datetime>
-                <datetime style="font-size: 0.4rem;" title="活动结束时间" v-model="formD.endTime"></datetime>
-                <span style="font-size: 0.4rem;text-align: right;display: block;">（活动周期建议5-7天）</span>
             </content-wrap>
             <content-wrap title="规则设置">
-                <x-input title="抽奖次数（次）"  type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
-                <x-input title="抽奖间隔（h）"  type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
-                <x-input title="最多中奖（次）"  type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
+                <x-switch title="音乐"  v-model="_music"></x-switch>
+                <x-input title="抽奖次数（次）"   v-model="formD.maxTime" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
+                <x-input title="最多中奖（次）"  v-model="formD.maxWin"  type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
+                <x-switch title="显示奖品份数"  v-model="_showNum"></x-switch>
+                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">（奖品没被抽走一份，奖品份数就少一个）</span>
+                <x-input title="额外次数"  v-model="formD.intervals"  type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
+                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">转发朋友圈可以额外获得抽奖次数：{{formD.intervals}}次，多次转发皆算一次。</span>
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">如活动下架，则可以在“商户中心->我的活动->中奖名单”中， 进行兑奖。</span>
             </content-wrap>
             <content-wrap title="奖项设置">
@@ -22,13 +28,13 @@
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;"><i class="fa fa-info-circle" aria-hidden="true"></i> 活动进行重可随时进入编辑页面更改奖品份数以及中奖率，切记保持一定得公平性。</span>
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;"><i class="fa fa-info-circle" aria-hidden="true"></i> 可在商户中心-我的活动-中奖名单重查看详细得中奖信息。</span>
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;"><i class="fa fa-info-circle" aria-hidden="true"></i> 每种奖品，每个用户最多中能中一次。</span>
-                <add-egg></add-egg>
+                <add-egg ref="prizeRule"></add-egg>
             </content-wrap>
             <content-wrap title="活动规则">
                 <x-textarea title="规则信息" v-model="formD.activityRule" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
             </content-wrap>
             <content-wrap title="兑奖信息">
-                <x-textarea title="时间，地点，电话" v-model="formD.activityRule" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
+                <x-textarea title="时间，地点，电话" v-model="formD.prizeInfo" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
             </content-wrap>
             <content-wrap title="机构介绍">
                 <add-img ref="companyDescription"></add-img>
@@ -94,7 +100,7 @@ import AddImg from "./addImg.vue";
 import ImgUpload from "./imgUpload.vue";
 import EggIndex from './egg.vue';
 import AddEgg from './addEgg.vue';
-import Data from "./page4Data.js"
+import Data from "./eData.js"
 export default {
     name: "egg-edit",
     components: {
@@ -127,51 +133,52 @@ export default {
             address: ''
         };
     },
-    computed: {},
-    mounted() {
-        var reg = /\?id=(\w+)&?/;
-        if (!reg.test(location.search)) {
-            this.mapInit()
-            return
+    computed: {
+        _showNum: {
+            get(){
+                return this.formD.showNum == 1 ? true : false;
+            },
+            set(val){
+                this.formD.showNum = val ? 1 : 0
+            }
+        },
+        _music: {
+             get(){
+                return this.formD.music == 1 ? true : false;
+            },
+            set(val){
+                this.formD.music = val ? 1 : 0
+            }
         }
-        let params = {};
-        location.search.split("?")[1].split('&').forEach((e) => {
-            let key = e.split('=')[0]
-            params[key] = e.split('=')[1]
-        })
+    },
+    mounted() {
+       if (!this.$route.query.id) {
+        this.mapInit();
+        return;
+        }
+        let params = this.$route.query;
 
         this.params = params;
 
-        const url = "https://wx.sharkmeida.cn/groupon/info/" + params.id;
+
+        const url = "https://wx.sharkmeida.cn/lottery/info/" + params.id;
 
         this.$http.get(url).then(({
             data
         }) => {
             if (data.code == "0") {
-                this.formD = data.groupon;
-                if (data.groupon.commodityDescription != null) {
-                    var dat = JSON.parse(data.groupon.commodityDescription)
-                    var sc = []
-                    //this.$refs['activityRules'].activeList = JSON.parse(this.formD.activityRules)
-                    dat.forEach(e => {
-                        var s = "<img src='" + e.img + "' style='width: 100%; height: 100%;'/>";
-                        sc.push({
-                            type: e.type,
-                            image: e.img,
-                            html: s
-                        })
-                    })
-
-                    this.$refs['commodityDescription'].activeList = sc
+                this.formD = data.lottery;
+                if (data.lottery.prizeRule != null) {
+                    this.$refs['prizeRule'].activeList = JSON.parse(data.lottery.prizeRule)
                 }
-                if (data.groupon.thumbnail != null && data.groupon.thumbnail != '') {
-                    this.image = "<img src='" + data.groupon.thumbnail + "' style='width: 100%; height: 100%;'/>"
+                if (data.lottery.thumbnail != null && data.lottery.thumbnail != '') {
+                    this.image = "<img src='" + data.lottery.thumbnail + "' style='width: 100%; height: 100%;'/>"
                 }
-                if (data.groupon.headImage != null && data.groupon.headImage != '') {
-                    this.headImage = "<img src='" + data.groupon.headImage + "' style='width: 100%; height: 100%;'/>"
+                if (data.lottery.headImage != null && data.lottery.headImage != '') {
+                    this.headImage = "<img src='" + data.lottery.headImage + "' style='width: 100%; height: 100%;'/>"
                 }
-                if (data.groupon.companyDescription != null) {
-                    var dat = JSON.parse(data.groupon.companyDescription)
+                if (data.lottery.companyDescription != null) {
+                    var dat = JSON.parse(data.lottery.companyDescription)
                     var sc = []
                     //this.$refs['activityRules'].activeList = JSON.parse(this.formD.activityRules)
                     dat.forEach(e => {
@@ -185,8 +192,8 @@ export default {
 
                     this.$refs['companyDescription'].activeList = sc
                 }
-                if (!!data.groupon.discount && data.groupon.discount != null) {
-                    this.$refs['distuan'].activeList = JSON.parse(data.groupon.discount)
+                if (!!data.lottery.discount && data.lottery.discount != null) {
+                    this.$refs['discount'].activeList = JSON.parse(data.lottery.discount)
                 }
                 this.mapInit()
             }
@@ -288,45 +295,41 @@ export default {
             this.image = "<img src='" + url + "' style='width: 100%;height: 100%;'/>";
         },
         preview() {
-            // var commodityDescription = [],
-            //     companyDescription = [],
-            //     discount = [];
-            // this.$refs['commodityDescription'].activeList.forEach(item => {
-            //     commodityDescription.push({
-            //         type: item.type,
-            //         img: item.image
-            //     })
-            // })
-            // this.$refs['companyDescription'].activeList.forEach(item => {
-            //     companyDescription.push({
-            //         type: item.type,
-            //         img: item.image
-            //     })
-            // })
-            // this.$refs['distuan'].activeList.forEach(item => {
-            //     discount.push({
-            //         num: item.num,
-            //         price: item.price
-            //     })
-            // })
+             var companyDescription = [],
+                discount = [];
+            this.$refs['companyDescription'].activeList.forEach(item => {
+                companyDescription.push({
+                    type: item.type,
+                    img: item.image
+                })
+            })
+            this.$refs['discount'].activeList.forEach(item => {
+                discount.push({
+                    type: item.type,
+                    img: item.image
+                })
+            })
 
-            // this.formD.commodityDescription = JSON.stringify(commodityDescription);
-            // this.formD.companyDescription = JSON.stringify(companyDescription);
-            // this.formD.discount = JSON.stringify(discount);
-            // this.formD.total_price = this.formD.originalPrice;
+            this.formD.companyDescription = JSON.stringify(companyDescription);
+            this.formD.discount = JSON.stringify(discount);
             this.ispreview = !this.ispreview;
         },
         editpage() {
             this.ispreview = !this.ispreview;
         },
         save() {
-            var commodityDescription = [],
+            var prizeRule = [],
                 companyDescription = [],
                 discount = [];
-            this.$refs['commodityDescription'].activeList.forEach(item => {
-                commodityDescription.push({
-                    type: item.type,
-                    img: item.image
+            this.$refs['prizeRule'].activeList.forEach((item, index) => {
+                prizeRule.push({
+                    index: index,
+                    gitfId: index,
+                    giftName: item.giftName,
+                    num: item.num,
+                    probability: item.probability,
+                    giftDescription: item.giftDescription,
+                    url: item.url
                 })
             })
             this.$refs['companyDescription'].activeList.forEach(item => {
@@ -335,22 +338,21 @@ export default {
                     img: item.image
                 })
             })
-            this.$refs['distuan'].activeList.forEach(item => {
+            this.$refs['discount'].activeList.forEach(item => {
                 discount.push({
-                    num: item.num,
-                    price: item.price
+                    type: item.type,
+                    img: item.image
                 })
             })
 
-            this.formD.commodityDescription = JSON.stringify(commodityDescription);
+            this.formD.prizeRule = JSON.stringify(prizeRule);
             this.formD.companyDescription = JSON.stringify(companyDescription);
             this.formD.discount = JSON.stringify(discount);
-            this.formD.total_price = this.formD.originalPrice;
             var a = JSON.parse(JSON.stringify(this.formD))
             this.$vux.loading.show({
                 text: 'Loading'
             })
-            this.$http.post('https://wx.sharkmeida.cn/groupon/save/', a).then(({
+            this.$http.post('https://wx.sharkmeida.cn/lottery/save/', a).then(({
                 data
             }) => {
                 this.$vux.loading.hide()
