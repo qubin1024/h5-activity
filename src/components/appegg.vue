@@ -190,7 +190,7 @@ import ContentWrap from "./content-wrap.vue";
 import Data from "./eData.js";
 import Scroll from "./scroll.vue";
 export default {
-    name: 'eggIndex',
+    name: 'app-egg',
     data: function(){
         return {
             userName: "",
@@ -255,7 +255,7 @@ export default {
             $change = $("#change"),//剩余次数
             $des = $("#des"),//剩余次数
             length = $egg.length,
-            data = {count: parseInt(this.formD.maxTime) || 0},//次数
+            data = {count: parseInt(this.formD.prizeLeft) || 0},//次数
             arr = [],
             openArr,//记录被砸开的蛋的下标数组
             rem = 75;
@@ -443,50 +443,25 @@ export default {
             if (!params.id) {
                 return console.log("id is null");
             }
-             
+            this.user_id = params.userId; 
             this.shareId = this.params.shareId;
-            if (!!params.code) {
+            if (!!this.user_id) {
                 this.$http
-                    .get(
-                        "https://wx.sharkmeida.cn/api/wxpay/getUserInfo?code=" +
-                        params.code +
-                        "&state=" +
-                        params.state
-                    )
+                    .get("https://wx.sharkmeida.cn/sys/user/info/" + params.userId)
                     .then(({
                             data: res
                         }) => {
                             if (res.code != "0000") {
                                 console.log("获取用户信息失败");
                             } else {
-                                this.user_id = res.result.data.user.userId;
-                                this.userName =
-                                    res.result.data.user.username || res.result.data.user.nickname;
-                                // if (!!params.shareId) {
-                                //     this.$http
-                                //         .post("https://wx.sharkmeida.cn/lottery/querylotteryId", {
-                                //             groupId: this.shareId
-                                //         })
-                                //         .then(({
-                                //             data: res
-                                //         }) => {
-                                //             if (res.code == "0000") {
-                                //                 this.list = res.result.data;
-                                //                 res.result.data.forEach(function (item) {
-                                //                     if (item.user_id == this.user_id) {
-                                //                         this.orderId = item.order_id;
-                                //                     }
-                                //                 });
-                                //             } else {}
-                                //         });
-                                // }
-
+                                
+                                this.userName = res.user.username || res.user.nickname;
                                 
                                 this.loading = true;
                                     this.$http
                                         .post("https://wx.sharkmeida.cn/lottery/info", {
                                             activityId: params.id,
-                                            user_id: this.user_id
+                                            user_id: params.userId
                                         })
                                         .then(({
                                             data
@@ -500,81 +475,6 @@ export default {
                                                 this.$nextTick(() => {
                                                     this.eggInit()
                                                 })         
-                                                var currentUrl = encodeURIComponent(location.href.split("#")[0]);
-                                                this.$http
-                                                    .post(
-                                                        "https://wx.sharkmeida.cn/api/wxpay/initwxjs?url=" + currentUrl
-                                                    )
-                                                    .then((data, status) => {
-                                                        this.loading = false;
-                                                        wx.config({
-                                                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                                                            appId: data.data.result.data.appId, // 必填，公众号的唯一标识
-                                                            timestamp: data.data.result.data.timestamp, // 必填，生成签名的时间戳
-                                                            nonceStr: data.data.result.data.nonceStr, // 必填，生成签名的随机串
-                                                            signature: data.data.result.data.signature, // 必填，签名s
-                                                            jsApiList: [
-                                                                "onMenuShareTimeline",
-                                                                "onMenuShareAppMessage",
-                                                                "chooseWXPay",
-                                                                "openLocation"
-                                                            ] // 必填，需要使用的JS接口列表
-                                                        });
-
-                                                        wx.ready( () => {
-                                                            // alert('wx ready')
-
-                                                            wx.error(function (res) {
-                                                                // config 信息验证失败会执行 error 函数，如签名过期导致验证失败，具体错误信息可以打开 config 的 debug 模式查看，也可以在返回的 res 参数中查看，对于 SPA 可以在这里更新签名。
-                                                                console.log(res);
-                                                            });
-
-                                                            wx.checkJsApi({
-                                                                jsApiList: [
-                                                                    "onMenuShareTimeline",
-                                                                    "onMenuShareAppMessage",
-                                                                    "chooseWXPay"
-                                                                ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-                                                                success: function (res) {
-                                                                    // 以键值对的形式返回，可用的api值true，不可用为false
-                                                                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-                                                                    // console.log("checkJsApi" + res);
-                                                                }
-                                                            });
-                                                            var shareParam = {
-                                                                title: `我是${this.userName}, 参加了${fore.activityName}`, // 分享标题
-                                                                desc: `${fore.activityName}, 联系电话: ${fore.phone}`, // 分享描述
-                                                                link: "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
-                                                                    params.id +
-                                                                    "&userid=" +
-                                                                    this.user_id +
-                                                                    "&hash=4pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                                                                imgUrl: thumbnail, // 分享图标
-                                                                // type: 'link', // 分享类型,music、video或link，不填默认为link
-                                                                // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                                                                trigger: function (res) {
-                                                                    console.log("用户点击发送给朋友");
-                                                                },
-                                                                success: ()=> {
-                                                                    console.log("已分享");
-                                                                    this.$http.post("https://wx.sharkmeida.cn/lottery/friend", {
-                                                                        user_id: this.user_id,
-                                                                        activityId: this.params.id
-                                                                    })
-                                                                    .then(({
-                                                                        data: res
-                                                                    }) => {
-                                                                    });
-                                                                },
-                                                                cancel: function (res) {
-                                                                    console.log("已取消");
-                                                                },
-                                                                fail: function (res) {}
-                                                            };
-                                                            wx.onMenuShareTimeline(shareParam);
-                                                            wx.onMenuShareAppMessage(shareParam);
-                                                        });
-                                                    });
                                             }
                                         });
                             }

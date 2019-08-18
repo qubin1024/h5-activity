@@ -1218,3 +1218,14 @@ body {
         background: #fe8227;
     position: relative;
 }
+
+#des{
+    position: absolute;
+    left: 0;
+    bottom: 0.9rem;
+    z-index: 111;
+    font-size: 0.5rem;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+}

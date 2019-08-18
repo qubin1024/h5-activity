@@ -161,9 +161,12 @@ export default {
         this.params = params;
 
 
-        const url = "https://wx.sharkmeida.cn/lottery/info/" + params.id;
+        const url = "https://wx.sharkmeida.cn/lottery/info";
 
-        this.$http.get(url).then(({
+        this.$http.post(url, {
+            activityId: params.id,
+            user_id: ''
+        }).then(({
             data
         }) => {
             if (data.code == "0") {

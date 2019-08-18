@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="wrap-tuan" v-for="(item, index) in activeList" :key='index'>
-        <i class="fa fa-times-circle" @click="deleteThis(index)" style="position: absolute;right: 0.2rem;    top: 0.6rem;
+        <i class="fa fa-times-circle" v-if="index != 0" @click="deleteThis(index)" style="position: absolute;right: 0.2rem;    top: 0.6rem;
     font-size: 0.8rem;
     z-index: 100;
     color: #fff;z-index: 100;" aria-hidden="true"></i>
@@ -10,10 +10,10 @@
         </div>
         <div class="prize-wrap">
             <div>数量 <input v-model="item.num" type="number" /> 份</div>
-            <div>中奖率 <input v-model="item.probability" type="number" /> %</div>
+            <div>中奖率 <input :value="item.probability * 100" @input="probabilityChange($event, item)" type="number" /> %</div>
         </div>
         <div style="text-align: center;" >
-            <input style="width: 5rem;" v-model="item.giftDescription" type="text" />   
+            <input style="width: 5rem;" v-model="item.giftDescription" :disabled="!index" type="text" />   
         </div>
         <div style="margin: 1rem auto;height: 3rem;width:3rem;position: relative;">
             <span v-html="`<img src='${item.url}' style='width: 100%;height: 100%;'/>`" v-if='item.url'></span>
@@ -44,7 +44,7 @@ export default {
             activeList: [{
                 giftName: '谢谢惠顾',
                 num: 1000000,
-                probability: 20,
+                probability: 0.2,
                 giftDescription: '谢谢参与奖项',
                 url: ''
             }]
@@ -61,6 +61,9 @@ export default {
         }
     },
     methods: {
+        probabilityChange($event, item){
+            item.probability = parseInt($event.currentTarget.value)/100;
+        },
         getUrl(url, item){
             item.url = url;
         },

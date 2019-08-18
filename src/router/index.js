@@ -13,6 +13,9 @@ import page4Info from "../components/4pageInfo"
 import payInfo from "../components/payInfo"
 import egg from "../components/egg"
 import eggEdit from "../components/eggEdit"
+import appEgg from "../components/appEgg"
+
+
 
 Vue.use(Router)
 
@@ -72,6 +75,11 @@ export default new Router({
       path: '/egg',
       name: 'egg',
       component: egg
+    },
+    {
+      path: '/app',
+      name: 'app',
+      component: appEgg
     },
     {
       path: '/eggEdit',
