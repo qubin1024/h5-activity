@@ -12,7 +12,7 @@
                 <count-down class="time-wrap" v-if='!!formD.startTime && formD.endTime' :startTime="formD.startTime" :endTime="formD.endTime"></count-down>
                 <content-wrap>
                     <img v-if="!!this.shareId" src="../assets/btn-2.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
-                    <img v-if="!this.shareId" src="../assets/btn-7.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
+                    <img v-else src="../assets/btn-7.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
                 </content-wrap>
                 <content-wrap title="奖品信息">
                     <div style="text-align: center;margin: 0.4rem;">本期奖品 <span style="color: red;"> {{formD.priceNum}} 份</span>， 剩余<span style="color: red;"> {{formD.prizeLeft}} 份</span></div>
@@ -66,7 +66,7 @@
                     <div class="title-23">
                         <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                     </div>
-                    <span style="display: block;font-size: 0.4rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
+                    <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
                 <content-wrap title="店内优惠">
@@ -284,6 +284,34 @@ export default {
                         });
                         this.shareId = data.result.data.id;
                         this.shown = false;
+                        wx.ready(() => {
+                            var shareParam = {
+                                title: `我是${this.userName}, 参加了${this.formD.activityName}`, // 分享标题
+                                desc: `${this.formD.activityName}, 联系电话: ${this.formD.phone}`, // 分享描述
+                                link: "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
+                                    this.params.id +
+                                    "&userid=" +
+                                    this.user_id +
+                                    "&shareId=" +
+                                    this.shareId +
+                                    "&hash=2pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                                imgUrl: this.formD.thumbnail, // 分享图标
+                                // type: 'link', // 分享类型,music、video或link，不填默认为link
+                                // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                                trigger: function (res) {
+                                    console.log("用户点击发送给朋友");
+                                },
+                                success: function (res) {
+                                    console.log("已分享");
+                                },
+                                cancel: function (res) {
+                                    console.log("已取消");
+                                },
+                                fail: function (res) {}
+                            };
+                            wx.onMenuShareTimeline(shareParam);
+                            wx.onMenuShareAppMessage(shareParam);
+                        });
                     } else {
                         this.$vux.alert.show({
                             title: "提示",
@@ -296,7 +324,8 @@ export default {
             if (this.ispreview) {
                 return;
             }
-            if (!!this.shareId) {
+            console.log(this.shareId)
+            if (!this.shareId) {
                 // 显示文字
                 return this.$vux.toast.text("请参加活动！");
             }
@@ -478,27 +507,9 @@ export default {
                                                 });
 
                                                 wx.ready(() => {
-                                                    // alert('wx ready')
-
-                                                    wx.error(function (res) {
-                                                        // config 信息验证失败会执行 error 函数，如签名过期导致验证失败，具体错误信息可以打开 config 的 debug 模式查看，也可以在返回的 res 参数中查看，对于 SPA 可以在这里更新签名。
-                                                        console.log(res);
-                                                    });
-
-                                                    wx.checkJsApi({
-                                                        jsApiList: [
-                                                            "onMenuShareTimeline",
-                                                            "onMenuShareAppMessage",
-                                                            "chooseWXPay"
-                                                        ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-                                                        success: function (res) {
-                                                            // 以键值对的形式返回，可用的api值true，不可用为false
-                                                            // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-                                                            // console.log("checkJsApi" + res);
-                                                        }
-                                                    });
                                                     console.log(this.userName)
                                                     console.log(this.user_id)
+                                                    console.log(this.shareId)
                                                     var shareParam = {
                                                         title: `我是${this.userName}, 参加了${fore.activityName}`, // 分享标题
                                                         desc: `${fore.activityName}, 联系电话: ${fore.phone}`, // 分享描述

@@ -388,7 +388,7 @@ export default {
         // 显示文字
         return this.$vux.toast.text("请填写姓名，电话，类别", "top");
       }
-
+      this.shown = false; 
       this.$http
         .post("https://wx.sharkmeida.cn/api/order/save", {
           activityId: this.params.id,
@@ -440,43 +440,7 @@ export default {
                     }
                   }
                 );
-                // wx.chooseWXPay({
-                //     // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                //     timestamp: res.result.timestamp,
-                //     // 支付签名随机串，不长于 32 位
-                //     nonceStr: res.result.nonceStr,
-                //     // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-                //     package: res.result.package,
-                //     // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                //     signType: "MD5",
-                //     // 支付签名
-                //     paySign: res.result.paySign,
-                //     // 支付成功后的回调函数x
-                //     success: function (res) {
-                //       // res.errMsg === 'chooseWXPay:ok'方式判断前端返回,微信团队郑重提示：
-                //       // res.errMsg将在用户支付成功后返回ok，但并不保证它绝对可靠， 切记。
-                //       if (res.errMsg === 'chooseWXPay:ok') {
-                //         // const.$vux.alert.show({
-                //         //     title: '提示',
-                //         //     content: '保存失败！',
-                //         //     onShow () {
-                //         //         console.log('Plugin: I\'m showing')
-                //         //     },
-                //         //     onHide () {
-                //         //         console.log('Plugin: I\'m hiding')
-                //         //     }
-                //         // })
-                //       }
-                //     },
-                //     // 支付取消回调函数
-                //     cencel: function (res) {
-                //       console.log('用户取消支付~')
-                //     },
-                //     // 支付失败回调函数
-                //     fail: function (res) {
-                //       consoel.log('支付失败~')
-                //     }
-                //   })
+              
               });
           }
         });

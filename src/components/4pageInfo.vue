@@ -81,7 +81,7 @@
                     <div class="title-23">
                         <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                     </div>
-                    <span style="display: block;font-size: 0.4rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
+                    <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
                 <img v-if="!!formD.footImage" :src="formD.footImage" class="header-img" />
@@ -233,6 +233,22 @@ export default {
     mounted() {
         this.query();
     },
+    activated(){
+        this.loading = true;
+        this.$http
+            .get("https://wx.sharkmeida.cn/groupon/info/" + this.params.id)
+            .then(({
+                data
+            }) => {
+                if (data.code == "0") {
+                    this.formD = data.groupon;
+                    this.$refs["bg-main2"].style.background = !this.formD.bgImage ?
+                        "#edea8f" :
+                        `url(${this.formD.bgImage})`;
+                    this.mapInit();
+        }
+      })
+  },
     methods: {
         initQQMap(){
             wx.ready(() => {
@@ -277,6 +293,34 @@ export default {
 
                         this.shareId = data.result.order.groupId;
                         this.orderId = data.result.order.orderId;
+                        wx.ready(() => {
+                            var shareParam = {
+                                title: `我是${this.userName}, 参加了${this.formD.activityName}`, // 分享标题
+                                desc: `${this.formD.activityName}, 联系电话: ${this.formD.phone}`, // 分享描述
+                                link: "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
+                                    this.params.id +
+                                    "&userid=" +
+                                    this.user_id +
+                                    "&shareId=" +
+                                    this.shareId +
+                                    "&hash=4pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                                imgUrl: this.formD.thumbnail, // 分享图标
+                                // type: 'link', // 分享类型,music、video或link，不填默认为link
+                                // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                                trigger: function (res) {
+                                    console.log("用户点击发送给朋友");
+                                },
+                                success: function (res) {
+                                    console.log("已分享");
+                                },
+                                cancel: function (res) {
+                                    console.log("已取消");
+                                },
+                                fail: function (res) {}
+                            };
+                            wx.onMenuShareTimeline(shareParam);
+                            wx.onMenuShareAppMessage(shareParam);
+                        });
                         this.shown = false;
                         this.$http
                             .post("https://wx.sharkmeida.cn/groupon/queryGrouponId", {

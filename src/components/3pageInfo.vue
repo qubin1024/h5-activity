@@ -24,13 +24,14 @@
                             <div>底价：<span>{{formD.floorPrice}}元</span></div>
                         </div>
                         <img v-if="!this.shareId" src="../assets/btn-6.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
+                        <img v-if="!!shareId && b_userId != user_id" src="../assets/btn-6.png" @click="linkreload" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
                         <img v-if="!!this.shareId" src="../assets/btn-3.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
                         <img v-if="!!this.shareId && b_userId == user_id" src="../assets/btn-4.png" @click="linkPay" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
                         <ul class='wrap-wx' v-if="barginLogList.length">
                             <li v-for="(item, index) in barginLogList" :key="index">
                                 <img :src="item.headimgurl"/>
                                 <div>
-                                    <p>{{item.username}}</p>
+                                    <p>{{item.username | filterusername(item.username)}}</p>
                                     <p>{{item.create_time.split(' ')[0]}}</p>
                                 </div>
                                 <span>帮砍<span style="color: red;">{{parseInt(item.bargin_price)}}</span></span>
@@ -53,14 +54,14 @@
                                 </div>
                             </div>
                         </content-wrap>
-                        <content-wrap title="活动规则">
+                        <content-wrap title="活动规则" v-if="!!formD.activityRule">
                             <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.activityRule}}</pre>
                         </content-wrap>
-                        <content-wrap title="领奖信息">
+                        <content-wrap title="领奖信息" v-if="!!formD.prizeInfo">
                             <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.prizeInfo}}</pre>
                         </content-wrap>
-                        <content-wrap title="机构介绍">
-                            <div v-if="!!formD.companyDescription">
+                        <content-wrap title="机构介绍" v-if="!!formD.companyDescription">
+                            <div >
                                 <div v-for="item in JSON.parse(formD.companyDescription)" :key="item.key" style="line-height: 0.4rem;">
                                     <img v-if="item.type == 'uploadImg'" :src="item.img"  style=" width: 100%;display: block;"/>
                                     <pre v-if="item.type == 'uploadText'" style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{item.img}}</pre>
@@ -90,10 +91,10 @@
                                 <div class="title-23">
                                     <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                                 </div>
-                                <span style="display: block;font-size: 0.4rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
+                                <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                                 <div id="showPosition" style="height: 5rem"></div>
                         </content-wrap>
-                        <content-wrap title="店内优惠">
+                        <content-wrap title="店内优惠" v-if="!!formD.discount">
                             <div v-if="!!formD.discount">
                                 <div v-for="item in JSON.parse(formD.discount)" :key="item.key" style="line-height: 0.4rem;">
                                     <img v-if="item.type == 'uploadImg'" :src="item.img"  style=" width: 100%;display: block;"/>
@@ -116,13 +117,13 @@
                               <tbody>
                                   <tr v-for="(item, index) in list" :key="index">
                                       <td>
-                                          <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 2rem;">{{index+1}}</div>
+                                          <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{index+1}}</div>
                                       </td>
                                       <td>
-                                          <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 2rem;">{{item.username}}</div>
+                                          <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{item.username | filterusername(item.username)}}</div>
                                       </td>
                                       <td>
-                                          <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 2rem;">{{item.total_price == formD.floorPrice ? "已经降至底价": item.total_price}}</div>
+                                          <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{item.total_price == formD.floorPrice ? "已经降至底价": item.total_price}}</div>
                                       </td>
                                   </tr>
                               </tbody>
@@ -263,10 +264,50 @@ export default {
       type: Object
     }
   },
+  filters: {
+    filterusername(userName){
+      if(typeof userName == 'string'){
+        return userName.replace(/^(.{1})(?:[\u4e00-\u9fa5, \w]+)(.{1})$/, "$1*$2");
+      }else{
+        return userName;
+      }
+      
+    }
+  },
   mounted() {
     this.query();
   },
+  activated(){
+      // this.loading = true;
+      // this.$http
+      // .get("https://wx.sharkmeida.cn/bargin/info/" + this.params.id)
+      // .then(({ data }) => {
+      //   this.loading = false
+      //   if (data.code == "0") {
+      //     this.formD = data.bargin;
+      //     this.list = data.order;
+      //     this.$refs["bg-main2"].style.background = !this.formD.bgImage
+      //       ? "#edea8f"
+      //       : `url(${this.formD.bgImage})`;
+      //     this.mapInit();
+      //   }
+      // })
+  },
   methods: {
+    linkreload(){
+      location.href = location.origin + '/dist/redirect.html'+ '?id='+ this.params.id +'&hash=3pageInfo'
+    },
+    desensitization(str, beginLen, endLen){
+        var len = str.length;
+        var firstStr = str.substr(0, beginLen);
+        var lastStr = str.substr(endLen);
+        var middleStr = str.substring(beginLen, len-Math.abs(endLen)).replace(/[\s\S]/ig, '*');
+
+        tempStr = firstStr+middleStr+lastStr;
+
+        return tempStr;
+
+    },
     initQQMap(){
             console.log({
                 latitude: this.formD.latitude, // 纬度，浮点数，范围为90 ~ -90
@@ -306,28 +347,56 @@ export default {
           mobile: this.tel,
           user_id: this.user_id
         })
-        .then(({ data }) => {
-          if (data.code == 0) {
+        .then(({ data: res }) => {
+          if (res.code == '0000') {
             this.$vux.alert.show({
               title: "提示",
               content: "参加成功！分享好友帮砍价，赢礼品。"
             });
+            this.shareId = res.result.order.orderId;
+            this.shown = false;
+            wx.ready(() => {
+                var shareParam = {
+                    title: `我是${this.userName}, 参加了${this.formD.activityName}`, // 分享标题
+                    desc: `${this.formD.activityName}, 联系电话: ${this.formD.phone}`, // 分享描述
+                    link: "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
+                        this.params.id +
+                        "&userid=" +
+                        this.user_id +
+                        "&shareId=" +
+                        this.shareId +
+                        "&hash=3pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: this.formD.thumbnail, // 分享图标
+                    // type: 'link', // 分享类型,music、video或link，不填默认为link
+                    // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    trigger: function (res) {
+                        console.log("用户点击发送给朋友");
+                    },
+                    success: function (res) {
+                        console.log("已分享");
+                    },
+                    cancel: function (res) {
+                        console.log("已取消");
+                    },
+                    fail: function (res) {}
+                };
+                wx.onMenuShareTimeline(shareParam);
+                wx.onMenuShareAppMessage(shareParam);
+            });
             this.$http
               .post("https://wx.sharkmeida.cn/api/order/getOrderByOrderId", {
-                orderId: data.result.order.orderId
+                orderId: res.result.order.orderId
               })
-              .then(({ data }) => {
-                if (data.code == "0000") {
-                  this.prize = data.result.data.total_price;
-                  this.b_userId = data.result.data.user_id;
+              .then(({ data: res1 }) => {
+                if (res1.code == "0000") {
+                  this.prize = res1.result.data.total_price;
+                  this.b_userId = res1.result.data.user_id;
                 }
               });
-            this.shareId = data.result.order.order_id;
-            this.shown = false;
           } else {
             this.$vux.alert.show({
               title: "提示",
-              content: data.msg
+              content: res.msg
             });
           }
         });
@@ -481,21 +550,10 @@ export default {
       }
       var params = this.$route.query;
       this.params = params;
-      this.shareId = params.shareId;
-      if (!params.id) {
-        return console.log("id is null");
+      if(!!params.shareId){
+        this.shareId = params.shareId;
       }
-      this.$http
-      .post("https://wx.sharkmeida.cn/gather/queryLike", {
-          activityId: params.id
-      })
-      .then(({
-          data
-      }) => {
-          if (data.code == 0) {
-              this.list = data.result.data;
-          }
-      });
+      
       if (!!params.code) {
         this.$http
           .get(
@@ -512,102 +570,100 @@ export default {
               this.userName =
                 res.result.data.user.username || res.result.data.user.nickname;
                 this.loading = true;
-      this.$http
-        .get("https://wx.sharkmeida.cn/bargin/info/" + params.id)
-        .then(({ data }) => {
-          if (data.code == "0") {
-            this.formD = data.bargin;
-            this.$refs["bg-main2"].style.background = !this.formD.bgImage
-              ? "#edea8f"
-              : `url(${this.formD.bgImage})`;
-            this.mapInit();
-            var fore = data.bargin;
-            document.title = fore.activityName;
-            var thumbnail = data.bargin.thumbnail;
-            var currentUrl = encodeURIComponent(location.href.split("#")[0]);
-            this.$http
-              .post(
-                "https://wx.sharkmeida.cn/api/wxpay/initwxjs?url=" + currentUrl
-              )
-              .then((data, status) => {
-                this.loading = false;
-                wx.config({
-                  debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                  appId: data.data.result.data.appId, // 必填，公众号的唯一标识
-                  timestamp: data.data.result.data.timestamp, // 必填，生成签名的时间戳
-                  nonceStr: data.data.result.data.nonceStr, // 必填，生成签名的随机串
-                  signature: data.data.result.data.signature, // 必填，签名s
-                  jsApiList: [
-                    "onMenuShareTimeline",
-                    "onMenuShareAppMessage",
-                    "chooseWXPay",
-                    "openLocation"
-                  ] // 必填，需要使用的JS接口列表
-                });
+                this.$http
+                  .get("https://wx.sharkmeida.cn/bargin/info/" + params.id)
+                  .then(({ data }) => {
+                    if (data.code == "0") {
+                      this.formD = data.bargin;
+                      this.$refs["bg-main2"].style.background = !this.formD.bgImage
+                        ? "#edea8f"
+                        : `url(${this.formD.bgImage})`;
+                      this.mapInit();
+                      var fore = data.bargin;
+                      this.list = data.order;
+                      document.title = fore.activityName;
+                      var thumbnail = data.bargin.thumbnail;
+                      var currentUrl = encodeURIComponent(location.href.split("#")[0]);
+                      this.$http
+                        .post(
+                          "https://wx.sharkmeida.cn/api/wxpay/initwxjs?url=" + currentUrl
+                        )
+                        .then((data, status) => {
+                          this.loading = false;
+                          wx.config({
+                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            appId: data.data.result.data.appId, // 必填，公众号的唯一标识
+                            timestamp: data.data.result.data.timestamp, // 必填，生成签名的时间戳
+                            nonceStr: data.data.result.data.nonceStr, // 必填，生成签名的随机串
+                            signature: data.data.result.data.signature, // 必填，签名s
+                            jsApiList: [
+                              "onMenuShareTimeline",
+                              "onMenuShareAppMessage",
+                              "chooseWXPay",
+                              "openLocation"
+                            ] // 必填，需要使用的JS接口列表
+                          });
 
-                wx.ready(() => {
-                  // alert('wx ready')
+                          wx.ready(() => {
 
-                  wx.error(function(res) {
-                    // config 信息验证失败会执行 error 函数，如签名过期导致验证失败，具体错误信息可以打开 config 的 debug 模式查看，也可以在返回的 res 参数中查看，对于 SPA 可以在这里更新签名。
-                    console.log(res);
-                  });
+                            wx.error(function(res) {
+                              // config 信息验证失败会执行 error 函数，如签名过期导致验证失败，具体错误信息可以打开 config 的 debug 模式查看，也可以在返回的 res 参数中查看，对于 SPA 可以在这里更新签名。
+                              console.log(res);
+                            });
 
-                  wx.checkJsApi({
-                    jsApiList: [
-                      "onMenuShareTimeline",
-                      "onMenuShareAppMessage",
-                      "chooseWXPay"
-                    ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-                    success: function(res) {
-                      // 以键值对的形式返回，可用的api值true，不可用为false
-                      // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-                      // console.log("checkJsApi" + res);
+                            wx.checkJsApi({
+                              jsApiList: [
+                                "onMenuShareTimeline",
+                                "onMenuShareAppMessage",
+                                "chooseWXPay"
+                              ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                              success: function(res) {
+                                // 以键值对的形式返回，可用的api值true，不可用为false
+                                // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                                // console.log("checkJsApi" + res);
+                              }
+                            });
+                            
+                            var shareParam = {
+                              title: `我是${this.userName}, 参加了${fore.activityName}`, // 分享标题
+                              desc: `${fore.activityName}, 联系电话: ${fore.phone}`, // 分享描述
+                              link:
+                                "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
+                                params.id +
+                                "&userid=" +
+                                this.user_id +
+                                "&shareId=" +
+                                this.shareId +
+                                "&hash=3pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                              imgUrl: thumbnail, // 分享图标
+                              // type: 'link', // 分享类型,music、video或link，不填默认为link
+                              // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                              trigger: function(res) {
+                                console.log("用户点击发送给朋友");
+                              },
+                              success: function(res) {
+                                console.log("已分享");
+                              },
+                              cancel: function(res) {
+                                console.log("已取消");
+                              },
+                              fail: function(res) {}
+                            };
+                            wx.onMenuShareTimeline(shareParam);
+                            wx.onMenuShareAppMessage(shareParam);
+                          });
+                        });
                     }
                   });
-                  console.log(this.userName)
-                  console.log(this.user_id)
-                  var shareParam = {
-                    title: `我是${this.userName}, 参加了${fore.activityName}`, // 分享标题
-                    desc: `${fore.activityName}, 联系电话: ${fore.phone}`, // 分享描述
-                    link:
-                      "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
-                      params.id +
-                      "&userid=" +
-                      this.user_id +
-                      "&shareId=" +
-                      this.shareId +
-                      "&hash=3pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                    imgUrl: thumbnail, // 分享图标
-                    // type: 'link', // 分享类型,music、video或link，不填默认为link
-                    // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                    trigger: function(res) {
-                      console.log("用户点击发送给朋友");
-                    },
-                    success: function(res) {
-                      console.log("已分享");
-                    },
-                    cancel: function(res) {
-                      console.log("已取消");
-                    },
-                    fail: function(res) {}
-                  };
-                  wx.onMenuShareTimeline(shareParam);
-                  wx.onMenuShareAppMessage(shareParam);
-                });
-              });
-          }
-        });
             }
           });
-      }
+        }
       if (!!params.shareId) {
         this.$http
           .post("https://wx.sharkmeida.cn/api/order/getOrderByOrderId", {
             orderId: params.shareId
           })
           .then(({ data }) => {
-            console.log("添加浏览者信息：", res.result.data.user.userId);
             if (data.code == "0000") {
               this.prize = data.result.data.total_price;
               this.b_userId = data.result.data.user_id;

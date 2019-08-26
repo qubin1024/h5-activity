@@ -376,6 +376,7 @@ export default {
           this.$http.post('https://wx.sharkmeida.cn/distribution/save', a).then(({data}) => {
             this.$vux.loading.hide()
             if(data.code == '0'){
+                this.formD.id = data.distribution.id
                 this.$vux.alert.show({
                     title: '提示',
                     content: '保存成功！',
@@ -384,6 +385,7 @@ export default {
                     onHide () {
                     }
                 })
+                
             }else{
                 this.$vux.alert.show({
                     title: '提示',

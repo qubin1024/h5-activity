@@ -389,6 +389,7 @@ export default {
         .then(({ data }) => {
           this.$vux.loading.hide();
           if (data.code == "0") {
+            this.formD.id = data.gather.id
             this.$vux.alert.show({
               title: "提示",
               content: "保存成功！",
