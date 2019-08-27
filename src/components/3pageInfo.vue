@@ -295,7 +295,7 @@ export default {
   },
   methods: {
     linkreload(){
-      location.href = location.origin + '/dist/redirect.html'+ '?id='+ this.params.id +'&hash=3pageInfo'
+      location.href = location.origin + '/dist/redirect.html'+ '?id='+ this.params.id +'&hash=3pageInfo&shown=1'
     },
     desensitization(str, beginLen, endLen){
         var len = str.length;
@@ -383,6 +383,15 @@ export default {
                 wx.onMenuShareTimeline(shareParam);
                 wx.onMenuShareAppMessage(shareParam);
             });
+            this.$http
+              .post("https://wx.sharkmeida.cn/bargin/queryBarginLog", {
+                orderId: this.shareId
+              })
+              .then(({ data }) => {
+                if (data.code == "0000") {
+                  this.barginLogList = data.result.data;
+                }
+              });
             this.$http
               .post("https://wx.sharkmeida.cn/api/order/getOrderByOrderId", {
                 orderId: res.result.order.orderId
@@ -550,8 +559,13 @@ export default {
       }
       var params = this.$route.query;
       this.params = params;
+      
       if(!!params.shareId){
         this.shareId = params.shareId;
+      }
+
+      if(!!params.shown){
+        this.shown = !!params.shown ? true : false;
       }
       
       if (!!params.code) {

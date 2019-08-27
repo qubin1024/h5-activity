@@ -11,8 +11,9 @@
             <div class="middle">
                 <count-down class="time-wrap" v-if='!!formD.startTime && formD.endTime' :startTime="formD.startTime" :endTime="formD.endTime"></count-down>
                 <content-wrap>
+                    <img v-if="!!shareId && b_userId != user_id" src="../assets/btn-7.png" @click="linkreload" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
                     <img v-if="!!this.shareId" src="../assets/btn-2.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
-                    <img v-else src="../assets/btn-7.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
+                    <img v-if="!this.shareId" src="../assets/btn-7.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
                 </content-wrap>
                 <content-wrap title="奖品信息">
                     <div style="text-align: center;margin: 0.4rem;">本期奖品 <span style="color: red;"> {{formD.priceNum}} 份</span>， 剩余<span style="color: red;"> {{formD.prizeLeft}} 份</span></div>
@@ -29,14 +30,14 @@
                         </div>
                     </div>
                 </content-wrap>
-                <content-wrap title="活动规则">
+                <content-wrap title="活动规则" v-if="formD.activityRule">
                     <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.activityRule}}</pre>
                 </content-wrap>
-                <content-wrap title="领奖信息">
+                <content-wrap title="领奖信息" v-if="formD.priceInfo">
                     <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.priceInfo}}</pre>
                 </content-wrap>
-                <content-wrap title="机构介绍">
-                    <div v-if="!!formD.companyDescription">
+                <content-wrap title="机构介绍" v-if="formD.companyDescription">
+                    <div>
                         <div v-for="item in JSON.parse(formD.companyDescription)" :key="item.key" style="line-height: 0.4rem;">
                             <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />
                             <pre v-if="item.type == 'uploadText'" style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{item.img}}</pre>
@@ -69,16 +70,12 @@
                     <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
-                <content-wrap title="店内优惠">
-                    <div v-if="!!formD.discount">
+                <content-wrap title="店内优惠" v-if="!!formD.discount">
+                    <div>
                         <div v-for="item in JSON.parse(formD.discount)" :key="item.key" style="line-height: 0.4rem;">
                             <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />
                             <pre v-if="item.type == 'uploadText'" style="white-space: pre-line;font-size: 0.8rem;padding: 0.2rem 0;overflow-wrap: break-word;line-height: 1.2rem;display: inline-block;font-weight: bold;color: #f76800;text-align: center;width: 100%;">{{item.img}}</pre>
                             <video v-if="item.type == 'uploadVedio'" :src="item.img" ontrols="controls" preload="meta" width="100%" height="240" x-webkit-airplay="true" webkit-playsinline="true" playsinline="true" x5-video-player-fullscreen="true" x5-video-player-type="h5" controls></video>
-                            <!-- <video v-if="item.type == 'uploadVedio'" width="100%" height="240" controls>
-                                    <source :src="item.img" type="video/ogg">
-                                    您的浏览器不支持Video标签。
-                                </video> -->
                         </div>
                     </div>
                 </content-wrap>
@@ -175,7 +172,6 @@ import CountDown from "./count-down.vue";
 import ContentWrap from "./content-wrap.vue";
 import Data from "./data.js";
 import Scroll from "./scroll.vue";
-//id =  95ce4038a19b49f5bfedb8722eef9ecf
 var reg = /\?id=(\w+)&?/;
 reg.test(location.href);
 export default {
@@ -213,6 +209,7 @@ export default {
             ispreview: false,
             users: [],
             user_id: "",
+            b_userId: "",
             shareId: "",
             params: {},
             orderList: [],
@@ -245,6 +242,9 @@ export default {
         this.query();
     },
     methods: {
+        linkreload(){
+            location.href = location.origin + '/dist/redirect.html'+ '?id='+ this.params.id +'&hash=2pageInfo&shown=1'
+        },
         initQQMap(){
             wx.ready(() => {
                 wx.openLocation({
@@ -284,6 +284,17 @@ export default {
                         });
                         this.shareId = data.result.data.id;
                         this.shown = false;
+                        this.$http
+                        .post("https://wx.sharkmeida.cn/gather/queryPrizeLog", {
+                            id: this.shareId
+                        })
+                        .then(({
+                            data
+                        }) => {
+                            if (data.code == '0000') {
+                                this.b_userId = data.result.data.user_id;
+                            }
+                        }); 
                         wx.ready(() => {
                             var shareParam = {
                                 title: `我是${this.userName}, 参加了${this.formD.activityName}`, // 分享标题
@@ -446,11 +457,21 @@ export default {
             var params = this.$route.query;
             this.params = params;
             if(!!this.params.shareId){
-                this.shareId = this.params.shareId    
+                this.shareId = this.params.shareId;
+                this.$http
+                .post("https://wx.sharkmeida.cn/gather/queryPrizeLog", {
+                    id: this.params.shareId
+                })
+                .then(({
+                    data
+                }) => {
+                    if (data.code == '0000') {
+                        this.b_userId = data.result.data.user_id;
+                    }
+                }); 
             }
-            
-            if (!params.id) {
-                return console.log("id is null");
+            if(!!params.shown){
+                this.shown = !!params.shown ? true : false;
             }
             if (!!params.code) {
                 this.$http
@@ -507,9 +528,6 @@ export default {
                                                 });
 
                                                 wx.ready(() => {
-                                                    console.log(this.userName)
-                                                    console.log(this.user_id)
-                                                    console.log(this.shareId)
                                                     var shareParam = {
                                                         title: `我是${this.userName}, 参加了${fore.activityName}`, // 分享标题
                                                         desc: `${fore.activityName}, 联系电话: ${fore.phone}`, // 分享描述

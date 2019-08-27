@@ -376,10 +376,6 @@ export default {
       this.formD.priceDescription = JSON.stringify(priceDescription);
       this.formD.companyDescription = JSON.stringify(companyDescription);
       this.formD.discount = JSON.stringify(discount);
-      // this.formD.music = JSON.stringify({
-      //     path: this.musicUrl
-      // })
-
       var a = JSON.parse(JSON.stringify(this.formD));
       this.$vux.loading.show({
         text: "Loading"
