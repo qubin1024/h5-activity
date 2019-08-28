@@ -344,7 +344,7 @@ export default {
           "https://wx.sharkmeida.cn/api/order/getOrderByUserIdAndActivityId",
           {
             activityId: this.params.id,
-            from_user: this.user_id || ""
+            user_id: this.user_id || ""
           }
         )
         .then(({ data: res }) => {
