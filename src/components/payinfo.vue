@@ -51,6 +51,7 @@ export default {
                             //支付成功或失败前台判断
                             if (res.err_msg == 'get_brand_wcpay_request:ok') {
                                 this.$vux.toast.text("支付成功！", 'top')
+                                this.$router.back(-1)
                             } else {
                                 this.$vux.toast.text("支付失败！", 'top')
                             }

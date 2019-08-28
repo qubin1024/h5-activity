@@ -107,7 +107,7 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 .panel {
   background: #fff;
   padding: 0 1rem;

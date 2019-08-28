@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <img v-if="!this.shareId" src="../assets/btn.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
-                    <img v-if="!!this.shareId" src="../assets/btn-5.png" @click="() => {this.shown2 = !this.shown2}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
+                    <img v-if="!!this.shareId && !orderId" src="../assets/btn-5.png" @click="() => {this.shown2 = !this.shown2}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
                     <img v-if="!!this.orderId" src="../assets/btn-4.png" @click="linkPay" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
                     <div class="wrap-3">
                         <div v-for="(item, index) in list" :key="index">
@@ -44,14 +44,14 @@
                         </div>
                     </div>
                 </content-wrap>
-                <content-wrap title="领奖信息">
+                <content-wrap title="领奖信息" v-if="formD.prizeInfo">
                     <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.prizeInfo}}</pre>
                 </content-wrap>
-                <content-wrap title="活动规则">
+                <content-wrap title="活动规则" v-if="formD.activityRule">
                     <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.activityRule}}</pre>
                 </content-wrap>
-                <content-wrap title="机构介绍">
-                    <div v-if="!!formD.companyDescription">
+                <content-wrap title="机构介绍" v-if="!!formD.companyDescription">
+                    <div>
                         <div v-for="item in JSON.parse(formD.companyDescription)" :key="item.key" style="line-height: 0.4rem;">
                             <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />
                             <pre v-if="item.type == 'uploadText'" style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{item.img}}</pre>
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                 </content-wrap>
-                <content-wrap title="主办方名片">
+                <content-wrap title="主办方名片" v-if="formD.address || formD.phone || formD.thumbnail">
 
                     <div style="margin: 1rem auto;height: 3rem;width:3rem;position: relative;">
                         <img :src='formD.thumbnail' v-if='!!formD.thumbnail' style='width: 100%;height: 100%;' />
@@ -250,6 +250,9 @@ export default {
       })
   },
     methods: {
+        linkreload(){
+            location.href = location.origin + '/dist/redirect.html'+ '?id='+ this.params.id +'&hash=4pageInfo&shown=1'
+        },
         initQQMap(){
             wx.ready(() => {
                 wx.openLocation({
@@ -263,6 +266,7 @@ export default {
             })
         },
         addActive() {
+            
             if (this.ispreview) {
                 return;
             }
@@ -331,6 +335,11 @@ export default {
                             }) => {
                                 if (res.code == "0000") {
                                     this.list = res.result.data;
+                                    res.result.data.forEach((item) =>{
+                                        if (item.user_id == this.user_id) {
+                                            this.orderId = item.order_id;
+                                        }
+                                    });
                                 } else {}
                             });
                     } else {
@@ -346,9 +355,9 @@ export default {
                 return;
             }
             if (!this.shareId) {
-                // 显示文字
                 return this.$vux.toast.text("请参加活动！");
             }
+            this.shown2 = false;
             this.$http
                 .post("https://wx.sharkmeida.cn/groupon/groupon", {
                     activityId: this.params.id,
@@ -489,11 +498,23 @@ export default {
             var params = this.$route.query;
             this.params = params;
 
-            if (!params.id) {
-                return console.log("id is null");
+            if(!!params.shown){
+                this.shown = !!params.shown ? true : false;
             }
 
-            this.shareId = this.params.shareId;
+            if(!!this.params.shareId){
+                this.shareId = this.params.shareId;
+                this.$http
+                    .post("https://wx.sharkmeida.cn/api/order/getOrderByGroupId", {
+                        groupId: this.shareId
+                    })
+                    .then(({ data }) => {
+                        if (data.code == "0000") {
+                        this.b_userId = data.result.data.user_id;
+                        }
+                    });
+            }
+            
             if (!!params.code) {
                 this.$http
                     .get(
@@ -521,7 +542,7 @@ export default {
                                         }) => {
                                             if (res.code == "0000") {
                                                 this.list = res.result.data;
-                                                res.result.data.forEach(function (item) {
+                                                res.result.data.forEach((item) => {
                                                     if (item.user_id == this.user_id) {
                                                         this.orderId = item.order_id;
                                                     }

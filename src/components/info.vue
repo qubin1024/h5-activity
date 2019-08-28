@@ -227,9 +227,6 @@ import Clipboard from "clipboard";
 import CountDown from "./count-down.vue";
 import Data from "./data.js";
 import Scroll from "./scroll.vue";
-//id =  95ce4038a19b49f5bfedb8722eef9ecf
-const url = "https://wx.sharkmeida.cn/distribution/info/" + RegExp.$1;
-console.log(url);
 export default {
   name: "info",
   components: {
@@ -472,9 +469,7 @@ export default {
         user_id;
       
       this.params = params;
-      if (!params.id) {
-        return console.log("id is null");
-      }
+
       if (!!params.code) {
         this.$http
           .get(
@@ -487,12 +482,11 @@ export default {
             if (res.code != "0000") {
               console.log("获取用户信息失败");
             } else {
-              console.log("添加浏览者信息：", res.result.data.user.userId);
               user_id = res.result.data.user.userId;
               this.userName = res.result.data.user.username;
               this.user_id = user_id;
               this.loading = true;
-              this.$http.get(url).then(({ data }) => {
+              this.$http.get("https://wx.sharkmeida.cn/distribution/info/" + params.id).then(({ data }) => {
                 if (data.code == "0") {
                   this.formD = data.distribution;
                   var fore = data.distribution;
@@ -579,7 +573,6 @@ export default {
                           fail: function(res) {}
                         };
 
-                        console.log(shareParam);
                         wx.onMenuShareTimeline(shareParam);
                         wx.onMenuShareAppMessage(shareParam);
                       });
@@ -602,7 +595,7 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 .panel {
   background: #fff;
   padding: 0 1rem;

@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                         </content-wrap>
-                        <content-wrap title="主办方名片">
+                        <content-wrap title="主办方名片" v-if="formD.address || formD.phone || formD.thumbnail">
 
                             <div style="margin: 1rem auto;height: 3rem;width:3rem;position: relative;">
                                 <img :src='formD.thumbnail'  v-if='!!formD.thumbnail' style='width: 100%;height: 100%;'/>
