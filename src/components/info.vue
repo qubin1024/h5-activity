@@ -28,9 +28,9 @@
                         </div>   
                          <count-down v-if="!!formD.endTime" :startTime="formD.startTime" :endTime="formD.endTime"  endText="已经结束了"></count-down>
                          <div class="wrap-2" v-show="active == 'pay'">
-                             <div class="img"><img width="100%" height="100%" src="../assets/logo.jpg" /></div>
+                             <div class="img"><img width="100%" height="100%" :src="headimgurl" /></div>
                              <div class="text">
-                                 <span style="font-size: 0.3rem;">鲨鱼传媒-孙Techer</span>
+                                 <span style="font-size: 0.3rem;">{{userName}}</span>
                                  <span style="color: #a5a5a5;">邀请您参与本活动，机不可失，失不再来哦！</span>
                              </div>
                          </div>
@@ -247,6 +247,7 @@ export default {
   },
   data() {
     return {
+      headimgurl: "",
       userName: "",
       shown: false,
       pshown: false,
@@ -385,8 +386,45 @@ export default {
         // 显示文字
         return this.$vux.toast.text("请填写姓名，电话，类别", "top");
       }
+
+      this.$vux.toast.text("报名成功")
+      wx.ready(() => {
+        
+        var shareParam = {
+          title: `我是${this.name || this.userName}, 参加了${
+            this.formD.activityTheme
+          }`, // 分享标题
+          desc: `${this.formD.activityTheme}, 联系电话: ${
+            this.tel
+          }`, // 分享描述
+          link:
+            "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
+            this.params.id +
+            "&userid=" +
+            this.user_id +
+            "&hash=Info",
+          // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: thumbnail, // 分享图标
+          // type: 'link', // 分享类型,music、video或link，不填默认为link
+          // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+          trigger: function(res) {
+            console.log("用户点击发送给朋友");
+          },
+          success: function(res) {
+            console.log("已分享");
+          },
+          cancel: function(res) {
+            console.log("已取消");
+          },
+          fail: function(res) {}
+        };
+
+        wx.onMenuShareTimeline(shareParam);
+        wx.onMenuShareAppMessage(shareParam);
+      });
       this.shown = false; 
-      this.$http
+      setTimeout(()=>{
+         this.$http
         .post("https://wx.sharkmeida.cn/api/order/save", {
           activityId: this.params.id,
           from_user: this.params.userid || "",
@@ -441,6 +479,7 @@ export default {
               });
           }
         });
+      }, 1000)
     },
     stop() {
       var audio = document.getElementById("audio2");
@@ -484,6 +523,7 @@ export default {
             } else {
               user_id = res.result.data.user.userId;
               this.userName = res.result.data.user.username;
+              this.headimgurl = res.result.data.user.headimgurl;
               this.user_id = user_id;
               this.loading = true;
               this.$http.get("https://wx.sharkmeida.cn/distribution/info/" + params.id).then(({ data }) => {

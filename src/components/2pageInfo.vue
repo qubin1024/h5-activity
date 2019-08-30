@@ -297,8 +297,8 @@ export default {
                         }); 
                         wx.ready(() => {
                             var shareParam = {
-                                title: `我是${this.userName}, 参加了${this.formD.activityName}`, // 分享标题
-                                desc: `${this.formD.activityName}, 联系电话: ${this.formD.phone}`, // 分享描述
+                                title: `我是${this.name || this.userName}, 参加了${this.formD.activityName}`, // 分享标题
+                                desc: `${this.formD.activityName}, 联系电话: ${this.tel}`, // 分享描述
                                 link: "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
                                     this.params.id +
                                     "&userid=" +

@@ -59,8 +59,8 @@
                                     
                                     <x-input title="活动主题" style="font-size: 0.4rem;"  v-model="formD.activityTheme" :show-clear="showClear"></x-input>
                                     <x-input title="活动名称" style="font-size: 0.4rem;"  v-model="formD.activityName" :show-clear="showClear"></x-input>
-                                    <x-input title="活动类型" style="font-size: 0.4rem;"  v-model="formD.activityType" :show-clear="showClear"></x-input>
-                                    <!--<x-switch title="是否关注弹出"  v-model="_focusOnPop"></x-switch>
+                                    <!--<x-input title="活动类型" style="font-size: 0.4rem;"  v-model="formD.activityType" :show-clear="showClear"></x-input>
+                                    <x-switch title="是否关注弹出"  v-model="_focusOnPop"></x-switch>
                                     <x-switch title="是否关注发红包"  v-model="_focusOnRed"></x-switch>
                                     <x-switch title="是否关注成功后分享的红包"  v-model="_shareRedEnvelopes"></x-switch>
                                     <x-switch title="不需要付款人数"  v-model="_noPaymentNum"></x-switch>
