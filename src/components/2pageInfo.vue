@@ -1,7 +1,7 @@
 <template>
 <transition name="fade-in">
     <div>
-        <div id="contentBox" ref="bg-main">
+      <div id="contentBox" ref="bg-main">
             <div class="circular2" @click="showntousu">投诉</div>
             <div class="circular2" style="top:3.8rem;text-align: center;" @click="support">技术支持</div>
             <div class="circular2" style="top:5.2rem;text-align: center;" @click="goapp">进入商家</div>
@@ -70,7 +70,7 @@
                     <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
-                <content-wrap title="店内优惠" v-if="!!formD.discount">
+                <content-wrap title="店内优惠" v-if="JSON.parse(formD.discount).length">
                     <div>
                         <div v-for="item in JSON.parse(formD.discount)" :key="item.key" style="line-height: 0.4rem;">
                             <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />
@@ -84,7 +84,7 @@
                         <thead>
                             <th>排名</th>
                             <th>姓名</th>
-                            <th>爱心数</th>
+                            <th>集赞数</th>
                             <th>完成时间</th>
                         </thead>
                         <tbody>
@@ -93,7 +93,7 @@
                                     <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 2rem;">{{index+1}}</div>
                                 </td>
                                 <td>
-                                    <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 2rem;">{{item.username}}</div>
+                                    <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 2rem;">{{item.username | filterusername(item.username)}}</div>
                                 </td>
                                 <td>
                                     <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;max-width: 2rem;">{{item.likeNum}}</div>
@@ -240,6 +240,16 @@ export default {
     },
     mounted() {
         this.query();
+    },
+    filters: {
+        filterusername(userName){
+        if(typeof userName == 'string'){
+            return userName.replace(/^(.{1})(?:[\u4e00-\u9fa5, \w]+)(.{1})$/, "$1*$2");
+        }else{
+            return userName;
+        }
+        
+        }
     },
     methods: {
         linkreload(){

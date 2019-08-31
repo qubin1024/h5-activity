@@ -11,18 +11,18 @@
                 <x-textarea title="活动标题" v-model="formD.activityName" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
                 <datetime style="font-size: 0.4rem;" title="活动开始时间" format='YYYY-MM-DD HH:mm' v-model="formD.startTime"></datetime>
                 <datetime style="font-size: 0.4rem;" title="活动结束时间" format='YYYY-MM-DD HH:mm' v-model="formD.endTime"></datetime>
-                <span style="font-size: 0.4rem;text-align: right;display: block;">（活动周期建议5-7天）</span>
+                <span style="font-size: 0.4rem;text-align: right;display: block;">（活动周期建议7-10天）</span>
             </content-wrap>
             <content-wrap title="奖品信息">
-                <x-input title="本期奖品" v-model="formD.prizeNum" style="font-size: 0.4rem;" type="number" :show-clear="showClear"></x-input>
+                <x-input title="本期奖品(份数)" v-model="formD.prizeNum" style="font-size: 0.4rem;" type="number" :show-clear="showClear"></x-input>
                 <x-input title="原价（元）" v-model.number="formD.originalPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
                 <x-input title="底价（元）" v-model.number="formD.floorPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
+                <x-input title="砍价次数" v-model.number="formD.barginNum" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
                 <span style="display: block;font-size: 0.4rem;font-weight：bold;color: #000;padding: 0 15px;">每次减价范围：</span>
                 <x-input title="最少（元）" v-model.number="formD.minReduction" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
                 <x-input title="最多（元）" v-model.number="formD.maxReduction" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
-                <x-input title="砍价次数" v-model.number="formD.barginNum" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
-                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">参考公式： （原价-底价）/ 大致帮忙减人数=帮减范围平均数，帮减范围平均数-5=最小值，帮减范围平均数+5=最大值。建议设置30-40人帮减即可减至底价</span>
-                <x-input title="奖品" v-model="formD.gift" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
+                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">参考公式： （原价-底价）/ 大致帮忙减人数=帮减范围平均数，帮减范围平均数-10=最小值，帮减范围平均数+10=最大值。建议设置20-40人帮减即可减至底价</span>
+                <x-input title="活动礼品" v-model="formD.gift" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
                 <x-input title="间隔时间" v-model="formD.restrictTime" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">报名者每隔<span style="color: red;">{{formD.restrictTime}}</span>小时可以在给自己砍价</span>
                 <add-img ref="prizeDescription"></add-img>
@@ -180,6 +180,19 @@ export default {
             data.bargin.headImage +
             "' style='width: 100%; height: 100%;'/>";
         }
+        if (data.bargin.footImage != null && data.bargin.footImage != "") {
+          this.footImage =
+            "<img src='" +
+            data.bargin.footImage +
+            "' style='width: 100%; height: 100%;'/>";
+        }
+        if (data.bargin.bgImage != null && data.bargin.bgImage != "") {
+          this.bgImage =
+            "<img src='" +
+            data.bargin.bgImage +
+            "' style='width: 100%; height: 100%;'/>";
+        }
+        
         // if (data.bargin.qrImg != null && data.bargin.qrImg != '') {
         //     this.projuctImage = "<img src='" + data.bargin.qrImg + "' style='width: 100%; height: 100%;'/>"
         // }

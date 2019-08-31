@@ -11,7 +11,7 @@
                 <x-textarea title="活动标题" v-model="formD.activityName" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
                 <datetime style="font-size: 0.4rem;" title="活动开始时间" format='YYYY-MM-DD HH:mm' v-model="formD.startTime"></datetime>
                 <datetime style="font-size: 0.4rem;" title="活动结束时间" format='YYYY-MM-DD HH:mm' v-model="formD.endTime"></datetime>
-                <span style="font-size: 0.4rem;text-align: right;display: block;">（活动周期建议5-7天）</span>
+                <span style="font-size: 0.4rem;text-align: right;display: block;">（活动周期建议7-10天）</span>
             </content-wrap>
             <content-wrap title="商品描述">
                 <add-img ref="commodityDescription"></add-img>

@@ -79,7 +79,7 @@
                     font-weight: bold;
                 ">{{formD.phone}}</span>
                     <div class="title-23">
-                        <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
+                        <span style="color: #10aeff;background: #fff;padding: 0 10px;">点击地址，直接导航</span>
                     </div>
                     <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
@@ -676,7 +676,7 @@ export default {
 
 .time-wrap {
     background: #fff;
-    margin: 0.5rem;
+    margin: 0.5rem 0.5rem -1.8rem 0.5rem;
     font-size: 0.4rem;
     height: 1rem;
     line-height: 1rem;
