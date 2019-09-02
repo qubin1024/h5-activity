@@ -100,6 +100,7 @@ import AddImg from "./addImg.vue";
 import ImgUpload from "./imgUpload.vue";
 import page2Info from "./2pageInfo.vue";
 import Data from "./page2Data.js";
+var baseUrl = require("../../config");
 export default {
   name: "page2-edit",
   components: {
@@ -139,7 +140,7 @@ export default {
     let params = this.$route.query;
     this.params = params;
 
-    const url = "https://wx.sharkmeida.cn/gather/info/" + params.id;
+    const url = baseUrl.apiBaseUrl + "gather/info/" + params.id;
 
     this.$http.get(url).then(({ data }) => {
       if (data.code == "0") {
@@ -393,11 +394,11 @@ export default {
         text: "Loading"
       });
       this.$http
-        .post("https://wx.sharkmeida.cn/gather/save/", a)
+        .post(baseUrl.apiBaseUrl + "gather/save/", a)
         .then(({ data }) => {
           this.$vux.loading.hide();
           if (data.code == "0") {
-            this.formD.id = data.gather.id
+            this.formD.id = data.gather.id;
             this.$vux.alert.show({
               title: "提示",
               content: "保存成功！",

@@ -58,6 +58,7 @@ import AddImg from "./addImg.vue";
 import ImgUpload from "./imgUpload.vue";
 import page1Info from "./1pageInfo.vue";
 import Data from "./data.js";
+var baseUrl = require("../../config");
 export default {
   name: "page1-edit",
   components: {
@@ -94,7 +95,7 @@ export default {
     if (!this.$route.query.id) {
       return;
     }
-    const url = "https://wx.sharkmeida.cn/course/info/" + params.id;
+    const url = baseUrl.apiBaseUrl + "course/info/" + params.id;
     this.$http.get(url).then(({ data }) => {
       if (data.code == "0") {
         this.formD = JSON.parse(data.course.courseContent);
@@ -144,7 +145,7 @@ export default {
         text: "Loading"
       });
       this.$http
-        .post("https://wx.sharkmeida.cn/course/save", {
+        .post(baseUrl.apiBaseUrl + "course/save", {
           courseContent: a,
           courseType: 0,
           id: this.params.id

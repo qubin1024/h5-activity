@@ -227,6 +227,7 @@ import Clipboard from "clipboard";
 import CountDown from "./count-down.vue";
 import Data from "./data.js";
 import Scroll from "./scroll.vue";
+var baseUrl = require("../../config");
 export default {
   name: "info",
   components: {
@@ -341,13 +342,10 @@ export default {
       this.home = false;
       this.loading = true;
       this.$http
-        .post(
-          "https://wx.sharkmeida.cn/api/order/getOrderByUserIdAndActivityId",
-          {
-            activityId: this.params.id,
-            user_id: this.user_id || ""
-          }
-        )
+        .post(baseUrl.apiBaseUrl + "api/order/getOrderByUserIdAndActivityId", {
+          activityId: this.params.id,
+          user_id: this.user_id || ""
+        })
         .then(({ data: res }) => {
           this.orderList = res.result.data;
           this.loading = false;
@@ -357,7 +355,7 @@ export default {
       this.active = "package";
       this.loading = true;
       this.$http
-        .post("https://wx.sharkmeida.cn/api/order/getOrderByFromUserId ", {
+        .post(baseUrl.apiBaseUrl + "api/order/getOrderByFromUserId ", {
           activityId: this.params.id,
           from_user: this.params.userid || ""
         })
@@ -387,17 +385,16 @@ export default {
         return this.$vux.toast.text("请填写姓名，电话，类别", "top");
       }
 
-      this.$vux.toast.text("报名成功")
+      this.$vux.toast.text("报名成功");
       wx.ready(() => {
         var shareParam = {
           title: `我是${this.name || this.userName}, 参加了${
             this.formD.activityTheme
           }`, // 分享标题
-          desc: `${this.formD.activityTheme}, 联系电话: ${
-            this.tel
-          }`, // 分享描述
+          desc: `${this.formD.activityTheme}, 联系电话: ${this.tel}`, // 分享描述
           link:
-            "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
+            baseUrl.apiBaseUrl +
+            "dist/redirect.html?id=" +
             this.params.id +
             "&userid=" +
             this.user_id +
@@ -421,62 +418,62 @@ export default {
         wx.onMenuShareTimeline(shareParam);
         wx.onMenuShareAppMessage(shareParam);
       });
-      this.shown = false; 
-        this.$http
-      .post("https://wx.sharkmeida.cn/api/order/save", {
-        activityId: this.params.id,
-        from_user: this.params.userid || "",
-        red_packets: this.randomNum(min, max),
-        total_price: this.formD.productPrice,
-        user_name: this.name,
-        user_type: this.type,
-        mobile: this.tel,
-        user_id: this.user_id
-      })
-      .then(({ data: res }) => {
-        console.log(res);
-        if (res.code != "0000") {
-          return;
-        } else {
-          this.$http
-            .post(
-              "https://wx.sharkmeida.cn/api/wxpay/prepay?user_id=" +
-                this.user_id +
-                "&total_fee=" +
-                this.formD.productPrice.toFixed(2) +
-                "&orderId=" +
-                res.result.orderId,
-              {}
-            )
-            .then(({ data: res }) => {
-              console.log(res);
-              WeixinJSBridge.invoke(
-                "getBrandWCPayRequest",
-                {
-                  appId: "wx2517d7a8920ab213",
-                  timeStamp: res.result.timestamp,
-                  // 支付签名随机串，不长于 32 位
-                  nonceStr: res.result.nonceStr,
-                  // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-                  package: res.result.package,
-                  // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                  signType: "MD5",
-                  // 支付签名
-                  paySign: res.result.paySign
-                },
-                res => {
-                  //支付成功或失败前台判断
-                  if (res.err_msg == "get_brand_wcpay_request:ok") {
-                    this.$vux.toast.text("支付成功！", "top");
-                  } else {
-                    this.$vux.toast.text("支付失败！", "top");
+      this.shown = false;
+      this.$http
+        .post(baseUrl.apiBaseUrl + "api/order/save", {
+          activityId: this.params.id,
+          from_user: this.params.userid || "",
+          red_packets: this.randomNum(min, max),
+          total_price: this.formD.productPrice,
+          user_name: this.name,
+          user_type: this.type,
+          mobile: this.tel,
+          user_id: this.user_id
+        })
+        .then(({ data: res }) => {
+          console.log(res);
+          if (res.code != "0000") {
+            return;
+          } else {
+            this.$http
+              .post(
+                baseUrl.apiBaseUrl +
+                  "api/wxpay/prepay?user_id=" +
+                  this.user_id +
+                  "&total_fee=" +
+                  this.formD.productPrice.toFixed(2) +
+                  "&orderId=" +
+                  res.result.orderId,
+                {}
+              )
+              .then(({ data: res }) => {
+                console.log(res);
+                WeixinJSBridge.invoke(
+                  "getBrandWCPayRequest",
+                  {
+                    appId: "wx2517d7a8920ab213",
+                    timeStamp: res.result.timestamp,
+                    // 支付签名随机串，不长于 32 位
+                    nonceStr: res.result.nonceStr,
+                    // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                    package: res.result.package,
+                    // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                    signType: "MD5",
+                    // 支付签名
+                    paySign: res.result.paySign
+                  },
+                  res => {
+                    //支付成功或失败前台判断
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                      this.$vux.toast.text("支付成功！", "top");
+                    } else {
+                      this.$vux.toast.text("支付失败！", "top");
+                    }
                   }
-                }
-              );
-            
-            });
-        }
-      });
+                );
+              });
+          }
+        });
     },
     stop() {
       var audio = document.getElementById("audio2");
@@ -503,13 +500,14 @@ export default {
       }
       var params = this.$route.query,
         user_id;
-      
+
       this.params = params;
 
       if (!!params.code) {
         this.$http
           .get(
-            "https://wx.sharkmeida.cn/api/wxpay/getUserInfo?code=" +
+            baseUrl.apiBaseUrl +
+              "api/wxpay/getUserInfo?code=" +
               params.code +
               "&state=" +
               params.state
@@ -523,101 +521,105 @@ export default {
               this.headimgurl = res.result.data.user.headimgurl;
               this.user_id = user_id;
               this.loading = true;
-              this.$http.get("https://wx.sharkmeida.cn/distribution/info/" + params.id).then(({ data }) => {
-                if (data.code == "0") {
-                  this.formD = data.distribution;
-                  var fore = data.distribution;
-                  document.title = fore.activityTheme;
-                  this.users = data.user;
-                  this.order = data.order;
-                  this.formD.music = !!this.formD.music
-                    ? JSON.parse(this.formD.music)
-                    : "";
-                  var thumbnail = data.distribution.thumbnail;
-                  var currentUrl = encodeURIComponent(
-                    location.href.split("#")[0]
-                  );
-                  //encodeURIComponent(location.href);
+              this.$http
+                .get(baseUrl.apiBaseUrl + "distribution/info/" + params.id)
+                .then(({ data }) => {
+                  if (data.code == "0") {
+                    this.formD = data.distribution;
+                    var fore = data.distribution;
+                    document.title = fore.activityTheme;
+                    this.users = data.user;
+                    this.order = data.order;
+                    this.formD.music = !!this.formD.music
+                      ? JSON.parse(this.formD.music)
+                      : "";
+                    var thumbnail = data.distribution.thumbnail;
+                    var currentUrl = encodeURIComponent(
+                      location.href.split("#")[0]
+                    );
+                    //encodeURIComponent(location.href);
 
-                  console.log(currentUrl);
-                  //encodeURIComponent(location.href.split('#')[0])
-                  this.$http
-                    .post(
-                      "https://wx.sharkmeida.cn/api/wxpay/initwxjs?url=" +
-                        currentUrl
-                    )
-                    .then((data, status) => {
-                      this.loading = false;
-                      wx.config({
-                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId: data.data.result.data.appId, // 必填，公众号的唯一标识
-                        timestamp: data.data.result.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr: data.data.result.data.nonceStr, // 必填，生成签名的随机串
-                        signature: data.data.result.data.signature, // 必填，签名s
-                        jsApiList: [
-                          "onMenuShareTimeline",
-                          "onMenuShareAppMessage",
-                          "chooseWXPay"
-                        ] // 必填，需要使用的JS接口列表
-                      });
-
-                      wx.ready(() => {
-                        // alert('wx ready')
-
-                        wx.error(function(res) {
-                          // config 信息验证失败会执行 error 函数，如签名过期导致验证失败，具体错误信息可以打开 config 的 debug 模式查看，也可以在返回的 res 参数中查看，对于 SPA 可以在这里更新签名。
-                          console.log(res);
-                        });
-
-                        wx.checkJsApi({
+                    console.log(currentUrl);
+                    //encodeURIComponent(location.href.split('#')[0])
+                    this.$http
+                      .post(
+                        baseUrl.apiBaseUrl +
+                          "api/wxpay/initwxjs?url=" +
+                          currentUrl
+                      )
+                      .then((data, status) => {
+                        this.loading = false;
+                        wx.config({
+                          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                          appId: data.data.result.data.appId, // 必填，公众号的唯一标识
+                          timestamp: data.data.result.data.timestamp, // 必填，生成签名的时间戳
+                          nonceStr: data.data.result.data.nonceStr, // 必填，生成签名的随机串
+                          signature: data.data.result.data.signature, // 必填，签名s
                           jsApiList: [
                             "onMenuShareTimeline",
                             "onMenuShareAppMessage",
                             "chooseWXPay"
-                          ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-                          success: function(res) {
-                            // 以键值对的形式返回，可用的api值true，不可用为false
-                            // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-                            // console.log("checkJsApi" + res);
-                          }
+                          ] // 必填，需要使用的JS接口列表
                         });
-                        var shareParam = {
-                          title: `我是${this.userName}, 参加了${
-                            fore.activityTheme
-                          }`, // 分享标题
-                          desc: `${fore.activityTheme}, 联系电话: ${
-                            fore.phone
-                          }`, // 分享描述
-                          link:
-                            "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
-                            params.id +
-                            "&userid=" +
-                            this.user_id +
-                            "&hash=Info",
-                          // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                          imgUrl: thumbnail, // 分享图标
-                          // type: 'link', // 分享类型,music、video或link，不填默认为link
-                          // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                          trigger: function(res) {
-                            console.log("用户点击发送给朋友");
-                          },
-                          success: function(res) {
-                            console.log("已分享");
-                          },
-                          cancel: function(res) {
-                            console.log("已取消");
-                          },
-                          fail: function(res) {}
-                        };
 
-                        wx.onMenuShareTimeline(shareParam);
-                        wx.onMenuShareAppMessage(shareParam);
+                        wx.ready(() => {
+                          // alert('wx ready')
+
+                          wx.error(function(res) {
+                            // config 信息验证失败会执行 error 函数，如签名过期导致验证失败，具体错误信息可以打开 config 的 debug 模式查看，也可以在返回的 res 参数中查看，对于 SPA 可以在这里更新签名。
+                            console.log(res);
+                          });
+
+                          wx.checkJsApi({
+                            jsApiList: [
+                              "onMenuShareTimeline",
+                              "onMenuShareAppMessage",
+                              "chooseWXPay"
+                            ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                            success: function(res) {
+                              // 以键值对的形式返回，可用的api值true，不可用为false
+                              // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                              // console.log("checkJsApi" + res);
+                            }
+                          });
+                          var shareParam = {
+                            title: `我是${this.userName}, 参加了${
+                              fore.activityTheme
+                            }`, // 分享标题
+                            desc: `${fore.activityTheme}, 联系电话: ${
+                              fore.phone
+                            }`, // 分享描述
+                            link:
+                              baseUrl.apiBaseUrl +
+                              "dist/redirect.html?id=" +
+                              params.id +
+                              "&userid=" +
+                              this.user_id +
+                              "&hash=Info",
+                            // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                            imgUrl: thumbnail, // 分享图标
+                            // type: 'link', // 分享类型,music、video或link，不填默认为link
+                            // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                            trigger: function(res) {
+                              console.log("用户点击发送给朋友");
+                            },
+                            success: function(res) {
+                              console.log("已分享");
+                            },
+                            cancel: function(res) {
+                              console.log("已取消");
+                            },
+                            fail: function(res) {}
+                          };
+
+                          wx.onMenuShareTimeline(shareParam);
+                          wx.onMenuShareAppMessage(shareParam);
+                        });
                       });
-                    });
-                }
-              });
+                  }
+                });
               this.$http
-                .post("https://wx.sharkmeida.cn/distribution/addWatcher", {
+                .post(baseUrl.apiBaseUrl + "distribution/addWatcher", {
                   id: params.id,
                   watcher: res.result.data.user.userId
                 })

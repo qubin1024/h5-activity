@@ -44,7 +44,7 @@ import {
 import Clipboard from "clipboard";
 import Data from "./data.js";
 import Scroll from "./scroll.vue";
-
+var baseUrl = require("../../config");
 export default {
   name: "page1-info",
   components: {
@@ -96,7 +96,7 @@ export default {
         return console.log("id is null");
       }
 
-      const url = "https://wx.sharkmeida.cn/course/info/" + params.id;
+      const url = baseUrl.apiBaseUrl + "course/info/" + params.id;
       this.$http.get(url).then(({ data }) => {
         if (data.code == "0") {
           this.formD = JSON.parse(data.course.courseContent);

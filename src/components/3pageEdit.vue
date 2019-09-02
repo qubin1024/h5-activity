@@ -105,6 +105,7 @@ import ImgUpload from "./imgUpload.vue";
 import page3Info from "./3pageInfo.vue";
 import AddTuan from "./addtuan.vue";
 import Data from "./page3Data.js";
+var baseUrl = require("../../config");
 export default {
   name: "page3-edit",
   components: {
@@ -147,7 +148,7 @@ export default {
 
     this.params = params;
 
-    const url = "https://wx.sharkmeida.cn/bargin/info/" + params.id;
+    const url = baseUrl.apiBaseUrl + "bargin/info/" + params.id;
 
     this.$http.get(url).then(({ data }) => {
       if (data.code == "0") {
@@ -192,7 +193,7 @@ export default {
             data.bargin.bgImage +
             "' style='width: 100%; height: 100%;'/>";
         }
-        
+
         // if (data.bargin.qrImg != null && data.bargin.qrImg != '') {
         //     this.projuctImage = "<img src='" + data.bargin.qrImg + "' style='width: 100%; height: 100%;'/>"
         // }
@@ -418,11 +419,11 @@ export default {
         text: "Loading"
       });
       this.$http
-        .post("https://wx.sharkmeida.cn/bargin/save/", a)
+        .post(baseUrl.apiBaseUrl + "bargin/save/", a)
         .then(({ data }) => {
           this.$vux.loading.hide();
           if (data.code == "0") {
-            this.formD.id = data.bargin.id
+            this.formD.id = data.bargin.id;
             this.$vux.alert.show({
               title: "提示",
               content: "保存成功！",

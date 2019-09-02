@@ -92,6 +92,7 @@ import ImgUpload from "./imgUpload.vue";
 import page4Info from "./4pageInfo.vue";
 import AddTuan from "./addtuan.vue";
 import Data from "./page4Data.js";
+var baseUrl = require("../../config");
 export default {
   name: "page4-edit",
   components: {
@@ -134,7 +135,7 @@ export default {
 
     this.params = params;
 
-    const url = "https://wx.sharkmeida.cn/groupon/info/" + params.id;
+    const url = baseUrl.apiBaseUrl + "groupon/info/" + params.id;
 
     this.$http.get(url).then(({ data }) => {
       if (data.code == "0") {
@@ -366,11 +367,11 @@ export default {
         text: "Loading"
       });
       this.$http
-        .post("https://wx.sharkmeida.cn/groupon/save/", a)
+        .post(baseUrl.apiBaseUrl + "groupon/save/", a)
         .then(({ data }) => {
           this.$vux.loading.hide();
           if (data.code == "0") {
-            this.formD.id = data.groupon.id
+            this.formD.id = data.groupon.id;
             this.$vux.alert.show({
               title: "提示",
               content: "保存成功！",

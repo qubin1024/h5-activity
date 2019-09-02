@@ -196,6 +196,7 @@ import CountDown from "./count-down.vue";
 import ContentWrap from "./content-wrap.vue";
 import Data from "./page3Data.js";
 import Scroll from "./scroll.vue";
+var baseUrl = require("../../config");
 //id =  95ce4038a19b49f5bfedb8722eef9ecf
 export default {
   name: "page3-info",
@@ -265,68 +266,78 @@ export default {
     }
   },
   filters: {
-    filterusername(userName){
-      if(typeof userName == 'string'){
-        return userName.replace(/^(.{1})(?:[\u4e00-\u9fa5, \w]+)(.{1})$/, "$1*$2");
-      }else{
+    filterusername(userName) {
+      if (typeof userName == "string") {
+        return userName.replace(
+          /^(.{1})(?:[\u4e00-\u9fa5, \w]+)(.{1})$/,
+          "$1*$2"
+        );
+      } else {
         return userName;
       }
-      
     }
   },
   mounted() {
     this.query();
   },
-  activated(){
-      // this.loading = true;
-      // this.$http
-      // .get("https://wx.sharkmeida.cn/bargin/info/" + this.params.id)
-      // .then(({ data }) => {
-      //   this.loading = false
-      //   if (data.code == "0") {
-      //     this.formD = data.bargin;
-      //     this.list = data.order;
-      //     this.$refs["bg-main2"].style.background = !this.formD.bgImage
-      //       ? "#edea8f"
-      //       : `url(${this.formD.bgImage})`;
-      //     this.mapInit();
-      //   }
-      // })
+  activated() {
+    // this.loading = true;
+    // this.$http
+    // .get(baseUrl.apiBaseUrl + "bargin/info/" + this.params.id)
+    // .then(({ data }) => {
+    //   this.loading = false
+    //   if (data.code == "0") {
+    //     this.formD = data.bargin;
+    //     this.list = data.order;
+    //     this.$refs["bg-main2"].style.background = !this.formD.bgImage
+    //       ? "#edea8f"
+    //       : `url(${this.formD.bgImage})`;
+    //     this.mapInit();
+    //   }
+    // })
   },
   methods: {
-    linkreload(){
-      location.href = location.origin + '/dist/redirect.html'+ '?id='+ this.params.id +'&hash=3pageInfo&shown=1'
+    linkreload() {
+      location.href =
+        location.origin +
+        "/dist/redirect.html" +
+        "?id=" +
+        this.params.id +
+        "&hash=3pageInfo&shown=1";
     },
-    desensitization(str, beginLen, endLen){
-        var len = str.length;
-        var firstStr = str.substr(0, beginLen);
-        var lastStr = str.substr(endLen);
-        var middleStr = str.substring(beginLen, len-Math.abs(endLen)).replace(/[\s\S]/ig, '*');
+    desensitization(str, beginLen, endLen) {
+      var len = str.length;
+      var firstStr = str.substr(0, beginLen);
+      var lastStr = str.substr(endLen);
+      var middleStr = str
+        .substring(beginLen, len - Math.abs(endLen))
+        .replace(/[\s\S]/gi, "*");
 
-        tempStr = firstStr+middleStr+lastStr;
+      tempStr = firstStr + middleStr + lastStr;
 
-        return tempStr;
-
+      return tempStr;
     },
-    initQQMap(){
-            console.log({
-                latitude: this.formD.latitude, // 纬度，浮点数，范围为90 ~ -90
-                longitude: this.formD.longitude, // 经度，浮点数，范围为180 ~ -180。
-                name: "活动地点", // 位置名
-                address: this.address, // 地址详情说明
-                scale: 10, // 地图缩放级别,整形值,范围从1~28。默认为最大
-            })
-            wx.ready(() => {
-                wx.openLocation({
-                    latitude: this.formD.latitude, // 纬度，浮点数，范围为90 ~ -90
-                    longitude: this.formD.longitude, // 经度，浮点数，范围为180 ~ -180。
-                    name: "活动地点", // 位置名
-                    address: this.address, // 地址详情说明
-                    scale: 10, // 地图缩放级别,整形值,范围从1~28。默认为最大
-                    infoUrl: `http://apis.map.qq.com/uri/v1/marker?marker=coord:${this.formD.latitude},${this.formD.longitude};title:活动地点;addr:${this.address}` // 在查看位置界面底部显示的超链接,可点击跳转
-                });
-            })
-        },
+    initQQMap() {
+      console.log({
+        latitude: this.formD.latitude, // 纬度，浮点数，范围为90 ~ -90
+        longitude: this.formD.longitude, // 经度，浮点数，范围为180 ~ -180。
+        name: "活动地点", // 位置名
+        address: this.address, // 地址详情说明
+        scale: 10 // 地图缩放级别,整形值,范围从1~28。默认为最大
+      });
+      wx.ready(() => {
+        wx.openLocation({
+          latitude: this.formD.latitude, // 纬度，浮点数，范围为90 ~ -90
+          longitude: this.formD.longitude, // 经度，浮点数，范围为180 ~ -180。
+          name: "活动地点", // 位置名
+          address: this.address, // 地址详情说明
+          scale: 10, // 地图缩放级别,整形值,范围从1~28。默认为最大
+          infoUrl: `http://apis.map.qq.com/uri/v1/marker?marker=coord:${
+            this.formD.latitude
+          },${this.formD.longitude};title:活动地点;addr:${this.address}` // 在查看位置界面底部显示的超链接,可点击跳转
+        });
+      });
+    },
     addActive() {
       if (this.ispreview) {
         return;
@@ -336,7 +347,7 @@ export default {
         return this.$vux.toast.text("请填写姓名，电话", "top");
       }
       this.$http
-        .post("https://wx.sharkmeida.cn/api/order/saveOrder", {
+        .post(baseUrl.apiBaseUrl + "api/order/saveOrder", {
           activityId: this.params.id,
           from_user: "",
           red_packets: "",
@@ -348,7 +359,7 @@ export default {
           user_id: this.user_id
         })
         .then(({ data: res }) => {
-          if (res.code == '0000') {
+          if (res.code == "0000") {
             this.$vux.alert.show({
               title: "提示",
               content: "参加成功！分享好友帮砍价，赢礼品。"
@@ -356,35 +367,39 @@ export default {
             this.shareId = res.result.order.orderId;
             this.shown = false;
             wx.ready(() => {
-                var shareParam = {
-                    title: `我是${this.name || this.userName}, 参加了${this.formD.activityName}`, // 分享标题
-                    desc: `${this.formD.activityName}, 联系电话: ${this.tel}`, // 分享描述
-                    link: "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
-                        this.params.id +
-                        "&userid=" +
-                        this.user_id +
-                        "&shareId=" +
-                        this.shareId +
-                        "&hash=3pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                    imgUrl: this.formD.thumbnail, // 分享图标
-                    // type: 'link', // 分享类型,music、video或link，不填默认为link
-                    // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                    trigger: function (res) {
-                        console.log("用户点击发送给朋友");
-                    },
-                    success: function (res) {
-                        console.log("已分享");
-                    },
-                    cancel: function (res) {
-                        console.log("已取消");
-                    },
-                    fail: function (res) {}
-                };
-                wx.onMenuShareTimeline(shareParam);
-                wx.onMenuShareAppMessage(shareParam);
+              var shareParam = {
+                title: `我是${this.name || this.userName}, 参加了${
+                  this.formD.activityName
+                }`, // 分享标题
+                desc: `${this.formD.activityName}, 联系电话: ${this.tel}`, // 分享描述
+                link:
+                  baseUrl.apiBaseUrl +
+                  "dist/redirect.html?id=" +
+                  this.params.id +
+                  "&userid=" +
+                  this.user_id +
+                  "&shareId=" +
+                  this.shareId +
+                  "&hash=3pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: this.formD.thumbnail, // 分享图标
+                // type: 'link', // 分享类型,music、video或link，不填默认为link
+                // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                trigger: function(res) {
+                  console.log("用户点击发送给朋友");
+                },
+                success: function(res) {
+                  console.log("已分享");
+                },
+                cancel: function(res) {
+                  console.log("已取消");
+                },
+                fail: function(res) {}
+              };
+              wx.onMenuShareTimeline(shareParam);
+              wx.onMenuShareAppMessage(shareParam);
             });
             this.$http
-              .post("https://wx.sharkmeida.cn/bargin/queryBarginLog", {
+              .post(baseUrl.apiBaseUrl + "bargin/queryBarginLog", {
                 orderId: this.shareId
               })
               .then(({ data }) => {
@@ -393,7 +408,7 @@ export default {
                 }
               });
             this.$http
-              .post("https://wx.sharkmeida.cn/api/order/getOrderByOrderId", {
+              .post(baseUrl.apiBaseUrl + "api/order/getOrderByOrderId", {
                 orderId: res.result.order.orderId
               })
               .then(({ data: res1 }) => {
@@ -419,7 +434,7 @@ export default {
         return this.$vux.toast.text("请参加活动！");
       }
       this.$http
-        .post("https://wx.sharkmeida.cn/bargin/bargin", {
+        .post(baseUrl.apiBaseUrl + "bargin/bargin", {
           activityId: this.params.id,
           orderId: this.shareId,
           total_price: this.prize,
@@ -432,7 +447,7 @@ export default {
               content: `恭喜你成功砍价${data.result.data.total_price}元`
             });
             this.$http
-              .post("https://wx.sharkmeida.cn/api/order/getOrderByOrderId", {
+              .post(baseUrl.apiBaseUrl + "api/order/getOrderByOrderId", {
                 orderId: this.shareId
               })
               .then(({ data }) => {
@@ -502,8 +517,8 @@ export default {
       this.supportDialog = true;
     },
     goapp() {
-            this.appDialog = true;
-        },
+      this.appDialog = true;
+    },
     showntousu() {
       this.tousuDialog = true;
     },
@@ -559,19 +574,20 @@ export default {
       }
       var params = this.$route.query;
       this.params = params;
-      
-      if(!!params.shareId){
+
+      if (!!params.shareId) {
         this.shareId = params.shareId;
       }
 
-      if(!!params.shown){
+      if (!!params.shown) {
         this.shown = !!params.shown ? true : false;
       }
-      
+
       if (!!params.code) {
         this.$http
           .get(
-            "https://wx.sharkmeida.cn/api/wxpay/getUserInfo?code=" +
+            baseUrl.apiBaseUrl +
+              "api/wxpay/getUserInfo?code=" +
               params.code +
               "&state=" +
               params.state
@@ -583,98 +599,107 @@ export default {
               this.user_id = res.result.data.user.userId;
               this.userName =
                 res.result.data.user.username || res.result.data.user.nickname;
-                this.loading = true;
-                this.$http
-                  .get("https://wx.sharkmeida.cn/bargin/info/" + params.id)
-                  .then(({ data }) => {
-                    if (data.code == "0") {
-                      this.formD = data.bargin;
-                      this.$refs["bg-main2"].style.background = !this.formD.bgImage
-                        ? "#edea8f"
-                        : `url(${this.formD.bgImage})`;
-                      this.mapInit();
-                      var fore = data.bargin;
-                      this.list = data.order;
-                      document.title = fore.activityName;
-                      var thumbnail = data.bargin.thumbnail;
-                      var currentUrl = encodeURIComponent(location.href.split("#")[0]);
-                      this.$http
-                        .post(
-                          "https://wx.sharkmeida.cn/api/wxpay/initwxjs?url=" + currentUrl
-                        )
-                        .then((data, status) => {
-                          this.loading = false;
-                          wx.config({
-                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                            appId: data.data.result.data.appId, // 必填，公众号的唯一标识
-                            timestamp: data.data.result.data.timestamp, // 必填，生成签名的时间戳
-                            nonceStr: data.data.result.data.nonceStr, // 必填，生成签名的随机串
-                            signature: data.data.result.data.signature, // 必填，签名s
+              this.loading = true;
+              this.$http
+                .get(baseUrl.apiBaseUrl + "bargin/info/" + params.id)
+                .then(({ data }) => {
+                  if (data.code == "0") {
+                    this.formD = data.bargin;
+                    this.$refs["bg-main2"].style.background = !this.formD
+                      .bgImage
+                      ? "#edea8f"
+                      : `url(${this.formD.bgImage})`;
+                    this.mapInit();
+                    var fore = data.bargin;
+                    this.list = data.order;
+                    document.title = fore.activityName;
+                    var thumbnail = data.bargin.thumbnail;
+                    var currentUrl = encodeURIComponent(
+                      location.href.split("#")[0]
+                    );
+                    this.$http
+                      .post(
+                        baseUrl.apiBaseUrl +
+                          "api/wxpay/initwxjs?url=" +
+                          currentUrl
+                      )
+                      .then((data, status) => {
+                        this.loading = false;
+                        wx.config({
+                          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                          appId: data.data.result.data.appId, // 必填，公众号的唯一标识
+                          timestamp: data.data.result.data.timestamp, // 必填，生成签名的时间戳
+                          nonceStr: data.data.result.data.nonceStr, // 必填，生成签名的随机串
+                          signature: data.data.result.data.signature, // 必填，签名s
+                          jsApiList: [
+                            "onMenuShareTimeline",
+                            "onMenuShareAppMessage",
+                            "chooseWXPay",
+                            "openLocation"
+                          ] // 必填，需要使用的JS接口列表
+                        });
+
+                        wx.ready(() => {
+                          wx.error(function(res) {
+                            // config 信息验证失败会执行 error 函数，如签名过期导致验证失败，具体错误信息可以打开 config 的 debug 模式查看，也可以在返回的 res 参数中查看，对于 SPA 可以在这里更新签名。
+                            console.log(res);
+                          });
+
+                          wx.checkJsApi({
                             jsApiList: [
                               "onMenuShareTimeline",
                               "onMenuShareAppMessage",
-                              "chooseWXPay",
-                              "openLocation"
-                            ] // 必填，需要使用的JS接口列表
+                              "chooseWXPay"
+                            ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                            success: function(res) {
+                              // 以键值对的形式返回，可用的api值true，不可用为false
+                              // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                              // console.log("checkJsApi" + res);
+                            }
                           });
 
-                          wx.ready(() => {
-
-                            wx.error(function(res) {
-                              // config 信息验证失败会执行 error 函数，如签名过期导致验证失败，具体错误信息可以打开 config 的 debug 模式查看，也可以在返回的 res 参数中查看，对于 SPA 可以在这里更新签名。
-                              console.log(res);
-                            });
-
-                            wx.checkJsApi({
-                              jsApiList: [
-                                "onMenuShareTimeline",
-                                "onMenuShareAppMessage",
-                                "chooseWXPay"
-                              ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-                              success: function(res) {
-                                // 以键值对的形式返回，可用的api值true，不可用为false
-                                // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-                                // console.log("checkJsApi" + res);
-                              }
-                            });
-                            
-                            var shareParam = {
-                              title: `我是${this.userName}, 参加了${fore.activityName}`, // 分享标题
-                              desc: `${fore.activityName}, 联系电话: ${fore.phone}`, // 分享描述
-                              link:
-                                "https://wx.sharkmeida.cn/dist/redirect.html?id=" +
-                                params.id +
-                                "&userid=" +
-                                this.user_id +
-                                "&shareId=" +
-                                this.shareId +
-                                "&hash=3pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                              imgUrl: thumbnail, // 分享图标
-                              // type: 'link', // 分享类型,music、video或link，不填默认为link
-                              // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                              trigger: function(res) {
-                                console.log("用户点击发送给朋友");
-                              },
-                              success: function(res) {
-                                console.log("已分享");
-                              },
-                              cancel: function(res) {
-                                console.log("已取消");
-                              },
-                              fail: function(res) {}
-                            };
-                            wx.onMenuShareTimeline(shareParam);
-                            wx.onMenuShareAppMessage(shareParam);
-                          });
+                          var shareParam = {
+                            title: `我是${this.userName}, 参加了${
+                              fore.activityName
+                            }`, // 分享标题
+                            desc: `${fore.activityName}, 联系电话: ${
+                              fore.phone
+                            }`, // 分享描述
+                            link:
+                              baseUrl.apiBaseUrl +
+                              "dist/redirect.html?id=" +
+                              params.id +
+                              "&userid=" +
+                              this.user_id +
+                              "&shareId=" +
+                              this.shareId +
+                              "&hash=3pageInfo", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                            imgUrl: thumbnail, // 分享图标
+                            // type: 'link', // 分享类型,music、video或link，不填默认为link
+                            // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                            trigger: function(res) {
+                              console.log("用户点击发送给朋友");
+                            },
+                            success: function(res) {
+                              console.log("已分享");
+                            },
+                            cancel: function(res) {
+                              console.log("已取消");
+                            },
+                            fail: function(res) {}
+                          };
+                          wx.onMenuShareTimeline(shareParam);
+                          wx.onMenuShareAppMessage(shareParam);
                         });
-                    }
-                  });
+                      });
+                  }
+                });
             }
           });
-        }
+      }
       if (!!params.shareId) {
         this.$http
-          .post("https://wx.sharkmeida.cn/api/order/getOrderByOrderId", {
+          .post(baseUrl.apiBaseUrl + "api/order/getOrderByOrderId", {
             orderId: params.shareId
           })
           .then(({ data }) => {
@@ -684,7 +709,7 @@ export default {
             }
           });
         this.$http
-          .post("https://wx.sharkmeida.cn/bargin/queryBarginLog", {
+          .post(baseUrl.apiBaseUrl + "bargin/queryBarginLog", {
             orderId: params.shareId
           })
           .then(({ data }) => {
@@ -693,7 +718,6 @@ export default {
             }
           });
       }
-      
     }
   }
 };
@@ -701,13 +725,13 @@ export default {
 
 <style>
 table {
-    width: 100%;
-    text-align: center;
-    line-height: 0.8rem;
+  width: 100%;
+  text-align: center;
+  line-height: 0.8rem;
 }
 
 table th {
-    color: #f43530;
+  color: #f43530;
 }
 .t-o {
   display: flex;
