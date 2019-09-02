@@ -400,7 +400,7 @@ export default {
             this.user_id +
             "&hash=Info",
           // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: thumbnail, // 分享图标
+          imgUrl: this.formD.thumbnail, // 分享图标
           // type: 'link', // 分享类型,music、video或link，不填默认为link
           // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
           trigger: function(res) {
@@ -721,6 +721,7 @@ export default {
 .wrap-2 .img {
   width: 2rem;
   height: 2rem;
+  border-radius: 50%;
 }
 .wrap-2 .text {
   width: 6rem;
