@@ -12,13 +12,13 @@
                     <count-down class="time-wrap" v-if='!!formD.startTime && formD.endTime' :startTime="formD.startTime" :endTime="formD.endTime"></count-down>
                     <content-wrap>
                         <dd class="barline" v-if="prize != null">
-							<div w="50" :style="{
-                                'width': parseFloat((formD.originalPrice-prize) / (formD.originalPrice - formD.floorPrice)) * 100 + '%'
-                            }" class="charts">
-								<img src="../assets/yuan.png">
-								<div class="price">¥{{prize}}<i></i></div>
-							</div>
-						</dd>
+                          <div w="50" :style="{
+                                            'width': parseFloat((formD.originalPrice-prize) / (formD.originalPrice - formD.floorPrice)) * 100 + '%'
+                                        }" class="charts">
+                            <img src="../assets/yuan.png">
+                            <div class="price">¥{{prize}}<i></i></div>
+                          </div>
+                        </dd>
                         <div class="t-o">
                             <div>原价：<span>{{formD.originalPrice}}元</span></div>
                             <div>底价：<span>{{formD.floorPrice}}元</span></div>
@@ -94,7 +94,7 @@
                                 <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                                 <div id="showPosition" style="height: 5rem"></div>
                         </content-wrap>
-                        <content-wrap title="店内优惠" v-if="JSON.parse(formD.discount).length">
+                        <content-wrap title="店内优惠" v-if="!!formD.discount && JSON.parse(formD.discount).length">
                             <div v-if="!!formD.discount">
                                 <div v-for="item in JSON.parse(formD.discount)" :key="item.key" style="line-height: 0.4rem;">
                                     <img v-if="item.type == 'uploadImg'" :src="item.img"  style=" width: 100%;display: block;"/>

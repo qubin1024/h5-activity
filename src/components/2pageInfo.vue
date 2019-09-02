@@ -70,7 +70,7 @@
                     <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
-                <content-wrap title="店内优惠" v-if="JSON.parse(formD.discount).length">
+                <content-wrap title="店内优惠" v-if="!!formD.discount && JSON.parse(formD.discount).length">
                     <div>
                         <div v-for="item in JSON.parse(formD.discount)" :key="item.key" style="line-height: 0.4rem;">
                             <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />

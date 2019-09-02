@@ -164,7 +164,7 @@
                             <div class="btn-c" v-show="!home"  @click="getorder" :style="{'background': active == 'order' ? '#fdd926' : ''}">
                                <i class="fa fa-list-alt" aria-hidden="true"></i>  我的订单
                             </div>
-                            <div class="btn-c" v-show="!home" @click="package" :style="{'background': active == 'package' ? '#fdd926' : ''}">
+                            <div class="btn-c" v-show="!home" @click="package2" :style="{'background': active == 'package' ? '#fdd926' : ''}">
                                 <i class="fa fa-bullhorn" aria-hidden="true"></i> 我的推广红包
                             </div>
                         </div>
@@ -351,7 +351,7 @@ export default {
           this.loading = false;
         });
     },
-    package() {
+    package2() {
       this.active = "package";
       this.loading = true;
       this.$http
