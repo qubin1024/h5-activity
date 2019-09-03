@@ -22,6 +22,17 @@ export default {
   data: function() {
     return {};
   },
+  created() {
+    let config = {};
+    config.url = window.location.href;
+    // 判断当前url是否存在?参数匹配符
+    if (!config.url.match(/\?/)) {
+      location.replace(
+        window.location.href.split("#")[0] + "?" + window.location.hash
+      );
+      return;
+    }
+  },
   mounted() {},
   methods: {
     pay() {

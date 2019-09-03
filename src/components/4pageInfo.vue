@@ -686,7 +686,7 @@ export default {
 
 .time-wrap {
   background: #fff;
-  margin: 0.5rem 0.5rem -1.8rem 0.5rem;
+  margin: 0.3rem;
   font-size: 0.4rem;
   height: 1rem;
   line-height: 1rem;

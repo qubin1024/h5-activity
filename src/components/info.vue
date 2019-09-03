@@ -435,43 +435,14 @@ export default {
           if (res.code != "0000") {
             return;
           } else {
-            this.$http
-              .post(
-                baseUrl.apiBaseUrl +
-                  "api/wxpay/prepay?user_id=" +
-                  this.user_id +
-                  "&total_fee=" +
-                  this.formD.productPrice.toFixed(2) +
-                  "&orderId=" +
-                  res.result.orderId,
-                {}
-              )
-              .then(({ data: res }) => {
-                console.log(res);
-                WeixinJSBridge.invoke(
-                  "getBrandWCPayRequest",
-                  {
-                    appId: "wx2517d7a8920ab213",
-                    timeStamp: res.result.timestamp,
-                    // 支付签名随机串，不长于 32 位
-                    nonceStr: res.result.nonceStr,
-                    // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-                    package: res.result.package,
-                    // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                    signType: "MD5",
-                    // 支付签名
-                    paySign: res.result.paySign
-                  },
-                  res => {
-                    //支付成功或失败前台判断
-                    if (res.err_msg == "get_brand_wcpay_request:ok") {
-                      this.$vux.toast.text("支付成功！", "top");
-                    } else {
-                      this.$vux.toast.text("支付失败！", "top");
-                    }
-                  }
-                );
-              });
+            this.$router.replace({
+              path: "/payInfo",
+              query: {
+                orderId: res.result.orderId,
+                prize: this.formD.productPrice.toFixed(2),
+                userId: this.user_id
+              }
+            });
           }
         });
     },
@@ -721,7 +692,8 @@ export default {
 .wrap-2 .img {
   width: 2rem;
   height: 2rem;
-  border-radius: 50%;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 .wrap-2 .text {
   width: 6rem;
