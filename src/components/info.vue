@@ -435,14 +435,22 @@ export default {
           if (res.code != "0000") {
             return;
           } else {
-            this.$router.replace({
-              path: "/payInfo",
-              query: {
-                orderId: res.result.orderId,
-                prize: this.formD.productPrice.toFixed(2),
-                userId: this.user_id
-              }
-            });
+            location.href =
+              baseUrl.apiBaseUrl +
+              "dist/pay.html?user_id=" +
+              this.user_id +
+              "&total_fee=" +
+              this.formD.productPrice.toFixed(2) +
+              "&orderId=" +
+              res.result.orderId;
+            // this.$router.replace({
+            //   path: "/payInfo",
+            //   query: {
+            //     orderId: res.result.orderId,
+            //     prize: this.formD.productPrice.toFixed(2),
+            //     userId: this.user_id
+            //   }
+            // });
           }
         });
     },
