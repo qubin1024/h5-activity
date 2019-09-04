@@ -120,6 +120,7 @@
         $('.btn-pay').click(function () {
             $.ajax({
                 url: "https://wx.sharkmeida.cn/api/wxpay/prepay" + location.search,
+                type: 'POST',
                 success: function (res) {
                     WeixinJSBridge.invoke(
                         "getBrandWCPayRequest",
