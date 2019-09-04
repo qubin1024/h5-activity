@@ -402,14 +402,22 @@ export default {
         })
         .then(({ data }) => {
           if (data.code == "0000") {
-            this.$router.replace({
-              path: "/payInfo",
-              query: {
-                orderId: this.orderId,
-                prize: data.result.data.total_price,
-                userId: this.user_id
-              }
-            });
+            location.href =
+              baseUrl.apiBaseUrl +
+              "dist/pay.html?user_id=" +
+              this.user_id +
+              "&total_fee=" +
+              data.result.data.total_price +
+              "&orderId=" +
+              this.orderId;
+            // this.$router.replace({
+            //   path: "/payInfo",
+            //   query: {
+            //     orderId: this.orderId,
+            //     prize: data.result.data.total_price,
+            //     userId: this.user_id
+            //   }
+            // });
           }
         });
     },

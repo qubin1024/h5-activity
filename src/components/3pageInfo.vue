@@ -471,14 +471,22 @@ export default {
           content: "订单不存在或者金额异常"
         });
       }
-      this.$router.replace({
-        path: "/payInfo",
-        query: {
-          orderId: this.shareId,
-          prize: this.prize,
-          userId: this.b_userId
-        }
-      });
+      location.href =
+        baseUrl.apiBaseUrl +
+        "dist/pay.html?user_id=" +
+        this.b_userId +
+        "&total_fee=" +
+        this.prize +
+        "&orderId=" +
+        this.shareId;
+      // this.$router.replace({
+      //   path: "/payInfo",
+      //   query: {
+      //     orderId: this.shareId,
+      //     prize: this.prize,
+      //     userId: this.b_userId
+      //   }
+      // });
     },
     mapInit() {
       var self = this;
