@@ -24,7 +24,7 @@
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">参考公式： （原价-底价）/ 大致帮忙减人数=帮减范围平均数，帮减范围平均数-10=最小值，帮减范围平均数+10=最大值。建议设置20-40人帮减即可减至底价</span>
                 <x-input title="活动礼品" v-model="formD.gift" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
                 <x-input title="间隔时间" v-model="formD.restrictTime" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
-                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">报名者每隔<span style="color: red;">{{formD.restrictTime}}</span>小时可以在给自己砍价</span>
+                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">报名者每隔<span style="color: red;">{{formD.restrictTime}}</span>小时可以在给自己砍价，间隔时间不能小于1</span>
                 <add-img ref="prizeDescription"></add-img>
             </content-wrap>
             <content-wrap title="活动规则">

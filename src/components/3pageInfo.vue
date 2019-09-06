@@ -42,7 +42,7 @@
                             <div style="text-align: center;margin: 0.4rem;">本期奖品 <span style="color: red;"> {{formD.prizeNum}} 份</span>， 剩余<span style="color: red;"> {{formD.prizeLeft}} 份</span></div>
                             <div style="text-align: center;margin: 0.4rem;"><span style="color: red;"> {{formD.gift}} 商品</span>，原价<span style="color: red;"> {{formD.originalPrice}}元</span>活动亏本卖， 最低降到<span style="color: red;"> {{formD.floorPrice}}元</span>，数量有限，售完即止。</div>
                             
-                            <div v-if="!!formD.prizeDescription">
+                            <div v-if="!!formD.prizeDescription  && JSON.parse(formD.prizeDescription).length">
                                 <div v-for="item in JSON.parse(formD.prizeDescription)" :key="item.key" style="line-height: 0.4rem;">
                                     <img v-if="item.type == 'uploadImg'" :src="item.img"  style=" width: 100%;display: block;"/>
                                     <pre v-if="item.type == 'uploadText'" style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{item.img}}</pre>
@@ -60,7 +60,7 @@
                         <content-wrap title="领奖信息" v-if="!!formD.prizeInfo">
                             <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.prizeInfo}}</pre>
                         </content-wrap>
-                        <content-wrap title="机构介绍" v-if="!!formD.companyDescription">
+                        <content-wrap title="机构介绍" v-if="!!formD.companyDescription  && JSON.parse(formD.companyDescription).length">
                             <div >
                                 <div v-for="item in JSON.parse(formD.companyDescription)" :key="item.key" style="line-height: 0.4rem;">
                                     <img v-if="item.type == 'uploadImg'" :src="item.img"  style=" width: 100%;display: block;"/>
@@ -91,6 +91,7 @@
                                 <div class="title-23">
                                     <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                                 </div>
+                                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">（点击下方位置，直接导航）</span><br/>
                                 <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                                 <div id="showPosition" style="height: 5rem"></div>
                         </content-wrap>

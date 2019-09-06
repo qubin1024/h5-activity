@@ -14,11 +14,17 @@
                     <img v-if="!!shareId && b_userId != user_id" src="../assets/btn-7.png" @click="linkreload" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
                     <img v-if="!!this.shareId" src="../assets/btn-2.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
                     <img v-if="!this.shareId" src="../assets/btn-7.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
+                    <div class="wrap-3">
+                        <div v-for="(item, index) in list" :key="index">
+                            <img :src="item.headimgurl" />
+                            <span>{{item.username}}</span>
+                        </div>
+                    </div>
                 </content-wrap>
                 <content-wrap title="奖品信息">
                     <div style="text-align: center;margin: 0.4rem;">本期奖品 <span style="color: red;"> {{formD.priceNum}} 份</span>， 剩余<span style="color: red;"> {{formD.prizeLeft}} 份</span></div>
                     <div style="text-align: center;margin: 0.4rem;">活动期间内 集到 <span style="color: red;"> {{formD.targetNum}} 个赞</span>， 即可<span style="color: red;"> 赢取{{formD.gift}} </span></div>
-                    <div v-if="!!formD.priceDescription">
+                    <div v-if="!!formD.priceDescription  && JSON.parse(formD.priceDescription).length">
                         <div v-for="item in JSON.parse(formD.priceDescription)" :key="item.key" style="line-height: 0.4rem;">
                             <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />
                             <pre v-if="item.type == 'uploadText'" style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{item.img}}</pre>
@@ -36,7 +42,7 @@
                 <content-wrap title="领奖信息" v-if="formD.priceInfo">
                     <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.priceInfo}}</pre>
                 </content-wrap>
-                <content-wrap title="机构介绍" v-if="formD.companyDescription">
+                <content-wrap title="机构介绍" v-if="!!formD.companyDescription  && JSON.parse(formD.companyDescription).length">
                     <div>
                         <div v-for="item in JSON.parse(formD.companyDescription)" :key="item.key" style="line-height: 0.4rem;">
                             <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />
@@ -67,6 +73,7 @@
                     <div class="title-23">
                         <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                     </div>
+                    <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">（点击下方位置，直接导航）</span><br/>
                     <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
@@ -85,7 +92,7 @@
                             <th>排名</th>
                             <th>姓名</th>
                             <th>集赞数</th>
-                            <th>完成时间</th>
+                            <th>完成状态</th>
                         </thead>
                         <tbody>
                             <tr v-for="(item, index) in list" :key="index">
@@ -585,6 +592,16 @@ export default {
             }
           });
       }
+      this.$http
+        .post(baseUrl.apiBaseUrl + "gather/queryLikeLog", {
+          id: params.id
+        })
+        .then(({ data: res }) => {
+          if (res.code == "0000") {
+            this.list = res.result.data;
+          } else {
+          }
+        });
       this.$http
         .post(baseUrl.apiBaseUrl + "gather/queryLike", {
           activityId: params.id

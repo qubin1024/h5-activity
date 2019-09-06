@@ -10,7 +10,7 @@
             </div>
             <div class="middle">
                 <count-down class="time-wrap" v-if='!!formD.startTime && formD.endTime' :startTime="formD.startTime" :endTime="formD.endTime"></count-down>
-                <content-wrap>
+                <content-wrap style="margin-top: 1rem;">
                     <img src="../assets/pingtuan.png" style="width: 100%;">
                 </content-wrap>
                 <content-wrap title="商品信息">
@@ -50,7 +50,7 @@
                 <content-wrap title="活动规则" v-if="formD.activityRule">
                     <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.activityRule}}</pre>
                 </content-wrap>
-                <content-wrap title="机构介绍" v-if="!!formD.companyDescription">
+                <content-wrap title="机构介绍" v-if="!!formD.companyDescription  && JSON.parse(formD.companyDescription).length">
                     <div>
                         <div v-for="item in JSON.parse(formD.companyDescription)" :key="item.key" style="line-height: 0.4rem;">
                             <img v-if="item.type == 'uploadImg'" :src="item.img" style=" width: 100%;display: block;" />
@@ -79,8 +79,9 @@
                     font-weight: bold;
                 ">{{formD.phone}}</span>
                     <div class="title-23">
-                        <span style="color: #10aeff;background: #fff;padding: 0 10px;">点击地址，直接导航</span>
+                        <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                     </div>
+                    <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">（点击下方位置，直接导航）</span><br/>
                     <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
@@ -341,11 +342,6 @@ export default {
               .then(({ data: res }) => {
                 if (res.code == "0000") {
                   this.list = res.result.data;
-                  res.result.data.forEach(item => {
-                    if (item.user_id == this.user_id) {
-                      this.orderId = item.order_id;
-                    }
-                  });
                 } else {
                 }
               });

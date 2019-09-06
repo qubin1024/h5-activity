@@ -122,8 +122,8 @@
                 url: "https://wx.sharkmeida.cn/api/wxpay/prepay" + location.search,
                 type: 'POST',
                 success: function (res) {
-                    if (res.result.result === false) {
-                        alert(res.result.info)
+                    if (res.code === '0000') {
+                        alert(res.msg)
                     } else {
                         WeixinJSBridge.invoke(
                             "getBrandWCPayRequest",

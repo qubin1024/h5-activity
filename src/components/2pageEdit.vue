@@ -20,7 +20,7 @@
                 <x-input title="活动礼品" v-model="formD.gift" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">活动期间内集满<span style="color: red;">{{formD.targetNum}}</span>个赞，即可领取礼品</span>
                 <x-input title="间隔时间(小时)" v-model="formD.restrictTime" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
-                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">报名者每隔<span style="color: red;">{{formD.restrictTime}}</span>小时可以在给自己集赞</span>
+                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">报名者每隔<span style="color: red;">{{formD.restrictTime}}</span>小时可以在给自己集赞,间隔时间不能小于1</span>
                 <add-img ref="priceDescription"></add-img>
             </content-wrap>
             <content-wrap title="活动规则">

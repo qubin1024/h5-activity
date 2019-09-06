@@ -17,7 +17,7 @@
                 <add-img ref="commodityDescription"></add-img>
                 <x-input title="原价（元）" v-model.number="formD.originalPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
                 <add-tuan ref="distuan"></add-tuan>
-                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">你可以设置多组团，最多设置<span style="color: red;"> 5 </span>组，拼团人数应该逐渐增多，拼团价应该逐渐减小，请认真设置，有人参团后不可修改，建议3人拼团价=原价*30%，5人拼团价=原价*20%，8人拼团价=原价*10%。</span>
+                <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">你可以设置多组团，最多设置<span style="color: red;"> 5 </span>组，拼团人数应该逐渐增多，拼团价应该逐渐减小，请认真设置，有人参团后不可修改，建议3人拼团价=原价*30%，5人拼团价=原价*80%，10人拼团价=原价*50%，20人拼团价=原价*30%，40人拼团价=原价*10%。具体要看你发起活动的目标人数和产品的目标价格。</span>
             </content-wrap>
             <content-wrap title="领奖信息">
                 <x-textarea title="信息描述" v-model="formD.prizeInfo" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
