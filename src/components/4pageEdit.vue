@@ -9,21 +9,21 @@
             </div>
             <content-wrap title="活动信息">
                 <x-textarea title="活动标题" v-model="formD.activityName" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
-                <datetime style="font-size: 0.4rem;" title="活动开始时间" format='YYYY-MM-DD HH:mm' v-model="formD.startTime"></datetime>
-                <datetime style="font-size: 0.4rem;" title="活动结束时间" format='YYYY-MM-DD HH:mm' v-model="formD.endTime"></datetime>
+                <datetime style="font-size: 0.4rem;" title="活动开始时间:" format='YYYY-MM-DD HH:mm' v-model="formD.startTime"></datetime>
+                <datetime style="font-size: 0.4rem;" title="活动结束时间:" format='YYYY-MM-DD HH:mm' v-model="formD.endTime"></datetime>
                 <span style="font-size: 0.4rem;text-align: right;display: block;">（活动周期建议7-10天）</span>
             </content-wrap>
             <content-wrap title="商品描述">
                 <add-img ref="commodityDescription"></add-img>
-                <x-input title="原价（元）" v-model.number="formD.originalPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
+                <x-input title="原价（元）:" v-model.number="formD.originalPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
                 <add-tuan ref="distuan"></add-tuan>
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">你可以设置多组团，最多设置<span style="color: red;"> 5 </span>组，拼团人数应该逐渐增多，拼团价应该逐渐减小，请认真设置，有人参团后不可修改，建议3人拼团价=原价*30%，5人拼团价=原价*80%，10人拼团价=原价*50%，20人拼团价=原价*30%，40人拼团价=原价*10%。具体要看你发起活动的目标人数和产品的目标价格。</span>
             </content-wrap>
             <content-wrap title="领奖信息">
-                <x-textarea title="信息描述" v-model="formD.prizeInfo" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
+                <x-textarea title="信息描述:" v-model="formD.prizeInfo" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
             </content-wrap>
             <content-wrap title="活动规则">
-                <x-textarea title="规则信息" v-model="formD.activityRule" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
+                <x-textarea title="规则信息:" v-model="formD.activityRule" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
             </content-wrap>
             <content-wrap title="机构介绍">
                 <add-img ref="companyDescription"></add-img>
@@ -38,11 +38,11 @@
                 <div class="title-23">
                     <span style="color: #10aeff;background: #fff;padding: 0 10px;">咨询电话</span>
                 </div>
-                <x-input title="电话" v-model="formD.phone" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
+                <x-input title="电话:" v-model="formD.phone" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
                 <div class="title-23">
                     <span style="color: #10aeff;background: #fff;padding: 0 10px;">选择位置</span>
                 </div>
-                <x-textarea title="地理位置" v-model="formD.address" style="border: 1px dashed #ccc;" :rows="3" :show-clear="showClear"></x-textarea>
+                <x-textarea title="地理位置:" v-model="formD.address" style="border: 1px dashed #ccc;" :rows="3" :show-clear="showClear"></x-textarea>
                 <span style="display: block;font-size: 0.3rem;color: #843493;padding: 0 15px;">{{address}}</span>
                 <div id="container" style="height: 5rem"></div>
             </content-wrap>

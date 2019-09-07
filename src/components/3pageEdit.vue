@@ -8,30 +8,30 @@
                 <img-upload v-if='!headImage' ref="headImage" placeholder="上传头部图片" @uploadCallback="getHeadUrl($event)"></img-upload>
             </div>
             <content-wrap title="活动信息">
-                <x-textarea title="活动标题" v-model="formD.activityName" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
-                <datetime style="font-size: 0.4rem;" title="活动开始时间" format='YYYY-MM-DD HH:mm' v-model="formD.startTime"></datetime>
-                <datetime style="font-size: 0.4rem;" title="活动结束时间" format='YYYY-MM-DD HH:mm' v-model="formD.endTime"></datetime>
+                <x-textarea title="活动标题:" v-model="formD.activityName" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
+                <datetime style="font-size: 0.4rem;" title="活动开始时间:" format='YYYY-MM-DD HH:mm' v-model="formD.startTime"></datetime>
+                <datetime style="font-size: 0.4rem;" title="活动结束时间:" format='YYYY-MM-DD HH:mm' v-model="formD.endTime"></datetime>
                 <span style="font-size: 0.4rem;text-align: right;display: block;">（活动周期建议7-10天）</span>
             </content-wrap>
             <content-wrap title="奖品信息">
-                <x-input title="本期奖品(份数)" v-model="formD.prizeNum" style="font-size: 0.4rem;" type="number" :show-clear="showClear"></x-input>
-                <x-input title="原价（元）" v-model.number="formD.originalPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
-                <x-input title="底价（元）" v-model.number="formD.floorPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
-                <x-input title="砍价次数" v-model.number="formD.barginNum" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
+                <x-input title="本期奖品(份数):" v-model="formD.prizeNum" style="font-size: 0.4rem;" type="number" :show-clear="showClear"></x-input>
+                <x-input title="原价（元）:" v-model.number="formD.originalPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
+                <x-input title="底价（元）:" v-model.number="formD.floorPrice" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
+                <x-input title="砍价次数:" v-model.number="formD.barginNum" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
                 <span style="display: block;font-size: 0.4rem;font-weight：bold;color: #000;padding: 0 15px;">每次减价范围：</span>
-                <x-input title="最少（元）" v-model.number="formD.minReduction" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
-                <x-input title="最多（元）" v-model.number="formD.maxReduction" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
+                <x-input title="最少（元）:" v-model.number="formD.minReduction" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
+                <x-input title="最多（元）:" v-model.number="formD.maxReduction" style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">参考公式： （原价-底价）/ 大致帮忙减人数=帮减范围平均数，帮减范围平均数-10=最小值，帮减范围平均数+10=最大值。建议设置20-40人帮减即可减至底价</span>
-                <x-input title="活动礼品" v-model="formD.gift" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
-                <x-input title="间隔时间" v-model="formD.restrictTime" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
+                <x-input title="活动礼品:" v-model="formD.gift" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
+                <x-input title="间隔时间:" v-model="formD.restrictTime" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
                 <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">报名者每隔<span style="color: red;">{{formD.restrictTime}}</span>小时可以在给自己砍价，间隔时间不能小于1</span>
                 <add-img ref="prizeDescription"></add-img>
             </content-wrap>
             <content-wrap title="活动规则">
-                <x-textarea title="规则信息" v-model="formD.activityRule" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
+                <x-textarea title="规则信息:" v-model="formD.activityRule" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
             </content-wrap>
             <content-wrap title="领奖信息">
-                <x-textarea title="信息描述" v-model="formD.prizeInfo" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
+                <x-textarea title="信息描述:" v-model="formD.prizeInfo" style="border: 1px dashed #ccc;" :rows="5" :show-clear="showClear"></x-textarea>
             </content-wrap>
             <content-wrap title="机构介绍">
                 <add-img ref="companyDescription"></add-img>
@@ -46,11 +46,11 @@
                 <div class="title-23">
                     <span style="color: #10aeff;background: #fff;padding: 0 10px;">咨询电话</span>
                 </div>
-                <x-input title="电话" v-model="formD.phone" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
+                <x-input title="电话:" v-model="formD.phone" type="number" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
                 <div class="title-23">
                     <span style="color: #10aeff;background: #fff;padding: 0 10px;">选择位置</span>
                 </div>
-                <x-textarea title="地理位置" v-model="formD.address" style="border: 1px dashed #ccc;" :rows="3" :show-clear="showClear"></x-textarea>
+                <x-textarea title="地理位置:" v-model="formD.address" style="border: 1px dashed #ccc;" :rows="3" :show-clear="showClear"></x-textarea>
                 <span style="display: block;font-size: 0.3rem;color: #843493;padding: 0 15px;">{{address}}</span>
                 <div id="container" style="height: 5rem"></div>
             </content-wrap>

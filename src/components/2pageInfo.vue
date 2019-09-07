@@ -12,14 +12,15 @@
                 <count-down class="time-wrap" v-if='!!formD.startTime && formD.endTime' :startTime="formD.startTime" :endTime="formD.endTime"></count-down>
                 <content-wrap>
                     <img v-if="!!shareId && b_userId != user_id" src="../assets/btn-7.png" @click="linkreload" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
-                    <img v-if="!!this.shareId" src="../assets/btn-2.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
                     <img v-if="!this.shareId" src="../assets/btn-7.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
+                    <img v-if="!!this.shareId" src="../assets/btn-2.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;" />
                     <div class="wrap-3">
-                        <div v-for="(item, index) in list" :key="index">
+                        <div v-for="(item, index) in tlist" :key="index">
                             <img :src="item.headimgurl" />
                             <span>{{item.username}}</span>
                         </div>
                     </div>
+                    <span style="font-size: 0.3rem;color: #ccc;">已经有{{tlist.length}}个人帮你点赞</span>
                 </content-wrap>
                 <content-wrap title="奖品信息">
                     <div style="text-align: center;margin: 0.4rem;">本期奖品 <span style="color: red;"> {{formD.priceNum}} 份</span>， 剩余<span style="color: red;"> {{formD.prizeLeft}} 份</span></div>
@@ -239,6 +240,7 @@ export default {
         }
       ],
       list: [],
+      tlist: [],
       musicUrl: ""
     };
   },
@@ -380,6 +382,16 @@ export default {
               title: "提示",
               content: "点赞成功！"
             });
+            this.$http
+              .post(baseUrl.apiBaseUrl + "gather/queryLikeLog", {
+                id: this.params.id
+              })
+              .then(({ data: res }) => {
+                if (res.code == "0000") {
+                  this.tlist = res.result.data;
+                } else {
+                }
+              });
           } else {
             this.$vux.alert.show({
               title: "提示",
@@ -598,7 +610,7 @@ export default {
         })
         .then(({ data: res }) => {
           if (res.code == "0000") {
-            this.list = res.result.data;
+            this.tlist = res.result.data;
           } else {
           }
         });

@@ -23,9 +23,9 @@
                             <div>原价：<span>{{formD.originalPrice}}元</span></div>
                             <div>底价：<span>{{formD.floorPrice}}元</span></div>
                         </div>
+                        <img v-if="!!this.shareId" src="../assets/btn-3.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
                         <img v-if="!this.shareId" src="../assets/btn-6.png" @click="() => {this.shown = !this.shown}" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
                         <img v-if="!!shareId && b_userId != user_id" src="../assets/btn-6.png" @click="linkreload" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
-                        <img v-if="!!this.shareId" src="../assets/btn-3.png" @click="addZan" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
                         <img v-if="!!this.shareId && b_userId == user_id" src="../assets/btn-4.png" @click="linkPay" class="animate" style="width: 80%;margin: 0.3rem 10%;"/>
                         <ul class='wrap-wx' v-if="barginLogList.length">
                             <li v-for="(item, index) in barginLogList" :key="index">
