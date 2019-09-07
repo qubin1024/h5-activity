@@ -384,7 +384,7 @@ export default {
             });
             this.$http
               .post(baseUrl.apiBaseUrl + "gather/queryLikeLog", {
-                id: this.params.id
+                id: this.shareId
               })
               .then(({ data: res }) => {
                 if (res.code == "0000") {
@@ -606,7 +606,7 @@ export default {
       }
       this.$http
         .post(baseUrl.apiBaseUrl + "gather/queryLikeLog", {
-          id: params.id
+          id: this.params.shareId
         })
         .then(({ data: res }) => {
           if (res.code == "0000") {
