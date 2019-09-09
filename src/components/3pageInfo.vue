@@ -448,6 +448,15 @@ export default {
               content: `恭喜你成功砍价${data.result.data.total_price}元`
             });
             this.$http
+            .post(baseUrl.apiBaseUrl + "bargin/queryBarginLog", {
+              orderId: this.shareId
+            })
+            .then(({ data }) => {
+              if (data.code == "0000") {
+                this.barginLogList = data.result.data;
+              }
+            });
+            this.$http
               .post(baseUrl.apiBaseUrl + "api/order/getOrderByOrderId", {
                 orderId: this.shareId
               })

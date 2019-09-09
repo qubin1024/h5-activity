@@ -373,6 +373,16 @@ export default {
         .then(({ data }) => {
           if (data.code == 0) {
             this.orderId = data.result.data.orderId;
+            this.$http
+              .post(baseUrl.apiBaseUrl + "groupon/queryGrouponId", {
+                groupId: this.shareId
+              })
+              .then(({ data: res }) => {
+                if (res.code == "0000") {
+                  this.list = res.result.data;
+                } else {
+                }
+              });
             this.$vux.alert.show({
               title: "提示",
               content: `恭喜你成功参团`
