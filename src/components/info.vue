@@ -135,19 +135,19 @@
                                       <span><i class="fa fa-jpy" aria-hidden="true"></i> 收益</span>
                                   </div>    
                               </div>  
-                              <div v-for="item in packageList" :key="item.order_id" class="head-cell" style="background: rgb(236, 236, 236);border-radius: 0.1rem;border: 1px solid #ccc;height:1rem;border-top:0;">
-                                  <div style="color:#ef5a5a;">
-                                      <span><img :src="item.headimgurl" style="width: 0.7rem;height: 0.7rem;" /></span>
-                                  </div>
-                                  <div class="line" style="background: #ccc; height: 100%;width: 2px;"></div>
-                                  <div style="color:#ef5a5a;">
-                                      <span>{{item.order_status}}</span>
-                                  </div>
-                                  <div class="line" style="background: #ccc; height: 100%;width: 2px;"></div>
-                                  <div style="color:#ef5a5a;">
-                                      <span>{{item.total_price}}</span>
-                                  </div>    
-                              </div>  
+<!--                              <div v-for="item in packageList" :key="item.order_id" class="head-cell" style="background: rgb(236, 236, 236);border-radius: 0.1rem;border: 1px solid #ccc;height:1rem;border-top:0;">-->
+<!--                                  <div style="color:#ef5a5a;">-->
+<!--                                      <span><img :src="item.headimgurl" style="width: 0.7rem;height: 0.7rem;" /></span>-->
+<!--                                  </div>-->
+<!--                                  <div class="line" style="background: #ccc; height: 100%;width: 2px;"></div>-->
+<!--                                  <div style="color:#ef5a5a;">-->
+<!--                                      <span>{{item.order_status}}</span>-->
+<!--                                  </div>-->
+<!--                                  <div class="line" style="background: #ccc; height: 100%;width: 2px;"></div>-->
+<!--                                  <div style="color:#ef5a5a;">-->
+<!--                                      <span>{{item.total_price}}</span>-->
+<!--                                  </div>    -->
+<!--                              </div>  -->
                               <span style="font-size: 0.3rem;">红包领取请到微信“服务通知”查看领取</span>
                             </div>
                         </div>
