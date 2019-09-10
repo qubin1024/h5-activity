@@ -39,9 +39,9 @@
                                     <div class="title" style="display: none;"></div>
                                 </div>
                                 <div class="content">
-                                    <datetime style="font-size: 0.4rem;" title="活动开始时间"   format='YYYY-MM-DD HH:mm' v-model="formD.startTime"></datetime>
-                                    <datetime style="font-size: 0.4rem;" title="活动结束时间"  format='YYYY-MM-DD HH:mm' v-model="formD.endTime"></datetime> 
-                                    <x-input title="目标量"  v-model="formD.targetQuantity" style="font-size: 0.4rem;" type="number" :show-clear="showClear" ></x-input>
+                                    <datetime style="font-size: 0.4rem;" title="活动开始时间："   format='YYYY-MM-DD HH:mm' v-model="formD.startTime"></datetime>
+                                    <datetime style="font-size: 0.4rem;" title="活动结束时间："  format='YYYY-MM-DD HH:mm' v-model="formD.endTime"></datetime>
+                                    <x-input title="目标量："  v-model="formD.targetQuantity" style="font-size: 0.4rem;" type="number" :show-clear="showClear" ></x-input>
                                 </div>                        
                             </div>
                         </div>
@@ -57,24 +57,24 @@
                                         <img-upload  v-if='!image' ref="thumbnail" placeholder="上传缩略图" @uploadCallback="getUrl($event)"></img-upload>
                                     </div>
                                     
-                                    <x-input title="活动主题" style="font-size: 0.4rem;"  v-model="formD.activityTheme" :show-clear="showClear"></x-input>
-                                    <x-input title="活动名称" style="font-size: 0.4rem;"  v-model="formD.activityName" :show-clear="showClear"></x-input>
+                                    <x-input title="活动主题：" style="font-size: 0.4rem;"  v-model="formD.activityTheme" :show-clear="showClear"></x-input>
+                                    <x-input title="活动名称：" style="font-size: 0.4rem;"  v-model="formD.activityName" :show-clear="showClear"></x-input>
                                     <!--<x-input title="活动类型" style="font-size: 0.4rem;"  v-model="formD.activityType" :show-clear="showClear"></x-input>
                                     <x-switch title="是否关注弹出"  v-model="_focusOnPop"></x-switch>
                                     <x-switch title="是否关注发红包"  v-model="_focusOnRed"></x-switch>
                                     <x-switch title="是否关注成功后分享的红包"  v-model="_shareRedEnvelopes"></x-switch>
                                     <x-switch title="不需要付款人数"  v-model="_noPaymentNum"></x-switch>
                                     <x-switch title="音乐自动播放"  v-model="_autoPlayMusic"></x-switch>-->
-                                    <x-input title="虚拟人气值"  v-model="formD.virtualPopularity" style="font-size: 0.4rem;" type="number" :show-clear="showClear" ></x-input>
+                                    <x-input title="虚拟人气值："  v-model="formD.virtualPopularity" style="font-size: 0.4rem;" type="number" :show-clear="showClear" ></x-input>
                                     <!-- <x-number title="分销等级"  v-model="formD.distributionSeries" :min='0'></x-number> --> 
                                     <!--<x-input title="触发关键词" v-model="formD.triggerKeywords" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>-->
-                                    <x-input title="电话" v-model="formD.phone" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
-                                    <x-input title="产品价格" v-model="formD.productPrice" style="font-size: 0.4rem;" :show-clear="showClear" ></x-input>
+                                    <x-input title="电话：" v-model="formD.phone" style="font-size: 0.4rem;" :show-clear="showClear"></x-input>
+                                    <x-input title="产品价格：" v-model="formD.productPrice" style="font-size: 0.4rem;" :show-clear="showClear" ></x-input>
                                     <!-- <x-input title="界面模板风格" v-model="formD.templateStyle" style="font-size: 0.4rem;" :show-clear="showClear" ></x-input> -->
-                                    <x-input title="红包名称"  v-model="formD.redEnvelopesName" style="font-size: 0.4rem;" :show-clear="showClear" ></x-input>
-                                    <x-input title="红包最大值"  v-model="formD.maxValue" style="font-size: 0.4rem;" type="number" :show-clear="showClear" ></x-input>
-                                    <x-input title="红包最小值"  v-model="formD.minValue" style="font-size: 0.4rem;" type="number" :show-clear="showClear" ></x-input>
-                                    <x-textarea title="红包祝福语" v-model="formD.redEnvelopesBlessings"  :rows="5"  :show-clear="showClear" ></x-textarea> 
+                                    <x-input title="红包名称："  v-model="formD.redEnvelopesName" style="font-size: 0.4rem;" :show-clear="showClear" ></x-input>
+                                    <x-input title="红包最大值："  v-model="formD.maxValue" style="font-size: 0.4rem;" type="number" :show-clear="showClear" ></x-input>
+                                    <x-input title="红包最小值："  v-model="formD.minValue" style="font-size: 0.4rem;" type="number" :show-clear="showClear" ></x-input>
+                                    <x-textarea title="红包祝福语：" v-model="formD.redEnvelopesBlessings"  :rows="5"  :show-clear="showClear" ></x-textarea>
                                     <!--<x-input title="微信一键关注" v-model="formD.oneKeyConcern"  style="font-size: 0.4rem;"  :show-clear="showClear"></x-input>
                                     <x-input title="微信关注图-连接" v-model="formD.wechatPic"  style="font-size: 0.4rem;"   :show-clear="showClear"></x-input>
                                      <x-textarea title="微信描述" v-model="formD.wechatDescription"  :rows="5" :show-clear="showClear" ></x-textarea>  -->
