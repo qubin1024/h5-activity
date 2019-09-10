@@ -1,7 +1,7 @@
 <template>
   <div id="scroll-box">
         <ul>
-            <li v-for="item in list" :key="item.key"><img :src="item.headimgurl" style="width: 0.6rem; height: 0.6rem; border-radius: 50%;margin: 0 0.2rem;position: relative; top: 0.08rem;"/>{{"恭喜 "  + item.username + ' 已完成支付￥' + item.total_price + '元'}}</li>
+          <li v-for="item in list" :key="item.key"><span v-if="item.order_status=='3'"><img :src="item.headimgurl" style="width: 0.6rem; height: 0.6rem; border-radius: 50%;margin: 0 0.2rem;position: relative; top: 0.08rem;"/>{{"恭喜 "  + item.username + ' 已完成支付￥' + item.total_price + '元'}}</span></li>
         </ul>
         <ul></ul>
     </div>
