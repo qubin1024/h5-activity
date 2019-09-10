@@ -75,7 +75,7 @@
                         <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                     </div>
                     <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;text-align: center;">（点击下方位置，直接导航）</span><br/>
-                    <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
+                    <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;text-align: center;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
                 <content-wrap title="店内优惠" v-if="!!formD.discount && JSON.parse(formD.discount).length">
