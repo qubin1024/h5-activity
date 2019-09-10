@@ -43,6 +43,7 @@
                             <span>{{item.username}}</span>
                         </div>
                     </div>
+                  <span style="font-size: 0.3rem;color: #ccc;">已经有{{list.length}}个人参加拼团</span>
                 </content-wrap>
                 <content-wrap title="领奖信息" v-if="formD.prizeInfo">
                     <pre style="white-space: pre-line;font-size: 0.4rem;padding: 0.2rem 0.4rem;word-wrap: break-word;line-height: 0.6rem;display: inline-block;">{{formD.prizeInfo}}</pre>
@@ -81,7 +82,7 @@
                     <div class="title-23">
                         <span style="color: #10aeff;background: #fff;padding: 0 10px;">坐标位置</span>
                     </div>
-                    <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;">（点击下方位置，直接导航）</span><br/>
+                    <span style="display: block;font-size: 0.3rem;color: #ccc;padding: 0 15px;text-align: center;">（点击下方位置，直接导航）</span><br/>
                     <span style="display: block;font-size: 0.5rem;color: #843493;padding: 0 15px;" @click="initQQMap">{{formD.address}}</span>
                     <div id="showPosition" style="height: 5rem"></div>
                 </content-wrap>
