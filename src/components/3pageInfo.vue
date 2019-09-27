@@ -448,14 +448,14 @@ export default {
               content: `恭喜你成功砍价${data.result.data.total_price}元`
             });
             this.$http
-            .post(baseUrl.apiBaseUrl + "bargin/queryBarginLog", {
-              orderId: this.shareId
-            })
-            .then(({ data }) => {
-              if (data.code == "0000") {
-                this.barginLogList = data.result.data;
-              }
-            });
+              .post(baseUrl.apiBaseUrl + "bargin/queryBarginLog", {
+                orderId: this.shareId
+              })
+              .then(({ data }) => {
+                if (data.code == "0000") {
+                  this.barginLogList = data.result.data;
+                }
+              });
             this.$http
               .post(baseUrl.apiBaseUrl + "api/order/getOrderByOrderId", {
                 orderId: this.shareId
@@ -623,11 +623,13 @@ export default {
                 .then(({ data }) => {
                   if (data.code == "0") {
                     this.formD = data.bargin;
+                    this.$nextTick(() => {
+                      this.mapInit();
+                    });
                     this.$refs["bg-main2"].style.background = !this.formD
                       .bgImage
                       ? "#edea8f"
                       : `url(${this.formD.bgImage})`;
-                    this.mapInit();
                     var fore = data.bargin;
                     this.list = data.order;
                     document.title = fore.activityName;

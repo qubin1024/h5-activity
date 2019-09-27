@@ -532,10 +532,12 @@ export default {
                 .then(({ data }) => {
                   if (data.code == "0") {
                     this.formD = data.gather;
+                    this.$nextTick(() => {
+                      this.mapInit();
+                    })
                     this.$refs["bg-main"].style.background = !this.formD.bgImage
                       ? "#192029"
                       : `url(${this.formD.bgImage})`;
-                    this.mapInit();
                     var fore = data.gather;
                     document.title = fore.activityName;
                     var thumbnail = data.gather.thumbnail;
